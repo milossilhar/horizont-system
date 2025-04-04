@@ -57,7 +57,7 @@ create table reg_event_term (
     id bigint not null,
     end_at timestamp(6) not null,
     start_at timestamp(6) not null,
-    event_id bigint,
+    event_id bigint not null,
     primary key (id)
 );
 
@@ -91,7 +91,7 @@ create table reg_registration (
     id bigint not null,
     created_at timestamp(6) not null,
     confirmed_by varchar(255),
-    uuid varchar(40) not null unique,
+    transaction_id varchar(40) not null,
     event_term_id bigint,
     person_id bigint,
     primary key (id)
