@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 import sk.leziemevpezinku.spring.model.base.UidAuditedEntityBase;
 
 import java.time.LocalDateTime;
@@ -19,6 +20,7 @@ import java.util.List;
 public class Event extends UidAuditedEntityBase {
 
     @Id
+    @JsonProperty("id")
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_event_id")
     @SequenceGenerator(name = "seq_event_id", sequenceName = "seq_event_id", initialValue = 1, allocationSize = 1)
@@ -59,5 +61,6 @@ public class Event extends UidAuditedEntityBase {
 
     @JsonProperty("terms")
     @OneToMany(mappedBy = "event")
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private List<EventTerm> terms;
 }
