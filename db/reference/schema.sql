@@ -117,49 +117,49 @@ create table reg_user_known_person (
 );
 
 create index FKn5r2rv274w1jmhrfopttnlmgh on reg_event_condition (event_id);
-alter table if exists reg_event_condition
-   add constraint FKn5r2rv274w1jmhrfopttnlmgh
-   foreign key (event_id)
+alter table if exists reg_event_condition 
+   add constraint FKn5r2rv274w1jmhrfopttnlmgh 
+   foreign key (event_id) 
    references reg_event;
 
 create index FK37nq1yojxb68umlgpaa05e814 on reg_event_discount (event_id);
-alter table if exists reg_event_discount
-   add constraint FK37nq1yojxb68umlgpaa05e814
-   foreign key (event_id)
+alter table if exists reg_event_discount 
+   add constraint FK37nq1yojxb68umlgpaa05e814 
+   foreign key (event_id) 
    references reg_event;
 
 create index FK3amist06sen6r7d9m164epbr4 on reg_event_term (event_id);
-alter table if exists reg_event_term
-   add constraint FK3amist06sen6r7d9m164epbr4
-   foreign key (event_id)
+alter table if exists reg_event_term 
+   add constraint FK3amist06sen6r7d9m164epbr4 
+   foreign key (event_id) 
    references reg_event;
 
 create index FKt2m1t119i0ch62h2nl4c9fsq0 on reg_payment (user_id);
-alter table if exists reg_payment
-   add constraint FKt2m1t119i0ch62h2nl4c9fsq0
-   foreign key (user_id)
+alter table if exists reg_payment 
+   add constraint FKt2m1t119i0ch62h2nl4c9fsq0 
+   foreign key (user_id) 
    references reg_user;
 
 create index FKh4s4wkl0eprwmr4tc9y0ch485 on reg_person (parent_id);
-alter table if exists reg_person
-   add constraint FKh4s4wkl0eprwmr4tc9y0ch485
-   foreign key (parent_id)
+alter table if exists reg_person 
+   add constraint FKh4s4wkl0eprwmr4tc9y0ch485 
+   foreign key (parent_id) 
    references reg_user;
 
 create index FKli5l6y8g2i9ww46ctuewlhw0h on reg_registration (event_term_id);
-alter table if exists reg_registration
-   add constraint FKli5l6y8g2i9ww46ctuewlhw0h
-   foreign key (event_term_id)
+alter table if exists reg_registration 
+   add constraint FKli5l6y8g2i9ww46ctuewlhw0h 
+   foreign key (event_term_id) 
    references reg_event_term;
 
 create index FKnjnpvb8l9ocogq7bkibd61yt9 on reg_registration (person_id);
-alter table if exists reg_registration
-   add constraint FKnjnpvb8l9ocogq7bkibd61yt9
-   foreign key (person_id)
+alter table if exists reg_registration 
+   add constraint FKnjnpvb8l9ocogq7bkibd61yt9 
+   foreign key (person_id) 
    references reg_person;
 
 create index FKdfbkmq04awfqi59v3ogpeewow on reg_user_known_person (user_id);
-alter table if exists reg_user_known_person
-   add constraint FKdfbkmq04awfqi59v3ogpeewow
-   foreign key (user_id)
+alter table if exists reg_user_known_person 
+   add constraint FKdfbkmq04awfqi59v3ogpeewow 
+   foreign key (user_id) 
    references reg_user;
