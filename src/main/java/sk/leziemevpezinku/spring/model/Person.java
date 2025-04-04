@@ -22,20 +22,32 @@ public class Person {
     @SequenceGenerator(name = "seq_person_id", sequenceName = "seq_person_id", initialValue = 1, allocationSize = 1)
     private Long id;
 
-    @Column(name = "person_name")
+    @Column(name = "person_name", length = 200, nullable = false)
     private String name;
 
-    @Column(name = "person_surname")
+    @Column(name = "person_surname", length = 200, nullable = false)
     private String surname;
 
     @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
 
-    @OrderColumn(name = "ind")
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "reg_person_substitute_lesson", joinColumns = @JoinColumn(name = "person_id"))
-    private List<SubstituteLesson> substituteLessons;
+    @Column(name = "health_notes", length = 1000)
+    private String healthNotes;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "attendance")
-    private Set<Lesson> attendedLessons;
+    @Column(name = "food_allergy_notes", length = 1000)
+    private String foodAllergyNotes;
+
+    // enum - REG_E_SHIRT_SIZE
+    @Column(name = "shirt_size", length = 10)
+    private String shirtSize;
+
+    @Column(name = "is_independent", nullable = false)
+    private Boolean isIndependent = Boolean.FALSE;
+
+    @ManyToOne
+    @JoinColumn(name = "parent_id")
+    private User parent;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "person")
+    private List<Registration> registrations;
 }

@@ -2,13 +2,20 @@ package sk.leziemevpezinku.spring.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import lombok.*;
 
 import java.math.BigDecimal;
 
+@Getter
+@Setter
+@Builder
 @Embeddable
-public class EventRegistrationCondition {
+@NoArgsConstructor
+@AllArgsConstructor
+public class EventCondition {
 
-    @Column(name = "condition_type", length = 20)
+    // enum - REG_E_EVENT_CONDITION_TYPE
+    @Column(name = "condition_type", length = 10)
     private String conditionType;
 
     @Column(name = "min_value")
@@ -18,5 +25,5 @@ public class EventRegistrationCondition {
     private BigDecimal maxValue;
 
     @Column(name = "condition_value", length = 50)
-    private String value;
+    private String conditionValue;
 }

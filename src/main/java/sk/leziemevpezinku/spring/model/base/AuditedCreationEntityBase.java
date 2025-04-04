@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 public class AuditedCreationEntityBase {
 
-    @Column(name = "created_at")
+    @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
     @PrePersist
