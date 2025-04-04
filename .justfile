@@ -13,6 +13,10 @@ generate-model:
 dev:
     {{MAVEN}} spring-boot:run
 
+# runs SpringBoot app in development mode with DEBUG enabled
+debug:
+    {{MAVEN}} spring-boot:run -Dspring-boot.run.jvmArguments="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8000"
+
 # compiles whole project
 compile:
     {{MAVEN}} compile
@@ -20,3 +24,6 @@ compile:
 # starts local postgres in Docker
 startdb:
     docker compose -f ./docker/compose.local.yaml up -d
+# starts local postgres in Docker
+stopdb:
+    docker compose -f ./docker/compose.local.yaml down -v
