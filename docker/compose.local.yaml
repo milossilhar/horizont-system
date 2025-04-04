@@ -1,0 +1,30 @@
+# Creates local DB and Keycloak
+
+name: "horizon_system_dev"
+services:
+  postgres:
+    image: "postgres:16-alpine"
+    container_name: "horizon_postgres"
+    restart: always
+    ports:
+      - "5432:5432"
+    networks:
+      - horizon_system_network
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: horizon_user
+      POSTGRES_PASSWORD: horizon_pass
+      POSTGRES_DB: horizon
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d $$POSTGRES_DB -U $$POSTGRES_USER"]
+      interval: 1s
+      timeout: 5s
+      retries: 10
+volumes:
+  postgres_data:
+    name: horizon_system_dev_data
+networks:
+  horizon_system_network:
+    name: horizon_system_network
+    driver: bridge
