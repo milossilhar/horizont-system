@@ -12,6 +12,6 @@
     <include file="init/init.xml" relativeToChangelogFile="true"/>
 
     <!-- Updates -->
-    <includeAll path="updates" relativeToChangelogFile="true"/>
+<!--    <includeAll path="updates" relativeToChangelogFile="true"/>-->
 
 </databaseChangeLog>
