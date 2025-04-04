@@ -4,15 +4,15 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import sk.leziemevpezinku.spring.model.Registration;
 
-import java.util.Optional;
+import java.util.List;
 
 @Repository
 public interface RegistrationRepository extends CrudRepository<Registration, Long> {
 
     /**
-     * Finds registration by uid attribute.
-     * @param uuid given uid
-     * @return found Registration, or nothing (optional)
+     * Finds registrations by transaction ID attribute.
+     * @param transactionId given transaction ID
+     * @return found Registrations for given transaction ID
      */
-    Optional<Registration> findByUuid(String uuid);
+    List<Registration> findByTransactionId(String transactionId);
 }
