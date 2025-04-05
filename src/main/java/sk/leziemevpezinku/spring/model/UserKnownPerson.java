@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 import lombok.*;
 import sk.leziemevpezinku.spring.model.annotation.validation.AccentedName;
 import sk.leziemevpezinku.spring.model.annotation.validation.Enumeration;

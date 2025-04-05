@@ -1,16 +1,11 @@
 package sk.leziemevpezinku.spring.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 import lombok.*;
-import org.springframework.security.core.parameters.P;
 import sk.leziemevpezinku.spring.model.annotation.validation.AccentedName;
 import sk.leziemevpezinku.spring.model.annotation.validation.TelephoneNumber;
 import sk.leziemevpezinku.spring.model.base.AuditedCreationEntityBase;
