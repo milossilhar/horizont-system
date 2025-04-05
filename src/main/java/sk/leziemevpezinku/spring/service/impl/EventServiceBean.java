@@ -38,7 +38,6 @@ public class EventServiceBean implements EventService {
         dbEvent.setName(event.getName());
         dbEvent.setRegStartAt(event.getRegStartAt());
         dbEvent.setRegEndAt(event.getRegEndAt());
-        dbEvent.setConditions(event.getConditions());
         dbEvent.setDiscounts(event.getDiscounts());
 
         return eventRepository.save(dbEvent);
