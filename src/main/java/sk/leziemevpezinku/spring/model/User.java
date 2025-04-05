@@ -54,16 +54,19 @@ public class User extends AuditedCreationEntityBase {
     @Column(name = "tel_phone", length = 20, nullable = false)
     private String telPhone;
 
+    @Builder.Default
     @JsonManagedReference
     @JsonProperty("people")
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "parent", cascade = CascadeType.ALL)
     private List<Person> people = new ArrayList<>();
 
+    @Builder.Default
     @JsonManagedReference
     @JsonProperty("payments")
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private List<Payment> payments = new ArrayList<>();
 
+    @Builder.Default
     @JsonProperty("known_people")
     @OrderColumn(name = "ind")
     @ElementCollection(fetch = FetchType.EAGER)

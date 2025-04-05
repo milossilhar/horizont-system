@@ -78,6 +78,7 @@ public class Person {
     @JoinColumn(name = "parent_id")
     private User parent;
 
+    @Builder.Default
     @JsonProperty("registrations")
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "person")
     private List<Registration> registrations = new ArrayList<>();

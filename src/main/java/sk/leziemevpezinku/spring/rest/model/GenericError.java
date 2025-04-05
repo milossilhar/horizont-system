@@ -3,7 +3,6 @@ package sk.leziemevpezinku.spring.rest.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @Getter
@@ -22,6 +21,7 @@ public class GenericError {
     @JsonProperty("message")
     private String message;
 
+    @Singular
     @JsonProperty("parameters")
-    private Map<String, String> parameters = new HashMap<>();
+    private Map<String, String> parameters;
 }

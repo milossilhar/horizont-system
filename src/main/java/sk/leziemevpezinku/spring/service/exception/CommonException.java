@@ -15,5 +15,6 @@ public class CommonException extends RuntimeException {
 
     private ErrorCode errorCode;
 
-    private Map<String, String> parameters = new HashMap<>();
+    @Singular
+    private Map<String, String> parameters;
 }

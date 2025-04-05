@@ -27,6 +27,7 @@ public class Registration extends AuditedCreationEntityBase {
     @Column(name = "transaction_id", length = 40, nullable = false, updatable = false)
     private String transactionId;
 
+    @Builder.Default
     @JsonProperty("status")
     @Enumerated(EnumType.STRING)
     @Column(name = "status", length = 10, nullable = false)

@@ -33,6 +33,7 @@ public class Payment {
     @Column(name = "price", nullable = false, precision = 10, scale = 2)
     private BigDecimal price;
 
+    @Builder.Default
     @JsonProperty("deposit")
     @Column(name = "deposit", nullable = false, precision = 10, scale = 2)
     private BigDecimal deposit = BigDecimal.ZERO;
