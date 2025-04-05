@@ -1,5 +1,6 @@
 package sk.leziemevpezinku.spring.repo;
 
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import sk.leziemevpezinku.spring.model.Registration;
@@ -7,7 +8,7 @@ import sk.leziemevpezinku.spring.model.Registration;
 import java.util.List;
 
 @Repository
-public interface RegistrationRepository extends CrudRepository<Registration, Long> {
+public interface RegistrationRepository extends CrudRepository<Registration, Long>, JpaSpecificationExecutor<Registration> {
 
     /**
      * Finds registrations by transaction ID attribute.

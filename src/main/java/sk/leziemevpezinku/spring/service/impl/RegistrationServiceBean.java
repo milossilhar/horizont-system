@@ -1,8 +1,8 @@
 package sk.leziemevpezinku.spring.service.impl;
 
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import sk.leziemevpezinku.spring.model.*;
 import sk.leziemevpezinku.spring.model.enums.RegistrationStatus;
 import sk.leziemevpezinku.spring.repo.EventTermRepository;
@@ -26,7 +26,7 @@ public class RegistrationServiceBean implements RegistrationService {
     private final UserRepository userRepository;
 
     @Override
-    @Transactional(Transactional.TxType.REQUIRED)
+    @Transactional
     public List<Registration> createRegistration(Long eventTermId, User user) {
         LocalDateTime now = LocalDateTime.now();
 
@@ -56,15 +56,19 @@ public class RegistrationServiceBean implements RegistrationService {
             if (user.hasPerson(registration.getPerson())) {
                 throw CommonException.builder()
                         .errorCode(ErrorCode.MSG_REG_ALREADY_EXISTS)
-                        .parameters(Collections.singletonMap("fullname", registration.getPerson().getFullname()))
+                        .parameter("fullname", registration.getPerson().getFullname())
                         .build();
             }
         }
 
-        // TODO - determine status based on conditions
-        RegistrationStatus registrationStatus = RegistrationStatus.WAITING;
+        // determine status based on capacity
+        int remainingCapacity = eventTerm.getCapacity() - eventTerm.getRegistrations().size();
 
-        // check if user already created and populate list of saved people to register
+        RegistrationStatus registrationStatus = remainingCapacity >= user.getPeople().size()
+                ? RegistrationStatus.ACCEPTED
+                : RegistrationStatus.WAITING;
+
+        // check if user is already created and populate list of saved people to register
         Optional<User> savedUserOptional = userRepository.findByEmail(user.getEmail());
 
         User savedUser;
@@ -110,5 +114,13 @@ public class RegistrationServiceBean implements RegistrationService {
         List<Registration> savedRegistrations = new ArrayList<>();
         registrationRepository.saveAll(registrations).forEach(savedRegistrations::add);
         return savedRegistrations;
+    }
+
+    @Override
+    @Transactional
+    public long removeRegistrationByTransactionId(String transactionId) {
+        return registrationRepository.delete(
+                (root, query, cb) -> cb.equal(root.get(Registration_.TRANSACTION_ID), transactionId)
+        );
     }
 }

@@ -14,4 +14,11 @@ public interface RegistrationService {
      * @return list of created reservations
      */
     List<Registration> createRegistration(Long eventTermId, User user);
+
+    /**
+     * Removes all registration entries by transaction id
+     * @param transactionId transaction id
+     * @return count of removed registrations
+     */
+    long removeRegistrationByTransactionId(String transactionId);
 }
