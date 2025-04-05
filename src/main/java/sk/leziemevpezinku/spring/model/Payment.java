@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -25,13 +28,15 @@ public class Payment {
     @SequenceGenerator(name = "seq_payment_id", sequenceName = "seq_payment_id", initialValue = 1, allocationSize = 1)
     private Long id;
 
+    @NotNull
+    @Positive
     @JsonProperty("price")
     @Column(name = "price", nullable = false, precision = 10, scale = 2)
     private BigDecimal price;
 
     @JsonProperty("deposit")
-    @Column(name = "deposit", precision = 10, scale = 2)
-    private BigDecimal deposit;
+    @Column(name = "deposit", nullable = false, precision = 10, scale = 2)
+    private BigDecimal deposit = BigDecimal.ZERO;
 
     @JsonProperty("discount_value")
     @Column(name = "discount_value", precision = 8, scale = 2)
@@ -50,6 +55,7 @@ public class Payment {
     private Boolean paid;
 
     // soft reference
+    @NotNull
     @JsonProperty("registration_id")
     @Column(name = "registration_id", nullable = false)
     private Long registrationId;
@@ -70,8 +76,19 @@ public class Payment {
         return price;
     }
 
+    @JsonGetter("has_deposit")
+    public Boolean hasDeposit() {
+        return this.deposit != null && this.deposit.compareTo(BigDecimal.ZERO) > 0;
+    }
+
     @JsonGetter("remaining_value")
     public BigDecimal getRemainingValue() {
-        return getFinalPrice().subtract(deposit == null ? BigDecimal.ZERO : deposit);
+        if (Boolean.TRUE.equals(paid)) return BigDecimal.ZERO;
+
+        BigDecimal finalPrice = getFinalPrice();
+
+        if (Boolean.TRUE.equals(depositPaid)) return finalPrice.subtract(deposit);
+
+        return finalPrice;
     }
 }

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 import sk.leziemevpezinku.spring.model.base.AuditedCreationEntityBase;
+import sk.leziemevpezinku.spring.model.enums.RegistrationStatus;
 
 @Getter
 @Setter
@@ -26,9 +27,10 @@ public class Registration extends AuditedCreationEntityBase {
     @Column(name = "transaction_id", length = 40, nullable = false, updatable = false)
     private String transactionId;
 
-    @JsonProperty("confirmed_by")
-    @Column(name = "confirmed_by")
-    private String confirmedBy;
+    @JsonProperty("status")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", length = 10, nullable = false)
+    private RegistrationStatus status = RegistrationStatus.WAITING;
 
     @ManyToOne
     @JsonIgnore

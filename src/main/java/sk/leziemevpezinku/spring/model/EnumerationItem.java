@@ -1,6 +1,7 @@
-package sk.leziemevpezinku.spring.model.enums;
+package sk.leziemevpezinku.spring.model;
 
 import jakarta.persistence.*;
+import sk.leziemevpezinku.spring.model.enums.EnumerationName;
 
 @Entity
 @Table(name = "reg_enumeration_item")
@@ -13,15 +14,15 @@ public class EnumerationItem {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "enum_name", length = 40)
+    @Column(name = "enum_name", length = 40, nullable = false)
     private EnumerationName name;
 
-    @Column(name = "enum_code", length = 30)
+    @Column(name = "enum_code", length = 10, nullable = false)
     private String code;
 
-    @Column(name = "enum_value", length = 150)
+    @Column(name = "enum_value", length = 150, nullable = false)
     private String value;
 
-    @Column(name = "visible")
+    @Column(name = "visible", nullable = false)
     private Boolean visible;
 }

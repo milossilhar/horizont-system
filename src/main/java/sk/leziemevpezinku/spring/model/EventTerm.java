@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -27,11 +29,17 @@ public class EventTerm {
 
     @JsonProperty("start_at")
     @Column(name = "start_at", nullable = false)
-    private LocalDateTime eventStartAt;
+    private LocalDateTime startAt;
 
     @JsonProperty("end_at")
     @Column(name = "end_at", nullable = false)
-    private LocalDateTime eventEndAt;
+    private LocalDateTime endAt;
+
+    @NotNull
+    @Positive
+    @JsonProperty("capacity")
+    @Column(name = "capacity", nullable = false)
+    private Integer capacity;
 
     @ManyToOne
     @JsonBackReference
@@ -40,6 +48,6 @@ public class EventTerm {
     private Event event;
 
     @JsonProperty("registrations")
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "eventTerm")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "eventTerm")
     private List<Registration> registrations;
 }

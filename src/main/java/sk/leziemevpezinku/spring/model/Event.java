@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.Cascade;
 import sk.leziemevpezinku.spring.model.base.UidAuditedEntityBase;
+import sk.leziemevpezinku.spring.model.enums.EventType;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -46,12 +47,6 @@ public class Event extends UidAuditedEntityBase {
     @JsonProperty("registration_end")
     @Column(name = "reg_end_at", nullable = false)
     private LocalDateTime regEndAt;
-
-    @OrderColumn(name = "ind")
-    @JsonProperty("conditions")
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "reg_event_condition", joinColumns = @JoinColumn(name = "event_id"))
-    private List<EventCondition> conditions;
 
     @OrderColumn(name = "ind")
     @JsonProperty("discounts")

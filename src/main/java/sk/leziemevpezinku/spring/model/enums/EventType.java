@@ -1,4 +1,4 @@
-package sk.leziemevpezinku.spring.model;
+package sk.leziemevpezinku.spring.model.enums;
 
 import lombok.AllArgsConstructor;
 
