@@ -1,3 +1,5 @@
+--liquibase formatted sql
+--changeset dugong:INIT_SCHEMA
 
 create sequence seq_enumeration_item_id start with 1 increment by 1;
 
