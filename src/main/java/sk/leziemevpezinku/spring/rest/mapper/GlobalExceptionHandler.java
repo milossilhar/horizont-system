@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ResponseStatusException;
 import sk.leziemevpezinku.spring.rest.model.GenericError;
+import sk.leziemevpezinku.spring.service.exception.CommonException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,8 +35,23 @@ public class GlobalExceptionHandler {
                 .status(ex.getStatusCode())
                 .headers(ex.getHeaders())
                 .body(GenericError.builder()
-                        .code(String.valueOf(ex.getStatusCode().value()))
+                        .code(ex.getStatusCode().toString())
+                        .statusCode(ex.getStatusCode().value())
                         .message(ex.getReason())
-                        .build());
+                        .build()
+                );
+    }
+
+    @ExceptionHandler(CommonException.class)
+    public ResponseEntity<GenericError> handleCommonException(CommonException ex) {
+        return ResponseEntity
+                .status(ex.getErrorCode().getStatus().value())
+                .body(GenericError.builder()
+                        .code(ex.getErrorCode().name())
+                        .statusCode(ex.getErrorCode().getStatus().value())
+                        .message(ex.getErrorCode().getMessage())
+                        .parameters(ex.getParameters())
+                        .build()
+                );
     }
 }
