@@ -1,17 +1,14 @@
-package sk.leziemevpezinku.spring.registration_system;
+package sk.leziemevpezinku.spring;
 
-import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
+import sk.leziemevpezinku.spring.annotation.IntegrationTest;
 import sk.leziemevpezinku.spring.repo.EventRepository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@SpringBootTest
-@ActiveProfiles("test")
+@IntegrationTest
 class RegistrationSystemApplicationTests {
 
     @Value("${horizon.environment}")

@@ -5,7 +5,10 @@ import org.springframework.stereotype.Service;
 import sk.leziemevpezinku.spring.model.Event;
 import sk.leziemevpezinku.spring.repo.EventRepository;
 import sk.leziemevpezinku.spring.service.EventService;
+import sk.leziemevpezinku.spring.service.exception.CommonException;
+import sk.leziemevpezinku.spring.service.model.ErrorCode;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -44,17 +47,19 @@ public class EventServiceBean implements EventService {
     }
 
     @Override
-    public boolean removeEvent(Long eventId) {
-        if (eventRepository.existsById(eventId)) {
-            eventRepository.deleteById(eventId);
-            return true;
+    public void removeEvent(Long eventId) {
+        if (!eventRepository.existsById(eventId)) {
+            throw CommonException.builder()
+                    .errorCode(ErrorCode.MSG_NOT_FOUND_EVENT)
+                    .parameter("id", eventId)
+                    .build();
         }
 
-        return false;
+        eventRepository.deleteById(eventId);
     }
 
     @Override
-    public Iterable<Event> getAll() {
+    public List<Event> getAll() {
         return eventRepository.findAll();
     }
 }

@@ -1,6 +1,6 @@
 package sk.leziemevpezinku.spring.repo;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.stereotype.Repository;
 import sk.leziemevpezinku.spring.model.EnumerationItem;
 import sk.leziemevpezinku.spring.model.enums.EnumerationName;
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface EnumerationRepository extends CrudRepository<EnumerationItem, Long> {
+public interface EnumerationRepository extends ListCrudRepository<EnumerationItem, Long> {
 
     /**
      * Finds all enumerations for given enumeration name.

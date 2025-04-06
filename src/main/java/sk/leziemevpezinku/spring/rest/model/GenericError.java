@@ -23,5 +23,5 @@ public class GenericError {
 
     @Singular
     @JsonProperty("parameters")
-    private Map<String, String> parameters;
+    private Map<String, Object> parameters;
 }

@@ -1,8 +1,10 @@
 package sk.leziemevpezinku.spring.rest;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,15 +17,14 @@ import sk.leziemevpezinku.spring.service.RegistrationService;
 import java.util.List;
 
 @Controller
-@AllArgsConstructor
-@RequestMapping(path = "/registration")
+@RequestMapping(path = "/registration", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+@Tag(name = "registration")
+@RequiredArgsConstructor
 public class RegistrationController {
 
-    private RegistrationService registrationService;
+    private final RegistrationService registrationService;
 
-    @PostMapping(
-            path = "/{eventTermId:\\d+}"
-    )
+    @PostMapping(path = "/{eventTermId:\\d+}")
     public List<Registration> createRegistration(
             @PathVariable("eventTermId") @NotNull Long eventTermId,
             @RequestBody @Valid User user) {

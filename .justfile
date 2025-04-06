@@ -5,6 +5,8 @@ SQL_SCHEMA_DIR := './db/reference'
 DOCKER_LOCAL_FILE := './docker/compose.dev.yaml'
 DOCKER_TEST_FILE := './docker/compose.test.yaml'
 
+FRONTEND_PROJECT_DIR := '~/projects/leziemevpezinku/horizont-web'
+
 # generate sql schema script from hibernate
 generate-model:
     {{MAVEN}} test-compile -Pddl
@@ -14,11 +16,12 @@ generate-model:
 
 # generates openapi yaml from spring controllers
 generate-openapi:
-    {{MAVEN}} verify -Popenapi
+    {{MAVEN}} verify -DskipTests=true -Popenapi
+    cp ./target/openapi.json {{FRONTEND_PROJECT_DIR}}/openapi/openapi.json
 
 # runs SpringBoot app in developoment mode
 dev:
-    {{MAVEN}} spring-boot:run
+    {{MAVEN}} spring-boot:run -Dspring-boot.run.profiles=dev
 
 # runs SpringBoot app in development mode with DEBUG enabled
 debug:
@@ -28,12 +31,13 @@ debug:
 compile:
     {{MAVEN}} compile
 
-# tests application
+# runs unit tests on application
 test:
-    docker compose -f {{DOCKER_TEST_FILE}} up -d
-    echo "Waiting for postgres to start" && sleep 10
     {{MAVEN}} test
-    docker compose -f {{DOCKER_TEST_FILE}} down -v
+
+# runs integration tests on application, test database must be created
+inttest:
+    {{MAVEN}} verify
 
 # starts TEST postgres in Docker
 testdbstart:

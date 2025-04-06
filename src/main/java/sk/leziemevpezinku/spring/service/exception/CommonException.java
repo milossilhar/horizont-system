@@ -3,7 +3,6 @@ package sk.leziemevpezinku.spring.service.exception;
 import lombok.*;
 import sk.leziemevpezinku.spring.service.model.ErrorCode;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @Getter
@@ -16,5 +15,5 @@ public class CommonException extends RuntimeException {
     private ErrorCode errorCode;
 
     @Singular
-    private Map<String, String> parameters;
+    private Map<String, Object> parameters;
 }

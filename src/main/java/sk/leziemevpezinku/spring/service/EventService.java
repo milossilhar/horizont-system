@@ -2,6 +2,8 @@ package sk.leziemevpezinku.spring.service;
 
 import sk.leziemevpezinku.spring.model.Event;
 
+import java.util.List;
+
 public interface EventService {
 
     /**
@@ -22,13 +24,13 @@ public interface EventService {
     /**
      * Removes event with given io
      * @param id event id
-     * @return true if successfully deleted, false if entity not found
+     * @throws sk.leziemevpezinku.spring.service.exception.CommonException when event with id does not exist
      */
-    boolean removeEvent(Long id);
+    void removeEvent(Long id);
 
     /**
      * Finds all events.
      * @return list of all events
      */
-    Iterable<Event> getAll();
+    List<Event> getAll();
 }
