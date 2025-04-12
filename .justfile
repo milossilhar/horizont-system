@@ -27,6 +27,10 @@ dev:
 debug:
     {{MAVEN}} spring-boot:run -Dspring-boot.run.jvmArguments="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8000"
 
+# cleans whole project
+clean:
+    {{MAVEN}} clean
+
 # compiles whole project
 compile:
     {{MAVEN}} compile
@@ -45,7 +49,7 @@ testdbstart:
 
 # stops and removes TEST postgres in Docker
 testdbstop:
-    docker compose -f {{DOCKER_LOCAL_FILE}} down -v
+    docker compose -f {{DOCKER_TEST_FILE}} down -v
 
 # starts LOCAL postgres in Docker
 dbstart:
