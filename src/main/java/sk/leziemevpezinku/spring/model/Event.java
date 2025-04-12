@@ -1,6 +1,7 @@
 package sk.leziemevpezinku.spring.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -10,6 +11,7 @@ import sk.leziemevpezinku.spring.model.enums.EventType;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -21,6 +23,7 @@ import java.util.List;
 public class Event extends UidAuditedEntityBase {
 
     @Id
+    @JsonView(Views.Internal.class)
     @JsonProperty("id")
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_event_id")
@@ -28,28 +31,38 @@ public class Event extends UidAuditedEntityBase {
     private Long id;
 
     @NotNull
-    @JsonProperty("event_name")
-    @Column(name = "event_name", nullable = false, length = 200)
+    @JsonProperty("name")
+    @Column(name = "name", nullable = false, length = 200)
     private String name;
 
     @NotNull
-    @JsonProperty("event_type")
+    @JsonProperty("details")
+    @Column(name = "details", nullable = false, length = 2000)
+    private String details;
+
+    @NotNull
+    @JsonProperty("place")
+    @Column(name = "place", nullable = false, length = 300)
+    private String place;
+
+    @NotNull
+    @JsonProperty("eventType")
     @Enumerated(value = EnumType.STRING)
     @Column(name = "event_type", nullable = false, length = 20)
     private EventType eventType;
 
     @NotNull
-    @JsonProperty("registration_start")
+    @JsonProperty("regStartAt")
     @Column(name = "reg_start_at", nullable = false)
     private LocalDateTime regStartAt;
 
     @NotNull
-    @JsonProperty("registration_end")
+    @JsonProperty("regEndAt")
     @Column(name = "reg_end_at", nullable = false)
     private LocalDateTime regEndAt;
 
-    @OrderColumn(name = "ind")
     @JsonProperty("discounts")
+    @OrderColumn(name = "ind")
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "reg_event_discount", joinColumns = @JoinColumn(name = "event_id"))
     private List<EventDiscount> discounts;
@@ -57,5 +70,5 @@ public class Event extends UidAuditedEntityBase {
     @JsonProperty("terms")
     @OneToMany(mappedBy = "event")
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
-    private List<EventTerm> terms;
+    private Set<EventTerm> terms;
 }

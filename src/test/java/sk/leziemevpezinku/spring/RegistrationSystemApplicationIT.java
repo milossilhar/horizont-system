@@ -9,7 +9,7 @@ import sk.leziemevpezinku.spring.repo.EventRepository;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @IntegrationTest
-class RegistrationSystemApplicationTests {
+class RegistrationSystemApplicationIT {
 
     @Value("${horizon.environment}")
     private String environment;

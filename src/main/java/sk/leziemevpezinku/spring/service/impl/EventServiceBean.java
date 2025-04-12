@@ -3,11 +3,13 @@ package sk.leziemevpezinku.spring.service.impl;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import sk.leziemevpezinku.spring.model.Event;
+import sk.leziemevpezinku.spring.model.Event_;
 import sk.leziemevpezinku.spring.repo.EventRepository;
 import sk.leziemevpezinku.spring.service.EventService;
 import sk.leziemevpezinku.spring.service.exception.CommonException;
 import sk.leziemevpezinku.spring.service.model.ErrorCode;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,7 +23,7 @@ public class EventServiceBean implements EventService {
     }
 
     @Override
-    @Transactional(Transactional.TxType.REQUIRED)
+    @Transactional
     public Event createEvent(Event event) {
         event.getTerms().forEach(term -> term.setEvent(event));
 
@@ -29,7 +31,7 @@ public class EventServiceBean implements EventService {
     }
 
     @Override
-    @Transactional(Transactional.TxType.REQUIRED)
+    @Transactional
     public Event updateEvent(Long eventId, Event event) {
         Optional<Event> dbEventOptional = eventRepository.findById(eventId);
 
@@ -47,6 +49,7 @@ public class EventServiceBean implements EventService {
     }
 
     @Override
+    @Transactional
     public void removeEvent(Long eventId) {
         if (!eventRepository.existsById(eventId)) {
             throw CommonException.builder()
@@ -61,5 +64,20 @@ public class EventServiceBean implements EventService {
     @Override
     public List<Event> getAll() {
         return eventRepository.findAll();
+    }
+
+    @Override
+    public List<Event> getCurrentAndFuture() {
+        LocalDateTime now = LocalDateTime.now();
+        return eventRepository.findAll(
+                (root, query, cb) ->
+                        cb.or(
+                                cb.and(
+                                        cb.lessThanOrEqualTo(root.get(Event_.REG_START_AT), now),
+                                        cb.greaterThanOrEqualTo(root.get(Event_.REG_END_AT), now)
+                                ),
+                                cb.greaterThanOrEqualTo(root.get(Event_.REG_START_AT), now)
+                        )
+        );
     }
 }

@@ -7,11 +7,7 @@ create sequence seq_event_term_id start with 1 increment by 1;
 
 create sequence seq_payment_id start with 1 increment by 1;
 
-create sequence seq_person_id start with 1 increment by 1;
-
 create sequence seq_registration_id start with 1 increment by 1;
-
-create sequence seq_user_id start with 1 increment by 1;
 
 create table reg_enumeration_item (
     id bigint not null,
@@ -26,8 +22,10 @@ create table reg_event (
     id bigint not null,
     created_at timestamp(6) not null,
     uuid varchar(40) not null unique,
+    details varchar(2000) not null,
     event_type varchar(20) not null check (event_type in ('EVENT','CAMP','SCHOOL_CLIMB','ECA')),
-    event_name varchar(200) not null,
+    name varchar(200) not null,
+    place varchar(300) not null,
     reg_end_at timestamp(6) not null,
     reg_start_at timestamp(6) not null,
     primary key (id)
@@ -46,10 +44,21 @@ create table reg_event_discount (
 create table reg_event_term (
     id bigint not null,
     capacity integer not null,
+    deposit numeric(38,2) not null,
     end_at timestamp(6) not null,
+    price numeric(38,2) not null,
     start_at timestamp(6) not null,
     event_id bigint not null,
     primary key (id)
+);
+
+create table reg_known_person (
+    registration_id bigint not null,
+    name varchar(50) not null,
+    relation varchar(10) not null,
+    surname varchar(50) not null,
+    ind integer not null,
+    primary key (registration_id, ind)
 );
 
 create table reg_payment (
@@ -60,13 +69,12 @@ create table reg_payment (
     discount_value numeric(8,2),
     paid boolean,
     price numeric(10,2) not null,
-    registration_id bigint not null,
-    user_id bigint,
+    registration_id bigint,
     primary key (id)
 );
 
 create table reg_person (
-    id bigint not null,
+    registration_id bigint not null,
     date_of_birth date not null,
     food_allergy_notes varchar(1000),
     health_notes varchar(1000),
@@ -74,37 +82,21 @@ create table reg_person (
     name varchar(50) not null,
     shirt_size varchar(10),
     surname varchar(50) not null,
-    parent_id bigint,
-    primary key (id)
+    ind integer not null,
+    primary key (registration_id, ind)
 );
 
 create table reg_registration (
     id bigint not null,
     created_at timestamp(6) not null,
-    status varchar(10) not null check (status in ('WAITING','ACCEPTED','CONFIRMED')),
-    transaction_id varchar(40) not null,
-    event_term_id bigint,
-    person_id bigint,
-    primary key (id)
-);
-
-create table reg_user (
-    id bigint not null,
-    created_at timestamp(6) not null,
+    uuid varchar(40) not null unique,
     email varchar(100) not null unique,
     name varchar(50) not null,
+    status varchar(10) not null check (status in ('CONCEPT','QUEUE','ACCEPTED','CONFIRMED')),
     surname varchar(50) not null,
     tel_phone varchar(20) not null,
+    event_term_id bigint,
     primary key (id)
-);
-
-create table reg_user_known_person (
-    user_id bigint not null,
-    name varchar(50) not null,
-    relation varchar(10) not null,
-    surname varchar(50) not null,
-    ind integer not null,
-    primary key (user_id, ind)
 );
 
 create index FK37nq1yojxb68umlgpaa05e814 on reg_event_discount (event_id);
@@ -119,32 +111,26 @@ alter table if exists reg_event_term
    foreign key (event_id) 
    references reg_event;
 
-create index FKt2m1t119i0ch62h2nl4c9fsq0 on reg_payment (user_id);
-alter table if exists reg_payment 
-   add constraint FKt2m1t119i0ch62h2nl4c9fsq0 
-   foreign key (user_id) 
-   references reg_user;
+create index FKh8lbf0k7e2q2m17qn3xs5vgoo on reg_known_person (registration_id);
+alter table if exists reg_known_person 
+   add constraint FKh8lbf0k7e2q2m17qn3xs5vgoo 
+   foreign key (registration_id) 
+   references reg_registration;
 
-create index FKh4s4wkl0eprwmr4tc9y0ch485 on reg_person (parent_id);
+create index FKetwqymf14d50abml23b5uavtx on reg_payment (registration_id);
+alter table if exists reg_payment 
+   add constraint FKetwqymf14d50abml23b5uavtx 
+   foreign key (registration_id) 
+   references reg_registration;
+
+create index FKmfsff7uq7d9ftjk360nuspw18 on reg_person (registration_id);
 alter table if exists reg_person 
-   add constraint FKh4s4wkl0eprwmr4tc9y0ch485 
-   foreign key (parent_id) 
-   references reg_user;
+   add constraint FKmfsff7uq7d9ftjk360nuspw18 
+   foreign key (registration_id) 
+   references reg_registration;
 
 create index FKli5l6y8g2i9ww46ctuewlhw0h on reg_registration (event_term_id);
 alter table if exists reg_registration 
    add constraint FKli5l6y8g2i9ww46ctuewlhw0h 
    foreign key (event_term_id) 
    references reg_event_term;
-
-create index FKnjnpvb8l9ocogq7bkibd61yt9 on reg_registration (person_id);
-alter table if exists reg_registration 
-   add constraint FKnjnpvb8l9ocogq7bkibd61yt9 
-   foreign key (person_id) 
-   references reg_person;
-
-create index FKdfbkmq04awfqi59v3ogpeewow on reg_user_known_person (user_id);
-alter table if exists reg_user_known_person 
-   add constraint FKdfbkmq04awfqi59v3ogpeewow 
-   foreign key (user_id) 
-   references reg_user;

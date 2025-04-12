@@ -38,15 +38,15 @@ public class Payment {
     @Column(name = "deposit", nullable = false, precision = 10, scale = 2)
     private BigDecimal deposit = BigDecimal.ZERO;
 
-    @JsonProperty("discount_value")
+    @JsonProperty("discountValue")
     @Column(name = "discount_value", precision = 8, scale = 2)
     private BigDecimal discountValue;
 
-    @JsonProperty("discount_percent")
+    @JsonProperty("discountPercent")
     @Column(name = "discount_percent", precision = 4, scale = 1)
     private BigDecimal discountPercent;
 
-    @JsonProperty("deposit_paid")
+    @JsonProperty("depositPaid")
     @Column(name = "deposit_paid")
     private Boolean depositPaid;
 
@@ -54,16 +54,10 @@ public class Payment {
     @Column(name = "paid")
     private Boolean paid;
 
-    // soft reference
-    @NotNull
-    @JsonProperty("registration_id")
-    @Column(name = "registration_id", nullable = false)
-    private Long registrationId;
-
     @ManyToOne
     @JsonBackReference
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "registration_id")
+    private Registration registration;
 
     @JsonGetter("final_price")
     public BigDecimal getFinalPrice() {
@@ -76,12 +70,12 @@ public class Payment {
         return price;
     }
 
-    @JsonGetter("has_deposit")
+    @JsonGetter("hasDeposit")
     public Boolean hasDeposit() {
         return this.deposit != null && this.deposit.compareTo(BigDecimal.ZERO) > 0;
     }
 
-    @JsonGetter("remaining_value")
+    @JsonGetter("remainingValue")
     public BigDecimal getRemainingValue() {
         if (Boolean.TRUE.equals(paid)) return BigDecimal.ZERO;
 

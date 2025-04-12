@@ -1,6 +1,9 @@
 package sk.leziemevpezinku.spring.util;
 
-public class StringUtils extends org.apache.commons.lang3.StringUtils {
+import static org.apache.commons.lang3.StringUtils.lowerCase;
+import static org.apache.commons.lang3.StringUtils.stripAccents;
+
+public class StringUtils {
 
     /**
      * Normalizes string, strips accent and makes lower case.

@@ -1,5 +1,6 @@
 package sk.leziemevpezinku.spring.rest;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import sk.leziemevpezinku.spring.model.Event;
+import sk.leziemevpezinku.spring.model.Views;
 import sk.leziemevpezinku.spring.rest.model.GenericResponse;
 import sk.leziemevpezinku.spring.service.EventService;
 
@@ -21,9 +23,15 @@ public class EventController {
     @Autowired
     private EventService eventService;
 
+    @JsonView(Views.Public.class)
     @GetMapping
     public List<Event> getEvents() {
         return eventService.getAll();
+    }
+
+    @GetMapping(path = "/current")
+    public List<Event> getCurrentEvents() {
+        return eventService.getCurrentAndFuture();
     }
 
     @PostMapping

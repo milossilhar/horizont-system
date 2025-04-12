@@ -14,10 +14,10 @@ import sk.leziemevpezinku.spring.model.annotation.validation.Enumeration;
 @Getter
 @Setter
 @Builder
-@Embeddable
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserKnownPerson {
+@Embeddable
+public class KnownPerson {
 
     @NotNull
     @AccentedName

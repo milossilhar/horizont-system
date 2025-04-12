@@ -10,17 +10,17 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @Builder
-@Embeddable
 @NoArgsConstructor
 @AllArgsConstructor
+@Embeddable
 public class EventDiscount {
 
     // enum - REG_E_EVENT_DISCOUNT_TYPE
-    @JsonProperty("discount_type")
+    @JsonProperty("discountType")
     @Column(name = "discount_type", length = 10)
     private String discountType;
 
-    @JsonProperty("condition_value")
+    @JsonProperty("conditionValue")
     @Column(name = "condition_value")
     private Integer conditionValue;
 

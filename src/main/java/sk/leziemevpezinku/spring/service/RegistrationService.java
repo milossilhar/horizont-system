@@ -1,24 +1,21 @@
 package sk.leziemevpezinku.spring.service;
 
 import sk.leziemevpezinku.spring.model.Registration;
-import sk.leziemevpezinku.spring.model.User;
-
-import java.util.List;
 
 public interface RegistrationService {
 
     /**
      * Creates registration for user.
      * @param eventTermId event term id
-     * @param user object with user info
-     * @return list of created reservations
+     * @param registration object with registration info
+     * @return created reservation
      */
-    List<Registration> createRegistration(Long eventTermId, User user);
+    Registration createRegistration(Long eventTermId, Registration registration);
 
     /**
-     * Removes all registration entries by transaction id
-     * @param transactionId transaction id
-     * @return count of removed registrations
+     * Confirms registration using given JWT token from email.
+     * @param jwtToken jwt token for registration
+     * @return confirmed registration
      */
-    long removeRegistrationByTransactionId(String transactionId);
+    Registration confirmRegistration(String jwtToken);
 }

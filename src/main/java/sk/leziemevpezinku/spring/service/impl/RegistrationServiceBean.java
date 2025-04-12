@@ -4,11 +4,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sk.leziemevpezinku.spring.model.*;
-import sk.leziemevpezinku.spring.model.enums.RegistrationStatus;
 import sk.leziemevpezinku.spring.repo.EventTermRepository;
-import sk.leziemevpezinku.spring.repo.PersonRepository;
 import sk.leziemevpezinku.spring.repo.RegistrationRepository;
-import sk.leziemevpezinku.spring.repo.UserRepository;
 import sk.leziemevpezinku.spring.service.RegistrationService;
 import sk.leziemevpezinku.spring.service.exception.CommonException;
 import sk.leziemevpezinku.spring.service.model.ErrorCode;
@@ -21,13 +18,11 @@ import java.util.*;
 public class RegistrationServiceBean implements RegistrationService {
 
     private final EventTermRepository eventTermRepository;
-    private final PersonRepository personRepository;
     private final RegistrationRepository registrationRepository;
-    private final UserRepository userRepository;
 
     @Override
     @Transactional
-    public List<Registration> createRegistration(Long eventTermId, User user) {
+    public Registration createRegistration(Long eventTermId, Registration registration) {
         LocalDateTime now = LocalDateTime.now();
 
         Optional<EventTerm> eventTermOptional = eventTermRepository.findById(eventTermId);
@@ -52,75 +47,21 @@ public class RegistrationServiceBean implements RegistrationService {
         }
 
         // check if there is same registration
-        for (Registration registration : eventTerm.getRegistrations()) {
-            if (user.hasPerson(registration.getPerson())) {
-                throw CommonException.builder()
-                        .errorCode(ErrorCode.MSG_REG_ALREADY_EXISTS)
-                        .parameter("fullname", registration.getPerson().getFullname())
-                        .build();
-            }
-        }
-
-        // determine status based on capacity
-        int remainingCapacity = eventTerm.getCapacity() - eventTerm.getRegistrations().size();
-
-        RegistrationStatus registrationStatus = remainingCapacity >= user.getPeople().size()
-                ? RegistrationStatus.ACCEPTED
-                : RegistrationStatus.WAITING;
-
-        // check if user is already created and populate list of saved people to register
-        Optional<User> savedUserOptional = userRepository.findByEmail(user.getEmail());
-
-        User savedUser;
-        List<Person> savedPeopleToRegister = new ArrayList<>();
-
-        if (savedUserOptional.isEmpty()) {
-            // user is not in the DB -> create user with people
-            savedUser = userRepository.save(user);
-            savedPeopleToRegister.addAll(savedUser.getPeople());
-        } else {
-            // user is already in the DB -> update user and update people / add missing
-            savedUser = savedUserOptional.get();
-
-            List<Person> peopleToSave = new ArrayList<>();
-            for (Person person : user.getPeople()) {
-                Optional<Person> savedPersonOptional = savedUser.getPerson(person);
-
-                if (savedPersonOptional.isEmpty()) {
-                    person.setParent(savedUser);
-                    peopleToSave.add(person);
-                    continue;
+        for (Person registrationPerson : registration.getPeople()) {
+            for (Registration eventTermRegistration : eventTerm.getRegistrations()) {
+                if (eventTermRegistration.hasPerson(registrationPerson)) {
+                    throw CommonException.builder()
+                            .errorCode(ErrorCode.MSG_REG_ALREADY_EXISTS)
+                            .build();
                 }
-
-                savedPeopleToRegister.add(savedPersonOptional.get());
             }
-
-            List<Person> savedPersonList = peopleToSave.stream().map(personRepository::save).toList();
-            savedPeopleToRegister.addAll(savedPersonList);
         }
 
-        // creating unique identifier for registration
-        String transactionId = UUID.randomUUID().toString();
-
-        List<Registration> registrations = savedPeopleToRegister.stream()
-                .map(person -> Registration.builder()
-                        .person(person)
-                        .eventTerm(eventTerm)
-                        .status(registrationStatus)
-                        .transactionId(transactionId)
-                        .build())
-                .toList();
-
-        List<Registration> savedRegistrations = new ArrayList<>();
-        registrationRepository.saveAll(registrations).forEach(savedRegistrations::add);
-        return savedRegistrations;
+        return registrationRepository.save(registration);
     }
 
     @Override
-    @Transactional
-    public long removeRegistrationByTransactionId(String transactionId) {
-        return registrationRepository.delete(
-                (root, query, cb) -> cb.equal(root.get(Registration_.TRANSACTION_ID), transactionId)
-        );
+    public Registration confirmRegistration(String jwtToken) {
+        return null;
     }
 }

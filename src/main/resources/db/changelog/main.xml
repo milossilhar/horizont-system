@@ -16,7 +16,7 @@
 <!--    <includeAll path="updates" relativeToChangelogFile="true"/>-->
 
     <!-- Run Dev Initialization - ONLY IN dev CONTEXT -->
-<!--     <includeAll path="test" relativeToChangelogFile="true"/> -->
+    <includeAll path="development" relativeToChangelogFile="true" contextFilter="dev"/>
 
     <!-- Run Test Initialization - ONLY IN test CONTEXT -->
     <includeAll path="test" relativeToChangelogFile="true" contextFilter="test"/>

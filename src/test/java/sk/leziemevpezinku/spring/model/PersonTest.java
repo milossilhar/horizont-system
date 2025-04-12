@@ -15,6 +15,6 @@ public class PersonTest {
                 .surname("griffin")
                 .build();
 
-        assertEquals("peter griffin", person.getFullname());
+        assertEquals("peter griffin", person.getFullName());
     }
 }

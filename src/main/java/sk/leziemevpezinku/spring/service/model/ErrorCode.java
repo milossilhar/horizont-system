@@ -12,9 +12,9 @@ public enum ErrorCode {
     MSG_NOT_FOUND_EVENT_TERM(HttpStatus.NOT_FOUND, "Event term with id {{id}} was not found."),
 
     // registration messages
-    MSG_REG_SOON(HttpStatus.BAD_REQUEST, "Rezervácia ešte neni povolená."),
-    MSG_REG_DEADLINE(HttpStatus.BAD_REQUEST, "Rezervácia je už uzatvorená."),
-    MSG_REG_ALREADY_EXISTS(HttpStatus.CONFLICT, "Rezervácia pre osobu {{fullname}} je už vytvorená, skúste odstrániť túto osobu a vytvoriť registráciu znova.");
+    MSG_REG_SOON(HttpStatus.BAD_REQUEST, "Reservation is not yet possible."),
+    MSG_REG_DEADLINE(HttpStatus.BAD_REQUEST, "Reservation is already closed."),
+    MSG_REG_ALREADY_EXISTS(HttpStatus.CONFLICT, "Reservation for given person and event term already exists.");
 
     private final HttpStatus status;
 

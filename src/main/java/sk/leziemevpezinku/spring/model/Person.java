@@ -1,6 +1,5 @@
 package sk.leziemevpezinku.spring.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
@@ -12,25 +11,15 @@ import sk.leziemevpezinku.spring.model.annotation.validation.FreeText;
 import sk.leziemevpezinku.spring.util.StringUtils;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 @Getter
 @Setter
-@Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "reg_person")
+@Embeddable
 public class Person {
-
-    @Id
-    @JsonProperty("id")
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_person_id")
-    @SequenceGenerator(name = "seq_person_id", sequenceName = "seq_person_id", initialValue = 1, allocationSize = 1)
-    private Long id;
 
     @NotNull
     @AccentedName
@@ -46,45 +35,34 @@ public class Person {
 
     @Past
     @NotNull
-    @JsonProperty("date_of_birth")
+    @JsonProperty("dateOfBirth")
     @Column(name = "date_of_birth", nullable = false)
     private LocalDate dateOfBirth;
 
     @FreeText
     @Size(max = 1000)
-    @JsonProperty("health_notes")
+    @JsonProperty("healthNotes")
     @Column(name = "health_notes", length = 1000)
     private String healthNotes;
 
     @FreeText
     @Size(max = 1000)
-    @JsonProperty("food_allergy_notes")
+    @JsonProperty("foodAllergyNotes")
     @Column(name = "food_allergy_notes", length = 1000)
     private String foodAllergyNotes;
 
     // enum - REG_E_SHIRT_SIZE
     @Enumeration
-    @JsonProperty("shirt_size")
+    @JsonProperty("shirtSize")
     @Column(name = "shirt_size", length = 10)
     private String shirtSize;
 
-    @JsonProperty("is_independent")
+    @JsonProperty("isIndependent")
     @Column(name = "is_independent", nullable = false)
     private Boolean isIndependent;
 
-    @ManyToOne
-    @JsonBackReference
-    @JsonProperty("parent")
-    @JoinColumn(name = "parent_id")
-    private User parent;
-
-    @Builder.Default
-    @JsonProperty("registrations")
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "person")
-    private List<Registration> registrations = new ArrayList<>();
-
-    @JsonGetter("fullname")
-    public String getFullname() {
+    @JsonGetter("fullName")
+    public String getFullName() {
         return this.name + " " + this.surname;
     }
 

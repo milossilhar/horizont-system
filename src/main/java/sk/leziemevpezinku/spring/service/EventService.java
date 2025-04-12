@@ -33,4 +33,10 @@ public interface EventService {
      * @return list of all events
      */
     List<Event> getAll();
+
+    /**
+     * Finds current and future events.
+     * @return list of current and future events
+     */
+    List<Event> getCurrentAndFuture();
 }
