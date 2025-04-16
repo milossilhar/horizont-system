@@ -8,6 +8,7 @@ import sk.leziemevpezinku.spring.model.Event;
 import sk.leziemevpezinku.spring.repo.base.UidRepositoryBase;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface EventRepository extends UidRepositoryBase<Event, Long>, JpaSpecificationExecutor<Event> {
@@ -19,4 +20,8 @@ public interface EventRepository extends UidRepositoryBase<Event, Long>, JpaSpec
     @Override
     @EntityGraph(type = EntityGraph.EntityGraphType.LOAD, attributePaths = {"terms"})
     List<Event> findAll(Specification<Event> spec);
+
+    @Override
+    @EntityGraph(type = EntityGraph.EntityGraphType.LOAD, attributePaths = {"terms"})
+    Optional<Event> findByUuid(String uuid);
 }

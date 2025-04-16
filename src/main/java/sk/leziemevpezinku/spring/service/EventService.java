@@ -29,6 +29,14 @@ public interface EventService {
     void removeEvent(Long id);
 
     /**
+     * Gets event by uuid.
+     * @param uuid uuid of an event
+     * @return found event
+     * @throws sk.leziemevpezinku.spring.service.exception.CommonException when event with given uuid is not found
+     */
+    Event getByUUID(String uuid);
+
+    /**
      * Finds all events.
      * @return list of all events
      */

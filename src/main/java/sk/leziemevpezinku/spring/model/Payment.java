@@ -54,20 +54,27 @@ public class Payment {
     @Column(name = "paid")
     private Boolean paid;
 
-    @ManyToOne
+    @OneToOne(mappedBy = "payment")
     @JsonBackReference
-    @JoinColumn(name = "registration_id")
     private Registration registration;
 
     @JsonGetter("final_price")
     public BigDecimal getFinalPrice() {
-        if (discountValue != null) {
+        if (discountValue != null && this.discountValue.compareTo(BigDecimal.ZERO) > 0) {
             return price.subtract(discountValue);
         }
-        if (discountPercent != null) {
-            return price.divide(discountPercent, 2, RoundingMode.HALF_DOWN);
+        if (discountPercent != null && this.discountPercent.compareTo(BigDecimal.ZERO) > 0) {
+            return price.multiply(
+                    BigDecimal.ONE.subtract(discountPercent.divide(BigDecimal.valueOf(100L), 2, RoundingMode.HALF_DOWN))
+            );
         }
         return price;
+    }
+
+    @JsonGetter("hasDiscount")
+    public Boolean hasDiscount() {
+        return this.discountPercent != null && this.discountPercent.compareTo(BigDecimal.ZERO) > 0 ||
+                this.discountValue != null && this.discountValue.compareTo(BigDecimal.ZERO) > 0;
     }
 
     @JsonGetter("hasDeposit")

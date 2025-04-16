@@ -3,6 +3,7 @@ package sk.leziemevpezinku.spring.rest;
 import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,15 +24,22 @@ public class EventController {
     @Autowired
     private EventService eventService;
 
-    @JsonView(Views.Public.class)
+    @JsonView(Views.Internal.class)
     @GetMapping
     public List<Event> getEvents() {
         return eventService.getAll();
     }
 
+    @JsonView(Views.Public.class)
     @GetMapping(path = "/current")
     public List<Event> getCurrentEvents() {
         return eventService.getCurrentAndFuture();
+    }
+
+    @JsonView(Views.Public.class)
+    @GetMapping(path = "/uuid/{eventUUID}")
+    public Event getEventByUUID(@PathVariable("eventUUID") @NotNull String uuid) {
+        return eventService.getByUUID(uuid);
     }
 
     @PostMapping
@@ -40,7 +48,7 @@ public class EventController {
     }
 
     @PutMapping(path = "/{eventId:\\d+}")
-    public Event updateEvent(@PathVariable("eventId") Long eventId, @Valid @RequestBody Event event) {
+    public Event updateEvent(@PathVariable("eventId") @NotNull Long eventId, @Valid @RequestBody Event event) {
         if (!eventId.equals(event.getId())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "IDs mismatch");
         }

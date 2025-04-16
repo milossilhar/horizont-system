@@ -1,6 +1,8 @@
 package sk.leziemevpezinku.spring.service.impl;
 
 import jakarta.transaction.Transactional;
+import org.hibernate.Hibernate;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import sk.leziemevpezinku.spring.model.Event;
 import sk.leziemevpezinku.spring.model.Event_;
@@ -35,7 +37,11 @@ public class EventServiceBean implements EventService {
     public Event updateEvent(Long eventId, Event event) {
         Optional<Event> dbEventOptional = eventRepository.findById(eventId);
 
-        if (dbEventOptional.isEmpty()) throw new RuntimeException("NOT FOUND");
+        if (dbEventOptional.isEmpty()) {
+            throw CommonException.builder()
+                    .errorCode(ErrorCode.MSG_NOT_FOUND_EVENT)
+                    .build();
+        }
 
         Event dbEvent = dbEventOptional.get();
 
@@ -43,7 +49,7 @@ public class EventServiceBean implements EventService {
         dbEvent.setName(event.getName());
         dbEvent.setRegStartAt(event.getRegStartAt());
         dbEvent.setRegEndAt(event.getRegEndAt());
-        dbEvent.setDiscounts(event.getDiscounts());
+        dbEvent.setDiscountType(event.getDiscountType());
 
         return eventRepository.save(dbEvent);
     }
@@ -54,11 +60,23 @@ public class EventServiceBean implements EventService {
         if (!eventRepository.existsById(eventId)) {
             throw CommonException.builder()
                     .errorCode(ErrorCode.MSG_NOT_FOUND_EVENT)
-                    .parameter("id", eventId)
                     .build();
         }
 
         eventRepository.deleteById(eventId);
+    }
+
+    @Override
+    public Event getByUUID(String uuid) {
+        Optional<Event> eventOptional = eventRepository.findByUuid(uuid);
+
+        if (eventOptional.isEmpty()) {
+            throw CommonException.builder()
+                    .errorCode(ErrorCode.MSG_NOT_FOUND_EVENT)
+                    .build();
+        }
+
+        return eventOptional.get();
     }
 
     @Override

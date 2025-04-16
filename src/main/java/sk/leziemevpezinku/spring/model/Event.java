@@ -10,8 +10,7 @@ import sk.leziemevpezinku.spring.model.base.UidAuditedEntityBase;
 import sk.leziemevpezinku.spring.model.enums.EventType;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @Setter
@@ -61,14 +60,14 @@ public class Event extends UidAuditedEntityBase {
     @Column(name = "reg_end_at", nullable = false)
     private LocalDateTime regEndAt;
 
-    @JsonProperty("discounts")
-    @OrderColumn(name = "ind")
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "reg_event_discount", joinColumns = @JoinColumn(name = "event_id"))
-    private List<EventDiscount> discounts;
+    // enum - REG_E_EVENT_DISCOUNT_TYPE
+    @JsonProperty("discountType")
+    @Column(name = "discount_type", length = 40)
+    private String discountType;
 
+    @Builder.Default
     @JsonProperty("terms")
     @OneToMany(mappedBy = "event")
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
-    private Set<EventTerm> terms;
+    private SortedSet<EventTerm> terms = new TreeSet<>();
 }

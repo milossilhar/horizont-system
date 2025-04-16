@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -64,6 +65,17 @@ public class Registration extends UidAuditedEntityBase {
     @Column(name = "tel_phone", length = 20, nullable = false)
     private String telPhone;
 
+//    @NotNull
+//    @AssertTrue
+//    @JsonProperty("consentGDPR")
+//    @Column(name = "consent_gdpr", nullable = false)
+//    private Boolean consentGDPR;
+//
+//    @NotNull
+//    @JsonProperty("consentPhoto")
+//    @Column(name = "consent_photo")
+//    private Boolean consentPhoto;
+
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "event_term_id")
@@ -83,10 +95,10 @@ public class Registration extends UidAuditedEntityBase {
     @CollectionTable(name = "reg_known_person", joinColumns = @JoinColumn(name = "registration_id"))
     private List<KnownPerson> knownPeople = new ArrayList<>();
 
-    @Builder.Default
-    @JsonProperty("payments")
-    @OneToMany(mappedBy = "registration")
-    private Set<Payment> payments = new HashSet<>();
+    @JsonProperty("payment")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "payment_id", referencedColumnName = "id")
+    private Payment payment;
 
     @JsonIgnore
     public boolean hasPerson(Person person) {

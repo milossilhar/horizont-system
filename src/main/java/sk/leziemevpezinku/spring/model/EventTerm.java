@@ -1,6 +1,5 @@
 package sk.leziemevpezinku.spring.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -20,10 +19,10 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "reg_event_term")
-public class EventTerm {
+public class EventTerm implements Comparable<EventTerm> {
 
     @Id
-    @JsonView(Views.Internal.class)
+    @JsonView(Views.Public.class)
     @JsonProperty("id")
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_event_term_id")
@@ -70,4 +69,9 @@ public class EventTerm {
     @JsonProperty("registrations")
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "eventTerm")
     private List<Registration> registrations;
+
+    @Override
+    public int compareTo(EventTerm eventTerm) {
+        return startAt.compareTo(eventTerm.startAt);
+    }
 }

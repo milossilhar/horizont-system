@@ -1,5 +1,6 @@
 package sk.leziemevpezinku.spring.service;
 
+import sk.leziemevpezinku.spring.model.Payment;
 import sk.leziemevpezinku.spring.model.Registration;
 
 public interface RegistrationService {
@@ -18,4 +19,13 @@ public interface RegistrationService {
      * @return confirmed registration
      */
     Registration confirmRegistration(String jwtToken);
+
+    /**
+     *
+     * @param eventTermId
+     * @param userEmail
+     * @param numberOfPeople
+     * @return
+     */
+    Payment calculatePriceForRegistration(Long eventTermId, String userEmail, Long numberOfPeople);
 }

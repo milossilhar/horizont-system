@@ -23,22 +23,13 @@ create table reg_event (
     created_at timestamp(6) not null,
     uuid varchar(40) not null unique,
     details varchar(2000) not null,
+    discount_type varchar(40),
     event_type varchar(20) not null check (event_type in ('EVENT','CAMP','SCHOOL_CLIMB','ECA')),
     name varchar(200) not null,
     place varchar(300) not null,
     reg_end_at timestamp(6) not null,
     reg_start_at timestamp(6) not null,
     primary key (id)
-);
-
-create table reg_event_discount (
-    event_id bigint not null,
-    condition_value integer,
-    discount_type varchar(10),
-    percent numeric(4,1),
-    value integer,
-    ind integer not null,
-    primary key (event_id, ind)
 );
 
 create table reg_event_term (
@@ -69,7 +60,6 @@ create table reg_payment (
     discount_value numeric(8,2),
     paid boolean,
     price numeric(10,2) not null,
-    registration_id bigint,
     primary key (id)
 );
 
@@ -96,14 +86,9 @@ create table reg_registration (
     surname varchar(50) not null,
     tel_phone varchar(20) not null,
     event_term_id bigint,
+    payment_id bigint unique,
     primary key (id)
 );
-
-create index FK37nq1yojxb68umlgpaa05e814 on reg_event_discount (event_id);
-alter table if exists reg_event_discount 
-   add constraint FK37nq1yojxb68umlgpaa05e814 
-   foreign key (event_id) 
-   references reg_event;
 
 create index FK3amist06sen6r7d9m164epbr4 on reg_event_term (event_id);
 alter table if exists reg_event_term 
@@ -114,12 +99,6 @@ alter table if exists reg_event_term
 create index FKh8lbf0k7e2q2m17qn3xs5vgoo on reg_known_person (registration_id);
 alter table if exists reg_known_person 
    add constraint FKh8lbf0k7e2q2m17qn3xs5vgoo 
-   foreign key (registration_id) 
-   references reg_registration;
-
-create index FKetwqymf14d50abml23b5uavtx on reg_payment (registration_id);
-alter table if exists reg_payment 
-   add constraint FKetwqymf14d50abml23b5uavtx 
    foreign key (registration_id) 
    references reg_registration;
 
@@ -134,3 +113,9 @@ alter table if exists reg_registration
    add constraint FKli5l6y8g2i9ww46ctuewlhw0h 
    foreign key (event_term_id) 
    references reg_event_term;
+
+create index FKlm2mjdcnm4qqn1dwm715yvwmp on reg_registration (payment_id);
+alter table if exists reg_registration 
+   add constraint FKlm2mjdcnm4qqn1dwm715yvwmp 
+   foreign key (payment_id) 
+   references reg_payment;

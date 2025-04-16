@@ -6,18 +6,16 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import sk.leziemevpezinku.spring.model.Payment;
 import sk.leziemevpezinku.spring.model.Registration;
 import sk.leziemevpezinku.spring.model.Views;
 import sk.leziemevpezinku.spring.rest.model.GenericRequest;
+import sk.leziemevpezinku.spring.rest.model.RegistrationPricingRequest;
 import sk.leziemevpezinku.spring.service.NotificationService;
 import sk.leziemevpezinku.spring.service.RegistrationService;
 
-@Controller
+@RestController
 @RequestMapping(path = "/registration", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 @Tag(name = "registration")
 @RequiredArgsConstructor
@@ -44,5 +42,11 @@ public class RegistrationController {
     public Registration confirmRegistration(
             @RequestBody @Valid GenericRequest<String> jwtTokenRequest) {
         return registrationService.confirmRegistration(jwtTokenRequest.getValue());
+    }
+
+    @PostMapping(path = "/calculate-price")
+    public Payment calculatePriceForRegistration(
+            @RequestBody @Valid RegistrationPricingRequest request) {
+        return registrationService.calculatePriceForRegistration(request.getEventTermId(), request.getUserEmail(), request.getNumberOfPeople());
     }
 }

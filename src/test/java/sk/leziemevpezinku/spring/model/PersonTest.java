@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class PersonTest {
 
     @Test
-    public void testFullname() {
+    public void testFullName() {
         Person person = Person.builder()
                 .name("peter")
                 .surname("griffin")

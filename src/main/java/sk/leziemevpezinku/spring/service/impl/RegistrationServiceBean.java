@@ -10,8 +10,11 @@ import sk.leziemevpezinku.spring.service.RegistrationService;
 import sk.leziemevpezinku.spring.service.exception.CommonException;
 import sk.leziemevpezinku.spring.service.model.ErrorCode;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.*;
+
+import static sk.leziemevpezinku.spring.model.enums.EnumerationValues.REG_E_EVENT_DISCOUNT_TYPE.LETO_TABOR_25;
 
 @Service
 @AllArgsConstructor
@@ -25,11 +28,7 @@ public class RegistrationServiceBean implements RegistrationService {
     public Registration createRegistration(Long eventTermId, Registration registration) {
         LocalDateTime now = LocalDateTime.now();
 
-        Optional<EventTerm> eventTermOptional = eventTermRepository.findById(eventTermId);
-
-        if (eventTermOptional.isEmpty()) throw CommonException.builder().errorCode(ErrorCode.MSG_NOT_FOUND_EVENT_TERM).build();
-
-        EventTerm eventTerm = eventTermOptional.get();
+        EventTerm eventTerm = findEventTerm(eventTermId);
 
         // check event registration window
         Event event = eventTerm.getEvent();
@@ -63,5 +62,33 @@ public class RegistrationServiceBean implements RegistrationService {
     @Override
     public Registration confirmRegistration(String jwtToken) {
         return null;
+    }
+
+    @Override
+    public Payment calculatePriceForRegistration(Long eventTermId, String userEmail, Long numberOfPeople) {
+        EventTerm eventTerm = findEventTerm(eventTermId);
+
+        Payment payment = Payment.builder()
+                .price(eventTerm.getPrice().multiply(BigDecimal.valueOf(numberOfPeople)))
+                .deposit(eventTerm.getDeposit().multiply(BigDecimal.valueOf(numberOfPeople)))
+                .build();
+
+        Event event = eventTerm.getEvent();
+        String discountType = event.getDiscountType();
+
+        if (LETO_TABOR_25.equals(discountType)) {
+            if (numberOfPeople == 2) payment.setDiscountValue(BigDecimal.valueOf(20));
+            if (numberOfPeople > 2) payment.setDiscountValue(BigDecimal.valueOf(50));
+        }
+
+        return payment;
+    }
+
+    private EventTerm findEventTerm(Long eventTermId) {
+        Optional<EventTerm> eventTermOptional = eventTermRepository.findById(eventTermId);
+
+        if (eventTermOptional.isEmpty()) throw CommonException.builder().errorCode(ErrorCode.MSG_NOT_FOUND_EVENT_TERM).build();
+
+        return eventTermOptional.get();
     }
 }

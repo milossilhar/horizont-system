@@ -12,23 +12,23 @@ insert into reg_event (id, created_at, uuid, event_type, name, details, place, r
 -- REG_EVENT_TERM
 -- tyzdenny denny tabor
 insert into reg_event_term (id, start_at, end_at, capacity, deposit, price, event_id)
-    values (1, '2025-07-14 07:30:00', '2025-07-18 16:00:00', 50, 200, 20, 1);
+    values (1, '2025-07-14 07:30:00', '2025-07-18 16:00:00', 20, 50, 200, 1);
 insert into reg_event_term (id, start_at, end_at, capacity, deposit, price, event_id)
-    values (2, '2025-07-21 07:30:00', '2025-07-25 16:00:00', 50, 200, 20, 1);
+    values (2, '2025-07-21 07:30:00', '2025-07-25 16:00:00', 20, 50, 200, 1);
 insert into reg_event_term (id, start_at, end_at, capacity, deposit, price, event_id)
-    values (3, '2025-07-28 07:30:00', '2025-08-01 16:00:00', 50, 200, 20, 1);
+    values (3, '2025-07-28 07:30:00', '2025-08-01 16:00:00', 20, 50, 200, 1);
  insert into reg_event_term (id, start_at, end_at, capacity, deposit, price, event_id)
-     values (4, '2025-08-04 07:30:00', '2025-08-08 16:00:00', 50, 200, 20, 1);
+     values (4, '2025-08-04 07:30:00', '2025-08-08 16:00:00', 20, 50, 200, 1);
 
 -- denny tabor
 insert into reg_event_term (id, start_at, end_at, capacity, deposit, price, event_id)
-    values (5, '2025-07-08 08:00:00', '2025-07-08 16:00:00', 20, 60, 15, 2);
+    values (5, '2025-07-08 08:00:00', '2025-07-08 16:00:00', 20, 15, 60, 2);
 insert into reg_event_term (id, start_at, end_at, capacity, deposit, price, event_id)
-    values (6, '2025-07-10 08:00:00', '2025-07-10 16:00:00', 20, 60, 15, 2);
+    values (6, '2025-07-10 08:00:00', '2025-07-10 16:00:00', 20, 15, 60, 2);
 
 -- tyzdenny camp
 insert into reg_event_term (id, start_at, end_at, capacity, deposit, price, event_id)
-    values (7, '2025-07-14 07:30:00', '2025-07-18 16:00:00', 100, 400, 25, 3);
+    values (7, '2025-07-14 07:30:00', '2025-07-18 16:00:00', 25, 100, 400, 3);
 
 -- update sequences
 select setval('seq_event_id', 100, false);

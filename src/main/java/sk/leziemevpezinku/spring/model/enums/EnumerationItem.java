@@ -1,7 +1,6 @@
-package sk.leziemevpezinku.spring.model;
+package sk.leziemevpezinku.spring.model.enums;
 
 import jakarta.persistence.*;
-import sk.leziemevpezinku.spring.model.enums.EnumerationName;
 
 @Entity
 @Table(name = "reg_enumeration_item")

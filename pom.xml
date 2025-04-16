@@ -187,6 +187,9 @@
                         <groupId>org.springframework.boot</groupId>
                         <artifactId>spring-boot-maven-plugin</artifactId>
                         <configuration>
+                            <profiles>
+                                <profile>openapi</profile>
+                            </profiles>
                             <jvmArguments>-Dspring.application.admin.enabled=true</jvmArguments>
                         </configuration>
                         <executions>
@@ -209,7 +212,7 @@
                         <artifactId>springdoc-openapi-maven-plugin</artifactId>
                         <version>1.4</version>
                         <configuration>
-                            <apiDocsUrl>http://localhost:8080/api/v3/api-docs</apiDocsUrl>
+                            <apiDocsUrl>http://localhost:8088/api/v3/api-docs</apiDocsUrl>
                         </configuration>
                         <executions>
                             <execution>
