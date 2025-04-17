@@ -3,7 +3,7 @@ name: "horizon"
 services:
   postgres:
     image: "postgres:16-alpine"
-    container_name: "horizon_db"
+    container_name: "horizon_postgres"
     restart: always
     ports:
       - "5432:5432"
@@ -24,23 +24,22 @@ services:
     build:
       context: ../
       dockerfile: ./docker/Dockerfile
-      no_cache: true
     image: "horizon/spring-backend"
-    container_name: "horizon_be"
+    container_name: "horizon_backend"
     restart: unless-stopped
     ports:
       - "${PORT}:8080"
+    networks:
+      - horizon_network
     depends_on:
       - postgres
     environment:
-      DATASOURCE_JDBC: "jdbc:postgresql://horizon_db:5432/horizon"
+      DATASOURCE_JDBC: "jdbc:postgresql://horizon_postgres:5432/horizon"
       DATASOURCE_USER: ${POSTGRES_USER}
       DATASOURCE_PASS: ${POSTGRES_PASS}
       CORS_ORIGINS: ${CORS_ORIGINS:?required}
       CORS_HEADERS: ${CORS_HEADERS:?required}
-    networks:
-      - horizon_network
 networks:
   horizon_network:
     name: horizon_network
-    driver: bridge
+    external: true
