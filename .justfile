@@ -2,7 +2,8 @@
 MAVEN := './mvnw'
 SQL_SCHEMA_DIR := './db/reference'
 
-DOCKER_LOCAL_FILE := './docker/compose.dev.yaml'
+DOCKER_PROD_FILE := './docker/compose.prod.yaml'
+DOCKER_DEV_FILE := './docker/compose.dev.yaml'
 DOCKER_TEST_FILE := './docker/compose.test.yaml'
 
 FRONTEND_PROJECT_DIR := '~/projects/leziemevpezinku/horizont-web'
@@ -19,6 +20,10 @@ generate-openapi:
     {{MAVEN}} verify -DskipTests=true -Popenapi
     cp ./target/openapi.json {{FRONTEND_PROJECT_DIR}}/openapi/openapi.json
 
+# runs SpringBoot app in production mode
+prod:
+    {{MAVEN}} spring-boot:run -Dspring-boot.run.profiles=dev
+
 # runs SpringBoot app in developoment mode
 dev:
     {{MAVEN}} spring-boot:run -Dspring-boot.run.profiles=dev
@@ -30,6 +35,10 @@ debug:
 # cleans whole project
 clean:
     {{MAVEN}} clean
+
+# packages whole project
+package:
+    {{MAVEN}} package
 
 # compiles whole project
 compile:
@@ -43,6 +52,22 @@ test:
 inttest:
     {{MAVEN}} verify
 
+# starts whole spring backend stack as production configuration in local Docker
+start:
+    docker compose -f {{DOCKER_PROD_FILE}} up -d --build
+
+# stops whole spring backend stack
+stop:
+    docker compose -f {{DOCKER_PROD_FILE}} down -v
+
+# starts LOCAL postgres in Docker
+dbstart:
+    docker compose -f {{DOCKER_DEV_FILE}} up -d
+
+# stops and removes LOCAL postgres in Docker
+dbstop:
+    docker compose -f {{DOCKER_DEV_FILE}} down -v
+
 # starts TEST postgres in Docker
 testdbstart:
     docker compose -f {{DOCKER_TEST_FILE}} up -d
@@ -50,11 +75,3 @@ testdbstart:
 # stops and removes TEST postgres in Docker
 testdbstop:
     docker compose -f {{DOCKER_TEST_FILE}} down -v
-
-# starts LOCAL postgres in Docker
-dbstart:
-    docker compose -f {{DOCKER_LOCAL_FILE}} up -d
-
-# stops and removes LOCAL postgres in Docker
-dbstop:
-    docker compose -f {{DOCKER_LOCAL_FILE}} down -v
