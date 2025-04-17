@@ -22,7 +22,7 @@ generate-openapi:
 
 # runs SpringBoot app in production mode
 prod:
-    {{MAVEN}} spring-boot:run -Dspring-boot.run.profiles=dev
+    {{MAVEN}} spring-boot:run
 
 # runs SpringBoot app in developoment mode
 dev:
