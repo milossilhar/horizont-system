@@ -11,7 +11,7 @@
 
     <groupId>sk.leziemevpezinku.spring</groupId>
     <artifactId>registration-system</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
 
     <name>Registration System</name>
     <description>Registration system for climbing club.</description>
@@ -95,6 +95,7 @@
     </dependencies>
 
     <build>
+        <finalName>horizont-spring-app</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
