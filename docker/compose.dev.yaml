@@ -6,7 +6,7 @@ services:
     container_name: "horizon_dev_postgres"
     restart: always
     ports:
-      - "5432:5432"
+      - "5431:5432"
     networks:
       - horizon_dev_network
     volumes:
