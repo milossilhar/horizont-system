@@ -12,9 +12,14 @@ public enum ErrorCode {
     MSG_NOT_FOUND_EVENT_TERM(HttpStatus.NOT_FOUND, "Event term with id {{id}} was not found."),
 
     // registration messages
-    MSG_REG_SOON(HttpStatus.BAD_REQUEST, "Reservation is not yet possible."),
-    MSG_REG_DEADLINE(HttpStatus.BAD_REQUEST, "Reservation is already closed."),
-    MSG_REG_ALREADY_EXISTS(HttpStatus.CONFLICT, "Reservation for given person and event term already exists.");
+    MSG_REG_SOON(HttpStatus.BAD_REQUEST, "Registration is not yet possible."),
+    MSG_REG_DEADLINE(HttpStatus.BAD_REQUEST, "Registration is already closed."),
+    MSG_REG_ALREADY_EXISTS(HttpStatus.CONFLICT, "Registration for given person and event term already exists."),
+
+    // encryption
+    MSG_REG_TOKEN_EXCEPTION(HttpStatus.INTERNAL_SERVER_ERROR, "Registration token generation/verification failed."),
+    MSG_REG_TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "Registration token expired."),
+    MSG_REG_TOKEN_INVALID(HttpStatus.UNAUTHORIZED, "Registration token is invalid.");
 
     private final HttpStatus status;
 
