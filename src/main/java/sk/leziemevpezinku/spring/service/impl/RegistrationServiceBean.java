@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sk.leziemevpezinku.spring.model.*;
+import sk.leziemevpezinku.spring.repo.EventRepository;
 import sk.leziemevpezinku.spring.repo.EventTermRepository;
 import sk.leziemevpezinku.spring.repo.RegistrationRepository;
 import sk.leziemevpezinku.spring.service.RegistrationService;
@@ -28,7 +29,7 @@ public class RegistrationServiceBean implements RegistrationService {
     public Registration createRegistration(Long eventTermId, Registration registration) {
         LocalDateTime now = LocalDateTime.now();
 
-        EventTerm eventTerm = findEventTerm(eventTermId);
+        EventTerm eventTerm = findForUpdateEventTerm(eventTermId);
 
         // check event registration window
         Event event = eventTerm.getEvent();
@@ -86,6 +87,14 @@ public class RegistrationServiceBean implements RegistrationService {
 
     private EventTerm findEventTerm(Long eventTermId) {
         Optional<EventTerm> eventTermOptional = eventTermRepository.findById(eventTermId);
+
+        if (eventTermOptional.isEmpty()) throw CommonException.builder().errorCode(ErrorCode.MSG_NOT_FOUND_EVENT_TERM).build();
+
+        return eventTermOptional.get();
+    }
+
+    private EventTerm findForUpdateEventTerm(Long eventTermId) {
+        Optional<EventTerm> eventTermOptional = eventTermRepository.findForUpdateById(eventTermId);
 
         if (eventTermOptional.isEmpty()) throw CommonException.builder().errorCode(ErrorCode.MSG_NOT_FOUND_EVENT_TERM).build();
 
