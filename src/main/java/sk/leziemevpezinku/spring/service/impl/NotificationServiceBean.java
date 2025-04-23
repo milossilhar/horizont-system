@@ -10,6 +10,11 @@ import sk.leziemevpezinku.spring.service.NotificationService;
 public class NotificationServiceBean implements NotificationService {
     @Override
     public void sendRegistrationCreatedNotification(Registration registration) {
-        log.info("Sending notification for registration {}", registration.getUuid());
+        log.info("Sending created for registration {}", registration.getUuid());
+    }
+
+    @Override
+    public void sendRegistrationConfirmedNotification(Registration registration) {
+        log.info("Sending confirmation for registration {}", registration.getUuid());
     }
 }
