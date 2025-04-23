@@ -1,6 +1,7 @@
 package sk.leziemevpezinku.spring.service;
 
 import sk.leziemevpezinku.spring.model.Event;
+import sk.leziemevpezinku.spring.repo.model.EventTermCapacity;
 
 import java.util.List;
 
@@ -47,4 +48,11 @@ public interface EventService {
      * @return list of current and future events
      */
     List<Event> getCurrentAndFuture();
+
+    /**
+     *
+     * @param eventId
+     * @return
+     */
+    List<EventTermCapacity> getEventRegistrationCount(Long eventId);
 }

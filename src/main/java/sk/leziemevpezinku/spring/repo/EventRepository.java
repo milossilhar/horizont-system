@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface EventRepository extends UidRepositoryBase<Event, Long>, JpaSpecificationExecutor<Event> {
+public interface EventRepository extends UidRepositoryBase<Event, Long>, JpaSpecificationExecutor<Event>, CustomEventRepository {
 
     @Override
     @EntityGraph(type = EntityGraph.EntityGraphType.LOAD, attributePaths = {"terms"})

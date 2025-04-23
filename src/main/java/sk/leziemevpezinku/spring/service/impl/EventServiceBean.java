@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import sk.leziemevpezinku.spring.model.Event;
 import sk.leziemevpezinku.spring.model.Event_;
 import sk.leziemevpezinku.spring.repo.EventRepository;
+import sk.leziemevpezinku.spring.repo.model.EventTermCapacity;
 import sk.leziemevpezinku.spring.service.EventService;
 import sk.leziemevpezinku.spring.service.exception.CommonException;
 import sk.leziemevpezinku.spring.service.model.ErrorCode;
@@ -97,5 +98,19 @@ public class EventServiceBean implements EventService {
                                 cb.greaterThanOrEqualTo(root.get(Event_.REG_START_AT), now)
                         )
         );
+    }
+
+    @Override
+    @Transactional
+    public List<EventTermCapacity> getEventRegistrationCount(Long eventId) {
+        List<EventTermCapacity> eventTermCapacities = eventRepository.countRegistrations(eventId);
+
+        if (eventTermCapacities.isEmpty()) {
+            throw CommonException.builder()
+                    .errorCode(ErrorCode.MSG_NOT_FOUND_EVENT)
+                    .build();
+        }
+
+        return eventTermCapacities;
     }
 }
