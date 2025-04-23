@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 export DOCKER_SCAN_SUGGEST=false
 
-DOCKER_CONTAINER_NAME=horizon_backend
+DOCKER_IMAGE_NAME="horizon/spring-backend"
 DOCKERFILE=./docker/Dockerfile
 DOCKER_COMPOSE_COMMAND="docker compose -f ./docker/compose.prod.yaml"
 DOCKER_COMPOSE_STOP_TIMEOUT=10
@@ -71,7 +71,7 @@ if [ -n "$NEED_PULL" ] ; then
   git pull
   git log --pretty=oneline -1
   NEED_BUILD=true
-elif [ -z "$(docker images | grep "$CICD_TAG" || true)" ] ; then
+elif [ -z "$(docker images -a | grep "$DOCKER_IMAGE_NAME" || true)" ] ; then
   NEED_BUILD=true
 fi
 
