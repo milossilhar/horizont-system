@@ -2,7 +2,7 @@
 export DOCKER_SCAN_SUGGEST=false
 
 DOCKERFILE=./docker/Dockerfile
-DOCKER_COMPOSE_COMMAND=docker compose -f ./docker/compose.prod.yaml
+DOCKER_COMPOSE_COMMAND="docker compose -f ./docker/compose.prod.yaml"
 DOCKER_COMPOSE_STOP_TIMEOUT=10
 
 NEED_BUILD=false
@@ -49,19 +49,19 @@ log "FETCHING LATEST CHANGES"
 git fetch origin $MAIN_BRANCH_NAME -q
 
 if [ $(has_option "--force" "-f") == "true" ] ; then
-  need_pull=true
+  NEED_PULL=true
 else
   head_hash=$(git rev-parse HEAD)
-  upstream_hash=$(git rev-parse main@{upstream})
+  upstream_hash=$(git rev-parse $MAIN_BRANCH_NAME@{upstream})
 
   if [ "$head_hash" != "$upstream_hash" ] ; then
-    need_pull=true
+    NEED_PULL=true
   else
-    need_pull=
+    NEED_PULL=
   fi
 fi
 
-if [ -n "$need_pull" ] ; then
+if [ -n "$NEED_PULL" ] ; then
   log "PULLING LATEST SOURCE CODE"
   git reset --hard
   git pull
