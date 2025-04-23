@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 export DOCKER_SCAN_SUGGEST=false
 
+DOCKER_CONTAINER_NAME=horizon_backend
 DOCKERFILE=./docker/Dockerfile
 DOCKER_COMPOSE_COMMAND="docker compose -f ./docker/compose.prod.yaml"
 DOCKER_COMPOSE_STOP_TIMEOUT=10
@@ -53,6 +54,9 @@ if [ $(has_option "--force" "-f") == "true" ] ; then
 else
   head_hash=$(git rev-parse HEAD)
   upstream_hash=$(git rev-parse $MAIN_BRANCH_NAME@{upstream})
+
+  log "head_hash: $head_hash"
+  log "upstream_hash: $upstream_hash"
 
   if [ "$head_hash" != "$upstream_hash" ] ; then
     NEED_PULL=true
