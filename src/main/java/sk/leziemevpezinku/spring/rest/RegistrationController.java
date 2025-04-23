@@ -41,7 +41,11 @@ public class RegistrationController {
     @PostMapping(path = "/confirm")
     public Registration confirmRegistration(
             @RequestBody @Valid GenericRequest<String> jwtTokenRequest) {
-        return registrationService.confirmRegistration(jwtTokenRequest.getValue());
+        Registration comfirmedRegistration = registrationService.confirmRegistration(jwtTokenRequest.getValue());
+
+        notificationService.sendRegistrationConfirmedNotification(comfirmedRegistration);
+
+        return comfirmedRegistration;
     }
 
     @PostMapping(path = "/calculate-price")

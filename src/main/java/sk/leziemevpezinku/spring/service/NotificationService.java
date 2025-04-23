@@ -9,4 +9,10 @@ public interface NotificationService {
      * @param registration registration to send notification for
      */
     void sendRegistrationCreatedNotification(Registration registration);
+
+    /**
+     * Sends notification about confirmed registration.
+     * @param registration registration to send notification for
+     */
+    void sendRegistrationConfirmedNotification(Registration registration);
 }

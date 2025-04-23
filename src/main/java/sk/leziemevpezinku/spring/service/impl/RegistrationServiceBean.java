@@ -1,15 +1,18 @@
 package sk.leziemevpezinku.spring.service.impl;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sk.leziemevpezinku.spring.model.*;
-import sk.leziemevpezinku.spring.repo.EventRepository;
+import sk.leziemevpezinku.spring.model.enums.RegistrationStatus;
 import sk.leziemevpezinku.spring.repo.EventTermRepository;
 import sk.leziemevpezinku.spring.repo.RegistrationRepository;
+import sk.leziemevpezinku.spring.service.EncryptionService;
 import sk.leziemevpezinku.spring.service.RegistrationService;
 import sk.leziemevpezinku.spring.service.exception.CommonException;
 import sk.leziemevpezinku.spring.service.model.ErrorCode;
+import sk.leziemevpezinku.spring.service.model.RegistrationTokenClaim;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -17,12 +20,14 @@ import java.util.*;
 
 import static sk.leziemevpezinku.spring.model.enums.EnumerationValues.REG_E_EVENT_DISCOUNT_TYPE.LETO_TABOR_25;
 
+@Log4j2
 @Service
 @AllArgsConstructor
 public class RegistrationServiceBean implements RegistrationService {
 
     private final EventTermRepository eventTermRepository;
     private final RegistrationRepository registrationRepository;
+    private final EncryptionService encryptionService;
 
     @Override
     @Transactional
@@ -62,7 +67,24 @@ public class RegistrationServiceBean implements RegistrationService {
 
     @Override
     public Registration confirmRegistration(String jwtToken) {
-        return null;
+        RegistrationTokenClaim registrationTokenClaim = encryptionService.validateRegistrationToken(jwtToken);
+
+        Registration registration = findRegistration(registrationTokenClaim.getId());
+
+        if (!registration.getEmail().equals(registrationTokenClaim.getEmail())) {
+            log.error("Mismatch in email claim {} from JWT token and registration (id: {}) email {}",
+                    registrationTokenClaim.getEmail(),
+                    registration.getId(),
+                    registration.getEmail());
+
+            throw CommonException.builder()
+                    .errorCode(ErrorCode.MSG_REG_TOKEN_INVALID)
+                    .build();
+        }
+
+        registration.setStatus(RegistrationStatus.CONFIRMED);
+
+        return registrationRepository.save(registration);
     }
 
     @Override
@@ -99,5 +121,13 @@ public class RegistrationServiceBean implements RegistrationService {
         if (eventTermOptional.isEmpty()) throw CommonException.builder().errorCode(ErrorCode.MSG_NOT_FOUND_EVENT_TERM).build();
 
         return eventTermOptional.get();
+    }
+
+    private Registration findRegistration(Long registrationId) {
+        Optional<Registration> registrationOptional = registrationRepository.findById(registrationId);
+
+        if (registrationOptional.isEmpty()) throw CommonException.builder().errorCode(ErrorCode.MSG_NOT_FOUND_REGISTRATION).build();
+
+        return registrationOptional.get();
     }
 }
