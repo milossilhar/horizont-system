@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(path = "/events", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/events", produces = MediaType.APPLICATION_JSON_VALUE)
 @Tag(name = "event")
 public class EventController {
 
@@ -71,12 +71,12 @@ public class EventController {
         return result;
     }
 
-    @PostMapping
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public Event createEvent(@Valid @RequestBody Event event) {
         return eventService.createEvent(event);
     }
 
-    @PutMapping(path = "/{eventId:\\d+}")
+    @PutMapping(path = "/{eventId:\\d+}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Event updateEvent(@PathVariable("eventId") @NotNull Long eventId, @Valid @RequestBody Event event) {
         if (!eventId.equals(event.getId())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "IDs mismatch");

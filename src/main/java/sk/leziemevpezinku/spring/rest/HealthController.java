@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import sk.leziemevpezinku.spring.rest.model.GenericResponse;
 
 @RestController
-@RequestMapping(path = "/health", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/health", produces = MediaType.APPLICATION_JSON_VALUE)
 @Tag(name = "health")
 public class HealthController {
 

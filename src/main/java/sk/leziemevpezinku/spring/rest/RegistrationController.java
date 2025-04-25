@@ -16,7 +16,7 @@ import sk.leziemevpezinku.spring.service.NotificationService;
 import sk.leziemevpezinku.spring.service.RegistrationService;
 
 @RestController
-@RequestMapping(path = "/registration", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/registration", produces = MediaType.APPLICATION_JSON_VALUE)
 @Tag(name = "registration")
 @RequiredArgsConstructor
 public class RegistrationController {
@@ -26,10 +26,11 @@ public class RegistrationController {
     private final NotificationService notificationService;
 
     @JsonView(Views.Public.class)
-    @PostMapping(path = "/{eventTermId:\\d+}")
+    @PostMapping(path = "/{eventTermId:\\d+}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Registration createRegistration(
             @PathVariable("eventTermId") @NotNull Long eventTermId,
             @RequestBody @Valid Registration registration) {
+
         Registration createdRegistration = registrationService.createRegistration(eventTermId, registration);
 
         notificationService.sendRegistrationCreatedNotification(createdRegistration);
@@ -38,9 +39,10 @@ public class RegistrationController {
     }
 
     @JsonView(Views.Public.class)
-    @PostMapping(path = "/confirm")
+    @PostMapping(path = "/confirm", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Registration confirmRegistration(
             @RequestBody @Valid GenericRequest<String> jwtTokenRequest) {
+
         Registration comfirmedRegistration = registrationService.confirmRegistration(jwtTokenRequest.getValue());
 
         notificationService.sendRegistrationConfirmedNotification(comfirmedRegistration);
@@ -48,9 +50,10 @@ public class RegistrationController {
         return comfirmedRegistration;
     }
 
-    @PostMapping(path = "/calculate-price")
+    @PostMapping(path = "/calculate-price", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Payment calculatePriceForRegistration(
             @RequestBody @Valid RegistrationPricingRequest request) {
+
         return registrationService.calculatePriceForRegistration(request.getEventTermId(), request.getUserEmail(), request.getNumberOfPeople());
     }
 }
