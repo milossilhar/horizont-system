@@ -9,14 +9,13 @@
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
     <!-- Initialize Database -->
-    <include file="init/init.xml" relativeToChangelogFile="true"/>
-
+    <include file="init/_init.xml" relativeToChangelogFile="true"/>
 
     <!-- Updates -->
 <!--    <includeAll path="updates" relativeToChangelogFile="true"/>-->
 
     <!-- Run Dev Initialization - ONLY IN dev CONTEXT -->
-    <includeAll path="development" relativeToChangelogFile="true" contextFilter="dev"/>
+<!--    <includeAll path="development" relativeToChangelogFile="true" contextFilter="dev"/>-->
 
     <!-- Run Test Initialization - ONLY IN test CONTEXT -->
     <includeAll path="test" relativeToChangelogFile="true" contextFilter="test"/>
