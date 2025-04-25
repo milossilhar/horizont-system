@@ -12,6 +12,8 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
+      TZ: "Europe/Bratislava"
+      PGTZ: "Europe/Bratislava"
       POSTGRES_USER: horizon_user
       POSTGRES_PASSWORD: horizon_pass
       POSTGRES_DB: horizon

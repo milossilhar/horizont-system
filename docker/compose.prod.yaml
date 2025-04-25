@@ -12,6 +12,8 @@ services:
     volumes:
       - ${POSTGRES_DATA:?required}:/var/lib/postgresql/data
     environment:
+      TZ: "Europe/Bratislava"
+      PGTZ: "Europe/Bratislava"
       POSTGRES_USER: ${POSTGRES_USER:?required}
       POSTGRES_PASSWORD: ${POSTGRES_PASS?:required}
       POSTGRES_DB: horizon
