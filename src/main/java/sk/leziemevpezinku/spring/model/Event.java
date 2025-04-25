@@ -60,6 +60,10 @@ public class Event extends UidAuditedEntityBase {
     @Column(name = "reg_end_at", nullable = false)
     private LocalDateTime regEndAt;
 
+    @JsonProperty("imageUrl")
+    @Column(name = "image_url", length = 100)
+    private String imageUrl;
+
     // enum - REG_E_EVENT_DISCOUNT_TYPE
     @JsonProperty("discountType")
     @Column(name = "discount_type", length = 40)

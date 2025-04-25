@@ -13,9 +13,10 @@ create sequence seq_registration_id start with 1 increment by 1;
 
 create table reg_enumeration_item (
     id bigint not null,
-    enum_code varchar(10) not null,
+    code varchar(10) not null,
     enum_name varchar(40) not null check (enum_name in ('REG_E_EVENT_CONDITION_TYPE','REG_E_EVENT_DISCOUNT_TYPE','REG_E_RELATION','REG_E_SHIRT_SIZE')),
-    enum_value varchar(150) not null,
+    ordering integer not null,
+    description varchar(150) not null,
     visible boolean not null,
     primary key (id)
 );
@@ -27,6 +28,7 @@ create table reg_event (
     details varchar(2000) not null,
     discount_type varchar(40),
     event_type varchar(20) not null check (event_type in ('EVENT','CAMP','SCHOOL_CLIMB','ECA')),
+    image_url varchar(100),
     name varchar(200) not null,
     place varchar(300) not null,
     reg_end_at timestamp(6) not null,
@@ -82,6 +84,8 @@ create table reg_registration (
     id bigint not null,
     created_at timestamp(6) not null,
     uuid varchar(40) not null unique,
+    consent_gdpr boolean not null,
+    consent_photo boolean,
     email varchar(100) not null unique,
     name varchar(50) not null,
     status varchar(10) not null check (status in ('CONCEPT','QUEUE','ACCEPTED','CONFIRMED')),

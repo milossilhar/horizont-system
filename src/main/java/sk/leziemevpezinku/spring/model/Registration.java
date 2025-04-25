@@ -65,16 +65,16 @@ public class Registration extends UidAuditedEntityBase {
     @Column(name = "tel_phone", length = 20, nullable = false)
     private String telPhone;
 
-//    @NotNull
-//    @AssertTrue
-//    @JsonProperty("consentGDPR")
-//    @Column(name = "consent_gdpr", nullable = false)
-//    private Boolean consentGDPR;
-//
-//    @NotNull
-//    @JsonProperty("consentPhoto")
-//    @Column(name = "consent_photo")
-//    private Boolean consentPhoto;
+    @NotNull
+    @AssertTrue
+    @JsonProperty("consentGDPR")
+    @Column(name = "consent_gdpr", nullable = false)
+    private Boolean consentGDPR;
+
+    @NotNull
+    @JsonProperty("consentPhoto")
+    @Column(name = "consent_photo")
+    private Boolean consentPhoto;
 
     @ManyToOne
     @JsonIgnore

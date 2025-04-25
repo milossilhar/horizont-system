@@ -11,4 +11,7 @@
     <!-- Initial schema -->
     <include file="schema.sql" relativeToChangelogFile="true"/>
 
+    <!-- Initial enumerations -->
+    <include file="enum.sql" relativeToChangelogFile="true"/>
+
 </databaseChangeLog>
