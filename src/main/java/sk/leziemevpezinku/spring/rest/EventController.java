@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -73,21 +72,25 @@ public class EventController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public Event createEvent(@Valid @RequestBody Event event) {
-        return eventService.createEvent(event);
+        throw new UnsupportedOperationException("Not READY");
+//        return eventService.createEvent(event);
     }
 
     @PutMapping(path = "/{eventId:\\d+}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Event updateEvent(@PathVariable("eventId") @NotNull Long eventId, @Valid @RequestBody Event event) {
-        if (!eventId.equals(event.getId())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "IDs mismatch");
-        }
-
-        return eventService.updateEvent(eventId, event);
+        throw new UnsupportedOperationException("Not READY");
+//        if (!eventId.equals(event.getId())) {
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "IDs mismatch");
+//        }
+//
+//        return eventService.updateEvent(eventId, event);
     }
 
     @DeleteMapping(path = "/{eventId:\\d+}")
     public GenericResponse<String> deleteEvent(@PathVariable("eventId") Long eventId) {
-        eventService.removeEvent(eventId);
-        return new GenericResponse<>("Successfully deleted.");
+        throw new UnsupportedOperationException("Not READY");
+
+//        eventService.removeEvent(eventId);
+//        return new GenericResponse<>("Successfully deleted.");
     }
 }
