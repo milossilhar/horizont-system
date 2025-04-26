@@ -86,7 +86,7 @@ create table reg_registration (
     uuid varchar(40) not null unique,
     consent_gdpr boolean not null,
     consent_photo boolean,
-    email varchar(100) not null unique,
+    email varchar(100) not null,
     name varchar(50) not null,
     status varchar(10) not null check (status in ('CONCEPT','QUEUE','ACCEPTED','CONFIRMED')),
     surname varchar(50) not null,

@@ -14,9 +14,7 @@ import sk.leziemevpezinku.spring.model.base.UidAuditedEntityBase;
 import sk.leziemevpezinku.spring.model.enums.RegistrationStatus;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -56,7 +54,7 @@ public class Registration extends UidAuditedEntityBase {
     @NotNull
     @Email
     @JsonProperty("email")
-    @Column(name = "email", length = 100, unique = true, nullable = false)
+    @Column(name = "email", length = 100, nullable = false)
     private String email;
 
     @NotNull
