@@ -18,13 +18,13 @@ INSERT INTO reg_event (id, created_at, uuid, event_type, name, details, place, r
 
 -- Denný Letný Tábor 2025
 INSERT INTO reg_event_term (id, start_at, end_at, capacity, deposit, price, event_id)
-    VALUES (nextval('seq_event_term_id'), '2025-07-14 07:30:00', '2025-07-18 16:00:00', 20, 50, 210, (SELECT id FROM reg_event WHERE uuid = '59cd6916-dfc3-42ed-87c6-09e9f8f7c0d2'));
+    VALUES (nextval('seq_event_term_id'), '2025-07-14 07:30:00', '2025-07-18 16:00:00', 25, 50, 210, (SELECT id FROM reg_event WHERE uuid = '59cd6916-dfc3-42ed-87c6-09e9f8f7c0d2'));
 INSERT INTO reg_event_term (id, start_at, end_at, capacity, deposit, price, event_id)
-    VALUES (nextval('seq_event_term_id'), '2025-07-21 07:30:00', '2025-07-25 16:00:00', 20, 50, 210, (SELECT id FROM reg_event WHERE uuid = '59cd6916-dfc3-42ed-87c6-09e9f8f7c0d2'));
+    VALUES (nextval('seq_event_term_id'), '2025-07-21 07:30:00', '2025-07-25 16:00:00', 25, 50, 210, (SELECT id FROM reg_event WHERE uuid = '59cd6916-dfc3-42ed-87c6-09e9f8f7c0d2'));
 INSERT INTO reg_event_term (id, start_at, end_at, capacity, deposit, price, event_id)
-    VALUES (nextval('seq_event_term_id'), '2025-07-28 07:30:00', '2025-08-01 16:00:00', 20, 50, 210, (SELECT id FROM reg_event WHERE uuid = '59cd6916-dfc3-42ed-87c6-09e9f8f7c0d2'));
+    VALUES (nextval('seq_event_term_id'), '2025-07-28 07:30:00', '2025-08-01 16:00:00', 25, 50, 210, (SELECT id FROM reg_event WHERE uuid = '59cd6916-dfc3-42ed-87c6-09e9f8f7c0d2'));
 INSERT INTO reg_event_term (id, start_at, end_at, capacity, deposit, price, event_id)
-     VALUES (nextval('seq_event_term_id'), '2025-08-04 07:30:00', '2025-08-08 16:00:00', 20, 50, 210, (SELECT id FROM reg_event WHERE uuid = '59cd6916-dfc3-42ed-87c6-09e9f8f7c0d2'));
+     VALUES (nextval('seq_event_term_id'), '2025-08-04 07:30:00', '2025-08-08 16:00:00', 25, 50, 210, (SELECT id FROM reg_event WHERE uuid = '59cd6916-dfc3-42ed-87c6-09e9f8f7c0d2'));
 
 -- Jednodňový Letný Tábor
 INSERT INTO reg_event_term (id, start_at, end_at, capacity, deposit, price, event_id)
