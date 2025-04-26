@@ -16,6 +16,7 @@ public enum ErrorCode {
     MSG_REG_SOON(HttpStatus.BAD_REQUEST, "Registration is not yet possible."),
     MSG_REG_DEADLINE(HttpStatus.BAD_REQUEST, "Registration is already closed."),
     MSG_REG_ALREADY_EXISTS(HttpStatus.CONFLICT, "Registration for given person and event term already exists."),
+    MSG_REG_CONFIRM_BAD_STATUS(HttpStatus.BAD_REQUEST, "Registration is not in desired status to confirm."),
 
     // encryption
     MSG_REG_TOKEN_EXCEPTION(HttpStatus.INTERNAL_SERVER_ERROR, "Registration token generation/verification failed."),

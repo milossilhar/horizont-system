@@ -62,6 +62,15 @@ public class RegistrationServiceBean implements RegistrationService {
             }
         }
 
+        registration.setStatus(RegistrationStatus.CONCEPT);
+        registration.setEventTerm(eventTerm);
+        eventTerm.getRegistrations().add(registration);
+
+        int registrationsCount = eventTerm.getRegistrations().size();
+        if (registrationsCount + registration.getPeople().size() > eventTerm.getCapacity()) {
+            registration.setStatus(RegistrationStatus.QUEUE);
+        }
+
         return registrationRepository.save(registration);
     }
 
@@ -82,8 +91,19 @@ public class RegistrationServiceBean implements RegistrationService {
                     .build();
         }
 
-        registration.setStatus(RegistrationStatus.CONFIRMED);
+        if (RegistrationStatus.QUEUE.equals(registration.getStatus())) {
+            log.warn("Cannot confirm registration in QUEUE status.");
 
+            throw CommonException.builder()
+                    .errorCode(ErrorCode.MSG_REG_CONFIRM_BAD_STATUS)
+                    .build();
+        }
+
+        if (!RegistrationStatus.CONCEPT.equals(registration.getStatus())) {
+            return registration;
+        }
+
+        registration.setStatus(RegistrationStatus.CONFIRMED);
         return registrationRepository.save(registration);
     }
 
