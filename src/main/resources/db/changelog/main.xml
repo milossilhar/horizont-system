@@ -12,7 +12,7 @@
     <include file="init/_init.xml" relativeToChangelogFile="true"/>
 
     <!-- Updates -->
-<!--    <includeAll path="updates" relativeToChangelogFile="true"/>-->
+    <includeAll path="updates" relativeToChangelogFile="true"/>
 
     <!-- Run Dev Initialization - ONLY IN dev CONTEXT -->
 <!--    <includeAll path="development" relativeToChangelogFile="true" contextFilter="dev"/>-->
