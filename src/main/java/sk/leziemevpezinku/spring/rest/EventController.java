@@ -47,11 +47,11 @@ public class EventController {
         return eventService.getByUUID(uuid);
     }
 
-    @GetMapping(path = "/capacity/{eventId:\\d+}")
+    @GetMapping(path = "/capacity/{eventUUID}")
     public Map<Long, EventTermCapacityResponse> getCurrentCapacities(
-            @PathVariable("eventId") @NotNull @Positive Long eventId
+            @PathVariable("eventUUID") @NotNull String eventUUID
     ) {
-        List<EventTermCapacity> eventRegistrationCount = eventService.getEventRegistrationCount(eventId);
+        List<EventTermCapacity> eventRegistrationCount = eventService.getEventRegistrationCount(eventUUID);
 
         Map<Long, EventTermCapacityResponse> result = new HashMap<>();
         eventRegistrationCount.forEach(etc -> {

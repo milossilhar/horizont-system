@@ -69,15 +69,7 @@ public class EventServiceBean implements EventService {
 
     @Override
     public Event getByUUID(String uuid) {
-        Optional<Event> eventOptional = eventRepository.findByUuid(uuid);
-
-        if (eventOptional.isEmpty()) {
-            throw CommonException.builder()
-                    .errorCode(ErrorCode.MSG_NOT_FOUND_EVENT)
-                    .build();
-        }
-
-        return eventOptional.get();
+        return findByUUID(uuid);
     }
 
     @Override
@@ -102,8 +94,10 @@ public class EventServiceBean implements EventService {
 
     @Override
     @Transactional
-    public List<EventTermCapacity> getEventRegistrationCount(Long eventId) {
-        List<EventTermCapacity> eventTermCapacities = eventRepository.countRegistrations(eventId);
+    public List<EventTermCapacity> getEventRegistrationCount(String eventUUID) {
+        Event event = findByUUID(eventUUID);
+
+        List<EventTermCapacity> eventTermCapacities = eventRepository.countRegistrations(event.getId());
 
         if (eventTermCapacities.isEmpty()) {
             throw CommonException.builder()
@@ -112,5 +106,17 @@ public class EventServiceBean implements EventService {
         }
 
         return eventTermCapacities;
+    }
+
+    private Event findByUUID(String uuid) {
+        Optional<Event> eventOptional = eventRepository.findByUuid(uuid);
+
+        if (eventOptional.isEmpty()) {
+            throw CommonException.builder()
+                    .errorCode(ErrorCode.MSG_NOT_FOUND_EVENT)
+                    .build();
+        }
+
+        return eventOptional.get();
     }
 }

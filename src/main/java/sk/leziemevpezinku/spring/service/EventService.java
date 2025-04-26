@@ -51,8 +51,8 @@ public interface EventService {
 
     /**
      *
-     * @param eventId
+     * @param eventUUID
      * @return
      */
-    List<EventTermCapacity> getEventRegistrationCount(Long eventId);
+    List<EventTermCapacity> getEventRegistrationCount(String eventUUID);
 }
