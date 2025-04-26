@@ -62,7 +62,7 @@ public class RegistrationServiceBean implements RegistrationService {
             }
         }
 
-        registration.setStatus(RegistrationStatus.CONCEPT);
+        registration.setStatus(RegistrationStatus.CONFIRMED);
         registration.setEventTerm(eventTerm);
         eventTerm.getRegistrations().add(registration);
 
