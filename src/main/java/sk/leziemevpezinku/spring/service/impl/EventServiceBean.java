@@ -1,11 +1,13 @@
 package sk.leziemevpezinku.spring.service.impl;
 
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.Hibernate;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import sk.leziemevpezinku.spring.model.Event;
 import sk.leziemevpezinku.spring.model.Event_;
+import sk.leziemevpezinku.spring.model.Payment;
 import sk.leziemevpezinku.spring.repo.EventRepository;
 import sk.leziemevpezinku.spring.repo.model.EventTermCapacity;
 import sk.leziemevpezinku.spring.service.EventService;
@@ -17,13 +19,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class EventServiceBean implements EventService {
 
     private final EventRepository eventRepository;
-
-    public EventServiceBean(EventRepository eventRepository) {
-        this.eventRepository = eventRepository;
-    }
 
     @Override
     @Transactional
@@ -78,6 +77,23 @@ public class EventServiceBean implements EventService {
     }
 
     @Override
+    public List<Event> getAllDetailed() {
+        List<Event> events = eventRepository.findAll();
+
+        events.forEach(event -> {
+            List<EventTermCapacity> eventTermCapacities = calculateEventRegistrationCount(event.getId());
+
+            event.getTerms().forEach(et -> et.setCurrentCapacities(
+                    eventTermCapacities.stream()
+                            .filter(etc -> etc.getStatus() != null && etc.getEventTermId().equals(et.getId()))
+                            .toList())
+            );
+        });
+
+        return events;
+    }
+
+    @Override
     public List<Event> getCurrentAndFuture() {
         LocalDateTime now = LocalDateTime.now();
         return eventRepository.findAll(
@@ -97,7 +113,11 @@ public class EventServiceBean implements EventService {
     public List<EventTermCapacity> getEventRegistrationCount(String eventUUID) {
         Event event = findByUUID(eventUUID);
 
-        List<EventTermCapacity> eventTermCapacities = eventRepository.countRegistrations(event.getId());
+        return calculateEventRegistrationCount(event.getId());
+    }
+
+    private List<EventTermCapacity> calculateEventRegistrationCount(Long eventId) {
+        List<EventTermCapacity> eventTermCapacities = eventRepository.countRegistrations(eventId);
 
         if (eventTermCapacities.isEmpty()) {
             throw CommonException.builder()

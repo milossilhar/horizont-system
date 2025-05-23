@@ -44,6 +44,12 @@ public interface EventService {
     List<Event> getAll();
 
     /**
+     * Finds all events and adds details
+     * @return list of all events with details
+     */
+    List<Event> getAllDetailed();
+
+    /**
      * Finds current and future events.
      * @return list of current and future events
      */
