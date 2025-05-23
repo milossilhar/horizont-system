@@ -22,6 +22,7 @@ public enum ErrorCode {
     MSG_REG_TOKEN_EXCEPTION(HttpStatus.INTERNAL_SERVER_ERROR, "Registration token generation/verification failed."),
     MSG_REG_TOKEN_INVALID(HttpStatus.UNAUTHORIZED, "Registration token is invalid."),
 
+    MSG_ACCESS_DENIED(HttpStatus.UNAUTHORIZED, "Access denied."),
     MSG_GENERIC_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Generic server error.");
 
     private final HttpStatus status;
