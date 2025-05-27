@@ -39,7 +39,7 @@ public class EnumerationItem {
     @NotNull
     @JsonProperty("description")
     @Column(name = "description", length = 150, nullable = false)
-    private String value;
+    private String description;
 
     @NotNull
     @JsonProperty("ordering")
