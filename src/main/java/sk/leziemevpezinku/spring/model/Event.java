@@ -36,7 +36,7 @@ public class Event extends UidAuditedEntityBase {
     private String name;
 
     @NotNull
-    @JsonView(Views.Public.class)
+    @JsonView(Views.EventPublic.class)
     @JsonProperty("details")
     @Column(name = "details", nullable = false, length = 2000)
     private String details;
@@ -80,7 +80,7 @@ public class Event extends UidAuditedEntityBase {
     @Builder.Default
     @JsonView({ Views.EventPublic.class, Views.EventInternal.class })
     @JsonProperty("terms")
-    @OneToMany(mappedBy = "event")
+    @OneToMany(mappedBy = "event", fetch = FetchType.LAZY)
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private SortedSet<EventTerm> terms = new TreeSet<>();
 }

@@ -27,7 +27,7 @@ public class EventTermController {
 
     @GetMapping("/{id:\\d+}")
     @JsonView(Views.EventTerm.class)
-    public EventTerm getEventTerm(@PathVariable("uuid") @NotNull Long eventTermId) {
+    public EventTerm getEventTerm(@PathVariable("id") @NotNull Long eventTermId) {
         return eventTermService.getById(eventTermId);
     }
 

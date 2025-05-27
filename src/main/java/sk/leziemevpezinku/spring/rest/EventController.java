@@ -25,15 +25,21 @@ public class EventController {
     private final EventService eventService;
 
     @GetMapping
-    @JsonView(Views.Public.class)
+    @JsonView(Views.EventInternal.class)
     public List<Event> getEvents() {
         return eventService.getAll();
     }
 
-    @GetMapping("/detailed")
+    @GetMapping("/detail")
     @JsonView(Views.EventInternal.class)
     public List<Event> getDetailedEvents() {
-        return eventService.getAllDetailed();
+        return eventService.getAllWithCapacities();
+    }
+
+    @GetMapping("/detail/{eventId:\\d+}")
+    @JsonView(Views.EventInternal.class)
+    public Event getDetailedEvent(@PathVariable("eventId") @NotNull Long eventId) {
+        return eventService.getById(eventId);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)

@@ -2,12 +2,9 @@ package sk.leziemevpezinku.spring.service.impl;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.Hibernate;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import sk.leziemevpezinku.spring.model.Event;
 import sk.leziemevpezinku.spring.model.Event_;
-import sk.leziemevpezinku.spring.model.Payment;
 import sk.leziemevpezinku.spring.repo.EventRepository;
 import sk.leziemevpezinku.spring.repo.model.EventTermCapacity;
 import sk.leziemevpezinku.spring.service.EventService;
@@ -67,17 +64,22 @@ public class EventServiceBean implements EventService {
     }
 
     @Override
+    public Event getById(Long id) {
+        return findByID(id);
+    }
+
+    @Override
     public Event getByUUID(String uuid) {
         return findByUUID(uuid);
     }
 
     @Override
     public List<Event> getAll() {
-        return eventRepository.findAll();
+        return this.eventRepository.findAll();
     }
 
     @Override
-    public List<Event> getAllDetailed() {
+    public List<Event> getAllWithCapacities() {
         List<Event> events = eventRepository.findAll();
 
         events.forEach(event -> {
@@ -129,7 +131,19 @@ public class EventServiceBean implements EventService {
     }
 
     private Event findByUUID(String uuid) {
-        Optional<Event> eventOptional = eventRepository.findByUuid(uuid);
+        Optional<Event> eventOptional = eventRepository.findLoadedByUuid(uuid);
+
+        if (eventOptional.isEmpty()) {
+            throw CommonException.builder()
+                    .errorCode(ErrorCode.MSG_NOT_FOUND_EVENT)
+                    .build();
+        }
+
+        return eventOptional.get();
+    }
+
+    private Event findByID(Long id) {
+        Optional<Event> eventOptional = eventRepository.findLoadedById(id);
 
         if (eventOptional.isEmpty()) {
             throw CommonException.builder()
