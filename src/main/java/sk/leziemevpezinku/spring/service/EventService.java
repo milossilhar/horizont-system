@@ -64,9 +64,9 @@ public interface EventService {
     List<Event> getCurrentAndFuture();
 
     /**
-     *
-     * @param eventUUID
-     * @return
+     * Counts all registrations for Event.
+     * @param eventUUID uuid of an event
+     * @return counted registrations by eventTerm
      */
     List<EventTermCapacity> getEventRegistrationCount(String eventUUID);
 }
