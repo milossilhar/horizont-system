@@ -20,7 +20,6 @@ import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.security.*;
-import java.util.Base64;
 import java.util.Date;
 
 @Log4j2
@@ -34,7 +33,6 @@ public class EncryptionServiceBean implements EncryptionService {
 
     private final String hashSecret;
     private final String encryptionKeyPassphrase;
-
 
     public EncryptionServiceBean(
             @Value("${horizon.jwt.secret}") String hashSecret,
