@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 import sk.leziemevpezinku.spring.rest.model.GenericError;
 import sk.leziemevpezinku.spring.service.exception.CommonException;
 import sk.leziemevpezinku.spring.service.model.ErrorCode;
@@ -37,6 +38,17 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(AccessDeniedException.class)
     public GenericError accessDeniedExceptionHandler(AccessDeniedException ex) {
         var error = ErrorCode.MSG_ACCESS_DENIED;
+        return GenericError.builder()
+                .code(error.name())
+                .statusCode(error.getStatus().value())
+                .message(error.getMessage())
+                .build();
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NoResourceFoundException.class)
+    public GenericError noResourceFoundExceptionHandler(NoResourceFoundException ex) {
+        var error = ErrorCode.MSG_NOT_FOUND;
         return GenericError.builder()
                 .code(error.name())
                 .statusCode(error.getStatus().value())
