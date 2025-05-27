@@ -68,6 +68,10 @@ dbstart:
 dbstop:
     docker compose -f {{DOCKER_DEV_FILE}} down -v
 
+# connects to LOCAL postgres in Docker
+dbconnect:
+    psql "postgresql://horizon_user:horizon_pass@localhost:5431/horizon"
+
 # starts TEST postgres in Docker
 testdbstart:
     docker compose -f {{DOCKER_TEST_FILE}} up -d
