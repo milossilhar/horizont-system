@@ -40,6 +40,10 @@ services:
       HOR_TIMEZONE: "Europe/Bratislava"
       HOR_JWT_SECRET: ${HOR_JWT_SECRET:?required}
       HOR_JWT_KEY: ${HOR_JWT_KEY:?required}
+      MAIL_HOST: ${MAIL_HOST:?required}
+      MAIL_PORT: ${MAIL_PORT:-465}
+      MAIL_USERNAME: ${MAIL_USERNAME:?required}
+      MAIL_PASSWORD: ${MAIL_PASSWORD:?required}
       DATASOURCE_JDBC: "jdbc:postgresql://horizon_postgres:5432/horizon"
       DATASOURCE_USER: ${POSTGRES_USER}
       DATASOURCE_PASS: ${POSTGRES_PASS}
