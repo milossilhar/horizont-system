@@ -21,12 +21,13 @@ public class CustomEventRepositoryImpl implements CustomEventRepository {
         Root<EventTerm> root = query.from(EventTerm.class);
 
         ListJoin<EventTerm, Registration> registration = root.join(EventTerm_.registrations, JoinType.LEFT);
+        ListJoin<Registration, Person> people = registration.join(Registration_.people, JoinType.INNER);
 
         query.multiselect(
                 root.get(EventTerm_.ID),
                 registration.get(Registration_.status),
                 cb.max(root.get(EventTerm_.capacity)),
-                cb.count(registration.get(Registration_.id))
+                cb.count(people.get(Person_.name))
         );
 
         query.where(cb.equal(root.get(EventTerm_.event).get(Event_.id), eventId));
