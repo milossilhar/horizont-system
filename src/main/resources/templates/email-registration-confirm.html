@@ -229,7 +229,7 @@
 
     <div class="content">
         <!-- Status badge - dynamically set based on registration.status -->
-        <div class="status-badge">
+        <div class="status-badge {{#isStatusConcept}}status-concept{{/isStatusConcept}}">
             Status: {{status}}
         </div>
 

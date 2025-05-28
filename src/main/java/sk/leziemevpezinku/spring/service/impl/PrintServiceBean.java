@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.mustache.MustacheResourceTemplateL
 import org.springframework.stereotype.Service;
 import sk.leziemevpezinku.spring.model.Registration;
 import sk.leziemevpezinku.spring.model.enums.EnumerationName;
+import sk.leziemevpezinku.spring.model.enums.RegistrationStatus;
 import sk.leziemevpezinku.spring.mustache.EmailRegistrationConfirmKnownPerson;
 import sk.leziemevpezinku.spring.mustache.EmailRegistrationConfirmPerson;
 import sk.leziemevpezinku.spring.service.EnumerationService;
@@ -30,6 +31,7 @@ public class PrintServiceBean implements PrintService {
                     .name(registration.getName())
                     .surname(registration.getSurname())
                     .status(registration.getStatus().getDescription())
+                    .isStatusConcept(RegistrationStatus.CONCEPT.equals(registration.getStatus()))
                     .email(registration.getEmail())
                     .telPhone(registration.getTelPhone())
                     .eventName(registration.getEventTerm().getEvent().getName())
