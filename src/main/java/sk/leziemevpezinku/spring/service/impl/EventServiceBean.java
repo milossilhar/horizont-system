@@ -83,7 +83,7 @@ public class EventServiceBean implements EventService {
         List<Event> events = eventRepository.findAll();
 
         events.forEach(event -> {
-            List<EventTermCapacity> eventTermCapacities = calculateEventRegistrationCount(event.getId());
+            List<EventTermCapacity> eventTermCapacities = eventRepository.countRegistrations(event.getId());
 
             event.getTerms().forEach(et -> et.setCurrentCapacities(
                     eventTermCapacities.stream()
@@ -115,19 +115,7 @@ public class EventServiceBean implements EventService {
     public List<EventTermCapacity> getEventRegistrationCount(String eventUUID) {
         Event event = findByUUID(eventUUID);
 
-        return calculateEventRegistrationCount(event.getId());
-    }
-
-    private List<EventTermCapacity> calculateEventRegistrationCount(Long eventId) {
-        List<EventTermCapacity> eventTermCapacities = eventRepository.countRegistrations(eventId);
-
-        if (eventTermCapacities.isEmpty()) {
-            throw CommonException.builder()
-                    .errorCode(ErrorCode.MSG_NOT_FOUND_EVENT)
-                    .build();
-        }
-
-        return eventTermCapacities;
+        return eventRepository.countRegistrations(event.getId());
     }
 
     private Event findByUUID(String uuid) {
