@@ -13,11 +13,6 @@ import lombok.*;
 public class RegistrationPricingRequest {
 
     @NotNull
-    @Positive
-    @JsonProperty("eventTermId")
-    private Long eventTermId;
-
-    @NotNull
     @Email
     @JsonProperty("userEmail")
     private String userEmail;

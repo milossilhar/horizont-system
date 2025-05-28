@@ -36,8 +36,17 @@ services:
     depends_on:
       - postgres
     environment:
+      HOR_LOCALE: "sk_SK"
+      HOR_TIMEZONE: "Europe/Bratislava"
+      HOR_HOSTNAME: ${HOR_HOSTNAME:?required}
       HOR_JWT_SECRET: ${HOR_JWT_SECRET:?required}
       HOR_JWT_KEY: ${HOR_JWT_KEY:?required}
+      HOR_ADMIN_USERNAME: ${HOR_ADMIN_USERNAME:?required}
+      HOR_ADMIN_PASSWORD: ${HOR_ADMIN_PASSWORD:?required}
+      MAIL_HOST: ${MAIL_HOST:?required}
+      MAIL_PORT: ${MAIL_PORT:-465}
+      MAIL_USERNAME: ${MAIL_USERNAME:?required}
+      MAIL_PASSWORD: ${MAIL_PASSWORD:?required}
       DATASOURCE_JDBC: "jdbc:postgresql://horizon_postgres:5432/horizon"
       DATASOURCE_USER: ${POSTGRES_USER}
       DATASOURCE_PASS: ${POSTGRES_PASS}

@@ -17,11 +17,12 @@ public interface EventRepository extends UidRepositoryBase<Event, Long>, JpaSpec
     @EntityGraph(type = EntityGraph.EntityGraphType.LOAD, attributePaths = {"terms"})
     List<Event> findAll();
 
-    @Override
     @EntityGraph(type = EntityGraph.EntityGraphType.LOAD, attributePaths = {"terms"})
     List<Event> findAll(Specification<Event> spec);
 
-    @Override
     @EntityGraph(type = EntityGraph.EntityGraphType.LOAD, attributePaths = {"terms"})
-    Optional<Event> findByUuid(String uuid);
+    Optional<Event> findLoadedByUuid(String uuid);
+
+    @EntityGraph(type = EntityGraph.EntityGraphType.LOAD, attributePaths = {"terms"})
+    Optional<Event> findLoadedById(Long id);
 }

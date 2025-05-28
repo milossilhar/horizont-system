@@ -7,9 +7,11 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.*;
+import sk.leziemevpezinku.spring.repo.model.EventTermCapacity;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -60,15 +62,22 @@ public class EventTerm implements Comparable<EventTerm> {
     @Column(name = "price", nullable = false)
     private BigDecimal price;
 
-    @JsonIgnore
+    @JsonView(Views.EventTerm.class)
+    @JsonProperty("event")
     @ManyToOne
     @JoinColumn(name = "event_id", nullable = false)
     private Event event;
 
-    @JsonView(Views.Internal.class)
+    @JsonView(Views.EventTerm.class)
     @JsonProperty("registrations")
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "eventTerm")
     private List<Registration> registrations;
+
+    @Builder.Default
+    @JsonView(Views.Internal.class)
+    @JsonProperty("currentCapacities")
+    @Transient
+    private List<EventTermCapacity> currentCapacities = new ArrayList<>();
 
     @Override
     public int compareTo(EventTerm eventTerm) {

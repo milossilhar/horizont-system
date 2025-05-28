@@ -54,8 +54,8 @@ public class Payment {
     @Column(name = "paid")
     private Boolean paid;
 
-    @OneToOne(mappedBy = "payment")
     @JsonBackReference
+    @OneToOne(mappedBy = "payment")
     private Registration registration;
 
     @JsonGetter("final_price")

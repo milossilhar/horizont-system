@@ -30,48 +30,57 @@ public class Event extends UidAuditedEntityBase {
     private Long id;
 
     @NotNull
+    @JsonView(Views.Public.class)
     @JsonProperty("name")
     @Column(name = "name", nullable = false, length = 200)
     private String name;
 
     @NotNull
+    @JsonView(Views.EventPublic.class)
     @JsonProperty("details")
     @Column(name = "details", nullable = false, length = 2000)
     private String details;
 
     @NotNull
+    @JsonView(Views.Public.class)
     @JsonProperty("place")
     @Column(name = "place", nullable = false, length = 300)
     private String place;
 
     @NotNull
+    @JsonView(Views.Public.class)
     @JsonProperty("eventType")
     @Enumerated(value = EnumType.STRING)
     @Column(name = "event_type", nullable = false, length = 20)
     private EventType eventType;
 
     @NotNull
+    @JsonView(Views.Public.class)
     @JsonProperty("regStartAt")
     @Column(name = "reg_start_at", nullable = false)
     private LocalDateTime regStartAt;
 
     @NotNull
+    @JsonView(Views.Public.class)
     @JsonProperty("regEndAt")
     @Column(name = "reg_end_at", nullable = false)
     private LocalDateTime regEndAt;
 
+    @JsonView(Views.Public.class)
     @JsonProperty("imageUrl")
     @Column(name = "image_url", length = 100)
     private String imageUrl;
 
     // enum - REG_E_EVENT_DISCOUNT_TYPE
+    @JsonView(Views.Public.class)
     @JsonProperty("discountType")
     @Column(name = "discount_type", length = 40)
     private String discountType;
 
     @Builder.Default
+    @JsonView({ Views.EventPublic.class, Views.EventInternal.class })
     @JsonProperty("terms")
-    @OneToMany(mappedBy = "event")
+    @OneToMany(mappedBy = "event", fetch = FetchType.LAZY)
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private SortedSet<EventTerm> terms = new TreeSet<>();
 }

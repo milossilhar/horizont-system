@@ -74,8 +74,8 @@ public class Registration extends UidAuditedEntityBase {
     @Column(name = "consent_photo")
     private Boolean consentPhoto;
 
-    @ManyToOne
     @JsonIgnore
+    @ManyToOne
     @JoinColumn(name = "event_term_id")
     private EventTerm eventTerm;
 
@@ -89,7 +89,7 @@ public class Registration extends UidAuditedEntityBase {
     @Builder.Default
     @JsonProperty("knownPeople")
     @OrderColumn(name = "ind")
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "reg_known_person", joinColumns = @JoinColumn(name = "registration_id"))
     private List<KnownPerson> knownPeople = new ArrayList<>();
 

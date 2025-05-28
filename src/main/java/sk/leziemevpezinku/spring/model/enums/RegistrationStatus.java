@@ -1,15 +1,19 @@
 package sk.leziemevpezinku.spring.model.enums;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@Getter
+@RequiredArgsConstructor
 public enum RegistrationStatus {
     // registration is successfully saved, but waiting for confirmation from user (e.g. by email link)
-    CONCEPT,
+    CONCEPT("Nepotvrdená"),
 
     // registration is successfully confirmed by user, but capacity is full
-    QUEUE,
+    QUEUE("V poradovníku"),
 
-    // registration is accepted, either by a system automatically, when capacity condition is satisfied or by admin later
-    ACCEPTED,
+    // registration is confirmed, either by a system automatically, when event conditions are satisfied or by admin later
+    CONFIRMED("Potvrdená");
 
-    // registration is confirmed by admin in the system
-    CONFIRMED
+    private final String description;
 }

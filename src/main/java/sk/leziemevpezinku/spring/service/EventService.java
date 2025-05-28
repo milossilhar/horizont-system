@@ -30,6 +30,14 @@ public interface EventService {
     void removeEvent(Long id);
 
     /**
+     * Gets event by id.
+     * @param id id of an event
+     * @return found event
+     * @throws sk.leziemevpezinku.spring.service.exception.CommonException when event with given uuid is not found
+     */
+    Event getById(Long id);
+
+    /**
      * Gets event by uuid.
      * @param uuid uuid of an event
      * @return found event
@@ -44,15 +52,21 @@ public interface EventService {
     List<Event> getAll();
 
     /**
+     * Finds all events and adds computed current registration capacities.
+     * @return list of all events with term capacities
+     */
+    List<Event> getAllWithCapacities();
+
+    /**
      * Finds current and future events.
      * @return list of current and future events
      */
     List<Event> getCurrentAndFuture();
 
     /**
-     *
-     * @param eventUUID
-     * @return
+     * Counts all registrations for Event.
+     * @param eventUUID uuid of an event
+     * @return counted registrations by eventTerm
      */
     List<EventTermCapacity> getEventRegistrationCount(String eventUUID);
 }

@@ -17,7 +17,7 @@ public class EventTermCapacity {
     private Long registrations;
 
     public Long getConfirmedCount() {
-        if (CONFIRMED.equals(status) || ACCEPTED.equals(status)) {
+        if (CONFIRMED.equals(status)) {
             return registrations;
         }
 
@@ -25,7 +25,7 @@ public class EventTermCapacity {
     }
 
     public Long getRegisteredCount() {
-        if (CONFIRMED.equals(status) || ACCEPTED.equals(status) || CONCEPT.equals(status)) {
+        if (CONFIRMED.equals(status) || CONCEPT.equals(status)) {
             return registrations;
         }
         return 0L;

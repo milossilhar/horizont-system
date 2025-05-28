@@ -1,4 +1,4 @@
-package sk.leziemevpezinku.spring;
+package sk.leziemevpezinku.spring.security;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.Getter;
@@ -9,7 +9,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
 import java.util.Arrays;
-import java.util.List;
 
 @Getter
 @Setter

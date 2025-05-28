@@ -2,72 +2,44 @@ package sk.leziemevpezinku.spring.rest;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 import sk.leziemevpezinku.spring.model.Event;
 import sk.leziemevpezinku.spring.model.Views;
-import sk.leziemevpezinku.spring.repo.model.EventTermCapacity;
-import sk.leziemevpezinku.spring.rest.model.EventTermCapacityResponse;
 import sk.leziemevpezinku.spring.rest.model.GenericResponse;
 import sk.leziemevpezinku.spring.service.EventService;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(path = "/events", produces = MediaType.APPLICATION_JSON_VALUE)
 @Tag(name = "event")
+@RolesAllowed("ADMIN")
 public class EventController {
 
-    @Autowired
-    private EventService eventService;
+    private final EventService eventService;
 
-    @JsonView(Views.Internal.class)
     @GetMapping
+    @JsonView(Views.EventInternal.class)
     public List<Event> getEvents() {
         return eventService.getAll();
     }
 
-    @JsonView(Views.Public.class)
-    @GetMapping(path = "/current")
-    public List<Event> getCurrentEvents() {
-        return eventService.getCurrentAndFuture();
+    @GetMapping("/detail")
+    @JsonView(Views.EventInternal.class)
+    public List<Event> getDetailedEvents() {
+        return eventService.getAllWithCapacities();
     }
 
-    @JsonView(Views.Public.class)
-    @GetMapping(path = "/uuid/{eventUUID}")
-    public Event getEventByUUID(@PathVariable("eventUUID") @NotNull String uuid) {
-        return eventService.getByUUID(uuid);
-    }
-
-    @GetMapping(path = "/capacity/{eventUUID}")
-    public Map<Long, EventTermCapacityResponse> getCurrentCapacities(
-            @PathVariable("eventUUID") @NotNull String eventUUID
-    ) {
-        List<EventTermCapacity> eventRegistrationCount = eventService.getEventRegistrationCount(eventUUID);
-
-        Map<Long, EventTermCapacityResponse> result = new HashMap<>();
-        eventRegistrationCount.forEach(etc -> {
-            result.computeIfAbsent(etc.getEventTermId(),
-                    (key) -> new EventTermCapacityResponse(etc.getCapacity())
-                            .addRegistered(etc.getRegisteredCount())
-                            .addConfirmed(etc.getConfirmedCount())
-            );
-
-            result.computeIfPresent(etc.getEventTermId(),
-                    (key, response) -> response
-                            .addRegistered(etc.getRegisteredCount())
-                            .addConfirmed(etc.getConfirmedCount())
-            );
-        });
-
-        return result;
+    @GetMapping("/detail/{eventId:\\d+}")
+    @JsonView(Views.EventInternal.class)
+    public Event getDetailedEvent(@PathVariable("eventId") @NotNull Long eventId) {
+        return eventService.getById(eventId);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)

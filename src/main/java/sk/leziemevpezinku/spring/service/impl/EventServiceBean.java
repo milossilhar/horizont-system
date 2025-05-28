@@ -1,8 +1,7 @@
 package sk.leziemevpezinku.spring.service.impl;
 
 import jakarta.transaction.Transactional;
-import org.hibernate.Hibernate;
-import org.springframework.data.jpa.domain.Specification;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import sk.leziemevpezinku.spring.model.Event;
 import sk.leziemevpezinku.spring.model.Event_;
@@ -17,13 +16,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class EventServiceBean implements EventService {
 
     private final EventRepository eventRepository;
-
-    public EventServiceBean(EventRepository eventRepository) {
-        this.eventRepository = eventRepository;
-    }
 
     @Override
     @Transactional
@@ -68,13 +64,35 @@ public class EventServiceBean implements EventService {
     }
 
     @Override
+    public Event getById(Long id) {
+        return findByID(id);
+    }
+
+    @Override
     public Event getByUUID(String uuid) {
         return findByUUID(uuid);
     }
 
     @Override
     public List<Event> getAll() {
-        return eventRepository.findAll();
+        return this.eventRepository.findAll();
+    }
+
+    @Override
+    public List<Event> getAllWithCapacities() {
+        List<Event> events = eventRepository.findAll();
+
+        events.forEach(event -> {
+            List<EventTermCapacity> eventTermCapacities = calculateEventRegistrationCount(event.getId());
+
+            event.getTerms().forEach(et -> et.setCurrentCapacities(
+                    eventTermCapacities.stream()
+                            .filter(etc -> etc.getStatus() != null && etc.getEventTermId().equals(et.getId()))
+                            .toList())
+            );
+        });
+
+        return events;
     }
 
     @Override
@@ -97,7 +115,11 @@ public class EventServiceBean implements EventService {
     public List<EventTermCapacity> getEventRegistrationCount(String eventUUID) {
         Event event = findByUUID(eventUUID);
 
-        List<EventTermCapacity> eventTermCapacities = eventRepository.countRegistrations(event.getId());
+        return calculateEventRegistrationCount(event.getId());
+    }
+
+    private List<EventTermCapacity> calculateEventRegistrationCount(Long eventId) {
+        List<EventTermCapacity> eventTermCapacities = eventRepository.countRegistrations(eventId);
 
         if (eventTermCapacities.isEmpty()) {
             throw CommonException.builder()
@@ -109,7 +131,19 @@ public class EventServiceBean implements EventService {
     }
 
     private Event findByUUID(String uuid) {
-        Optional<Event> eventOptional = eventRepository.findByUuid(uuid);
+        Optional<Event> eventOptional = eventRepository.findLoadedByUuid(uuid);
+
+        if (eventOptional.isEmpty()) {
+            throw CommonException.builder()
+                    .errorCode(ErrorCode.MSG_NOT_FOUND_EVENT)
+                    .build();
+        }
+
+        return eventOptional.get();
+    }
+
+    private Event findByID(Long id) {
+        Optional<Event> eventOptional = eventRepository.findLoadedById(id);
 
         if (eventOptional.isEmpty()) {
             throw CommonException.builder()
