@@ -23,10 +23,7 @@ import sk.leziemevpezinku.spring.service.EventService;
 import sk.leziemevpezinku.spring.service.NotificationService;
 import sk.leziemevpezinku.spring.service.RegistrationService;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Log4j2
 @RestController
@@ -72,19 +69,15 @@ public class PublicController {
         List<EventTermCapacity> eventRegistrationCount = eventService.getEventRegistrationCount(eventUUID);
 
         Map<Long, EventTermCapacityResponse> result = new HashMap<>();
-        eventRegistrationCount.forEach(etc -> {
-            result.computeIfAbsent(etc.getEventTermId(),
-                    (key) -> new EventTermCapacityResponse(etc.getCapacity())
-                            .addRegistered(etc.getRegisteredCount())
-                            .addConfirmed(etc.getConfirmedCount())
-            );
+        eventRegistrationCount.forEach(etc -> result.compute(
+                etc.getEventTermId(), (key, response) -> {
+                    var value = Objects.requireNonNullElse(response, new EventTermCapacityResponse(etc.getCapacity()));
 
-            result.computeIfPresent(etc.getEventTermId(),
-                    (key, response) -> response
+                    return value
                             .addRegistered(etc.getRegisteredCount())
-                            .addConfirmed(etc.getConfirmedCount())
-            );
-        });
+                            .addConfirmed(etc.getConfirmedCount());
+                })
+        );
 
         return result;
     }
@@ -97,7 +90,7 @@ public class PublicController {
 
         Registration createdRegistration = registrationService.createRegistration(eventTermId, registration);
 
-        notificationService.sendRegistrationCreatedNotification(createdRegistration);
+        notificationService.sendRegistrationConfirmedNotification(createdRegistration);
 
         return createdRegistration;
     }
@@ -116,10 +109,10 @@ public class PublicController {
     public Registration confirmRegistration(
             @RequestBody @Valid GenericRequest<String> jwtTokenRequest) {
 
-        Registration comfirmedRegistration = registrationService.confirmRegistration(jwtTokenRequest.getValue());
+        Registration confirmedRegistration = registrationService.confirmRegistration(jwtTokenRequest.getValue());
 
-        notificationService.sendRegistrationConfirmedNotification(comfirmedRegistration);
+        notificationService.sendRegistrationConfirmedNotification(confirmedRegistration);
 
-        return comfirmedRegistration;
+        return confirmedRegistration;
     }
 }
