@@ -2,6 +2,7 @@ package sk.leziemevpezinku.spring.security;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -39,6 +40,12 @@ public class WebSecurityConfiguration {
 
     private final WebCorsConfiguration webCorsConfiguration;
 
+    @Value("${horizon.web.hostname}")
+    private String hostname;
+
+    @Value("${server.servlet.context-path}")
+    private String context;
+
     @Bean
     @Order(10)
     public SecurityFilterChain authorizationServerFilterChain(HttpSecurity http) throws Exception {
@@ -52,7 +59,9 @@ public class WebSecurityConfiguration {
                         .anyRequest().authenticated()
                 )
                 .with(oAuth2AuthorizationServerConfigurer, server -> server
-                        .authorizationServerSettings(AuthorizationServerSettings.builder().build())
+                        .authorizationServerSettings(AuthorizationServerSettings.builder()
+                                .issuer(hostname + context)
+                                .build())
                         .oidc(oidc -> oidc
                                 .userInfoEndpoint(ui -> ui.userInfoMapper(userInfoMapper()))))
                 .exceptionHandling(c -> c
