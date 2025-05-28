@@ -120,7 +120,7 @@ public class WebSecurityConfiguration {
         http
                 .securityMatcher("/login", "/logout", "/*.css")
                 .cors(c -> c.configurationSource(webCorsConfiguration))
-                .csrf(CsrfConfigurer::disable)
+                .csrf(Customizer.withDefaults())
                 .formLogin(Customizer.withDefaults())
                 .authorizeHttpRequests(authorize -> authorize
                         .anyRequest().authenticated()
