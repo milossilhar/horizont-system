@@ -1,13 +1,15 @@
 package sk.leziemevpezinku.spring.service.impl;
 
+import jakarta.mail.Message;
+import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import sk.leziemevpezinku.spring.model.Registration;
 import sk.leziemevpezinku.spring.service.NotificationService;
+import sk.leziemevpezinku.spring.service.PrintService;
 import sk.leziemevpezinku.spring.service.exception.CommonException;
 import sk.leziemevpezinku.spring.service.model.ErrorCode;
 
@@ -17,36 +19,41 @@ import sk.leziemevpezinku.spring.service.model.ErrorCode;
 public class NotificationServiceBean implements NotificationService {
 
     private final JavaMailSender mailSender;
+    private final PrintService printService;
 
     @Value("${spring.mail.username}")
     private String sender;
 
     @Override
     public void sendRegistrationCreatedNotification(Registration registration) {
-        log.info("Sending created for registration {}", registration.getUuid());
+        log.warn("sendRegistrationCreatedNotification is not supported at the moment");
     }
 
     @Override
     public void sendRegistrationConfirmedNotification(Registration registration) {
-        log.info("Sending confirmation for registration {}", registration.getUuid());
+        try {
+            String emailBody = printService.printRegistrationConfirmed(registration);
+            sendHtmlEmail("Potvrdenie registrácie", emailBody, registration);
+        } catch (Exception ex) {
+            log.error("Error sending registration confirmed notification for registration {}", registration.getUuid(), ex);
+        }
     }
 
-    @Override
-    public void sendTestMail() {
-        log.info("sendTestMail - called");
+    private void sendHtmlEmail(String subject, String htmlBody, Registration registration) {
         try {
-            SimpleMailMessage message = new SimpleMailMessage();
+            MimeMessage message = mailSender.createMimeMessage();
 
             message.setFrom("#leziemevpezinku <" + sender + ">");
-            message.setTo("migmig095@gmail.com");
-            message.setSubject("spring - test");
-            message.setText("Testing spring::boot");
+            message.setRecipients(Message.RecipientType.TO, registration.getEmail());
 
-            log.info("sendTestMail - sending mail");
+            message.setSubject(subject);
+            message.setContent(htmlBody, "text/html; charset=utf-8");
+
+            log.debug("sending email {} for registration {}", subject, registration.getUuid());
             mailSender.send(message);
 
         } catch (Exception e) {
-            log.error("error sending test mail", e);
+            log.error("error sending mail {} for registration {}", subject, registration.getUuid(), e);
             throw CommonException.builder()
                     .errorCode(ErrorCode.MSG_GENERIC_ERROR)
                     .build();
