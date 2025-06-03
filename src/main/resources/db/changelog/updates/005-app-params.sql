@@ -7,5 +7,5 @@ create table reg_app_param (
     primary key (name)
 );
 
-insert into reg_app_param (name, value) values ('SCHEDULE_PAYMENT_INFO_ENABLE', '1');
+insert into reg_app_param (name, value) values ('SCHEDULE_PAYMENT_INFO_ENABLE', '0');
 insert into reg_app_param (name, value) values ('SCHEDULE_PAYMENT_INFO_BATCH_SIZE', '50');
