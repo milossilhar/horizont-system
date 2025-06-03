@@ -3,6 +3,9 @@ package sk.leziemevpezinku.spring.service;
 import sk.leziemevpezinku.spring.model.Payment;
 import sk.leziemevpezinku.spring.model.Registration;
 
+import java.util.List;
+import java.util.function.BiConsumer;
+
 public interface RegistrationService {
 
     /**
@@ -28,4 +31,18 @@ public interface RegistrationService {
      * @return
      */
     Payment calculatePriceForRegistration(Long eventTermId, String userEmail, Long numberOfPeople);
+
+    /**
+     * Updates flag on registration in new transaction
+     * @param id registration id
+     * @param invoker setter on registration
+     */
+    void updateFlag(Long id, BiConsumer<Registration, Boolean> invoker);
+
+    /**
+     * Finds all registrations where payment-info email was not sent.
+     * @param batchSize max size of the result
+     * @return list of found registrations
+     */
+    List<Registration> findForPaymentInfo(Long batchSize);
 }

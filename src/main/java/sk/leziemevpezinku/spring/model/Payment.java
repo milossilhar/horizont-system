@@ -7,6 +7,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.*;
+import sk.leziemevpezinku.spring.util.DateUtils;
+import sk.leziemevpezinku.spring.util.StringUtils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -91,5 +93,13 @@ public class Payment {
         if (Boolean.TRUE.equals(depositPaid)) return finalPrice.subtract(deposit);
 
         return finalPrice;
+    }
+
+    @JsonGetter("variableSymbol")
+    public String getVariableSymbol() {
+        if (this.registration == null) return null;
+
+        return DateUtils.formatYYMMDD(this.registration.getCreatedAt()) +
+                StringUtils.leftPadding(StringUtils.tail(String.valueOf(id), 2), 2, "0");
     }
 }

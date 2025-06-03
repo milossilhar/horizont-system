@@ -18,10 +18,10 @@ import java.util.List;
 
 @Getter
 @Setter
-@Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
 @Table(name = "reg_registration")
 public class Registration extends UidAuditedEntityBase {
 
@@ -73,6 +73,18 @@ public class Registration extends UidAuditedEntityBase {
     @JsonProperty("consentPhoto")
     @Column(name = "consent_photo")
     private Boolean consentPhoto;
+
+    @JsonProperty("emailConfirmSent")
+    @Column(name = "email_confirm_sent")
+    private Boolean emailConfirmSent;
+
+    @JsonProperty("emailPaymentInfoSent")
+    @Column(name = "email_payment_info_sent")
+    private Boolean emailPaymentInfoSent;
+
+    @JsonProperty("emailPaymentConfirmSent")
+    @Column(name = "email_payment_confirm_sent")
+    private Boolean emailPaymentConfirmSent;
 
     @JsonIgnore
     @ManyToOne

@@ -2,7 +2,10 @@ package sk.leziemevpezinku.spring.service.impl;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Limit;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import sk.leziemevpezinku.spring.model.*;
 import sk.leziemevpezinku.spring.model.enums.RegistrationStatus;
@@ -17,6 +20,7 @@ import sk.leziemevpezinku.spring.service.model.RegistrationTokenClaim;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.function.BiConsumer;
 
 import static sk.leziemevpezinku.spring.model.enums.EnumerationValues.REG_E_EVENT_DISCOUNT_TYPE.LETO_TABOR_25;
 
@@ -62,6 +66,11 @@ public class RegistrationServiceBean implements RegistrationService {
             }
         }
 
+        // calculate and create payment
+        Payment payment = calculatePriceForRegistration(eventTerm, registration.getEmail(), Long.valueOf(registration.getPeople().size()));
+        registration.setPayment(payment);
+        payment.setRegistration(registration);
+
         registration.setStatus(RegistrationStatus.CONFIRMED);
         registration.setEventTerm(eventTerm);
         eventTerm.getRegistrations().add(registration);
@@ -75,6 +84,7 @@ public class RegistrationServiceBean implements RegistrationService {
     }
 
     @Override
+    @Transactional
     public Registration confirmRegistration(String jwtToken) {
         RegistrationTokenClaim registrationTokenClaim = encryptionService.validateRegistrationToken(jwtToken);
 
@@ -108,9 +118,32 @@ public class RegistrationServiceBean implements RegistrationService {
     }
 
     @Override
+    @Transactional
     public Payment calculatePriceForRegistration(Long eventTermId, String userEmail, Long numberOfPeople) {
         EventTerm eventTerm = findEventTerm(eventTermId);
 
+        return calculatePriceForRegistration(eventTerm, userEmail, numberOfPeople);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void updateFlag(Long id, BiConsumer<Registration, Boolean> consumer) {
+        Registration registration = findRegistration(id);
+
+        consumer.accept(registration, true);
+
+        registrationRepository.save(registration);
+    }
+
+    @Override
+    @Transactional
+    public List<Registration> findForPaymentInfo(Long batchSize) {
+        if (batchSize == null) return Collections.emptyList();
+
+        return registrationRepository.findForDepositPaymentInfoEmail(Limit.of(batchSize.intValue()));
+    }
+
+    private Payment calculatePriceForRegistration(EventTerm eventTerm, String userEmail, Long numberOfPeople) {
         Payment payment = Payment.builder()
                 .price(eventTerm.getPrice().multiply(BigDecimal.valueOf(numberOfPeople)))
                 .deposit(eventTerm.getDeposit().multiply(BigDecimal.valueOf(numberOfPeople)))

@@ -1,4 +1,6 @@
 
+create sequence seq_email_logs_id start with 1 increment by 1;
+
 create sequence seq_enumeration_item_id start with 1 increment by 1;
 
 create sequence seq_event_id start with 1 increment by 1;
@@ -9,12 +11,28 @@ create sequence seq_payment_id start with 1 increment by 1;
 
 create sequence seq_registration_id start with 1 increment by 1;
 
+create table reg_app_param (
+    name varchar(100) not null,
+    value varchar(200) not null,
+    primary key (name)
+);
+
+create table reg_email_logs (
+    id bigint not null,
+    created_at timestamp(6) not null,
+    email_type varchar(50) not null,
+    html varchar(25000) not null,
+    recipients varchar(50) not null,
+    registration_id bigint not null,
+    primary key (id)
+);
+
 create table reg_enumeration_item (
     id bigint not null,
     code varchar(10) not null,
+    description varchar(150) not null,
     enum_name varchar(40) not null check (enum_name in ('REG_E_EVENT_CONDITION_TYPE','REG_E_EVENT_DISCOUNT_TYPE','REG_E_RELATION','REG_E_SHIRT_SIZE')),
     ordering integer not null,
-    description varchar(150) not null,
     visible boolean not null,
     primary key (id)
 );
@@ -85,6 +103,9 @@ create table reg_registration (
     consent_gdpr boolean not null,
     consent_photo boolean,
     email varchar(100) not null,
+    email_confirm_sent boolean,
+    email_payment_confirm_sent boolean,
+    email_payment_info_sent boolean,
     name varchar(50) not null,
     status varchar(10) not null check (status in ('CONCEPT','QUEUE','ACCEPTED','CONFIRMED')),
     surname varchar(50) not null,
