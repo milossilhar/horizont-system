@@ -100,6 +100,7 @@ public class PrintServiceBean implements PrintService {
                     .endDateTime(DateUtils.format(eventTerm.getEndAt()))
                     .iban(IBAN_FORMATTED)
                     .paymentValue(NumberUtils.formatTwoDecimal(payment.getDeposit()))
+                    .note(note)
                     .payBySquareURL(getPayBySquareURL(payment.getDeposit(), LocalDate.now(), payment.getVariableSymbol(), note, IBAN))
                     .depositPerChild(NumberUtils.formatTwoDecimal(eventTerm.getDeposit()))
                     .variableSymbol(payment.getVariableSymbol())

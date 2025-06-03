@@ -99,6 +99,7 @@ public class Payment {
     public String getVariableSymbol() {
         if (this.registration == null) return null;
 
-        return DateUtils.formatCompact(this.registration.getCreatedAt()) + StringUtils.leftPadding(String.valueOf(id), 3, "0");
+        return DateUtils.formatYYMMDD(this.registration.getCreatedAt()) +
+                StringUtils.leftPadding(StringUtils.tail(String.valueOf(id), 2), 2, "0");
     }
 }

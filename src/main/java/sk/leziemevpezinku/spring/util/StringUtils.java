@@ -32,12 +32,12 @@ public class StringUtils {
         return stripAccents(str);
     }
 
-    public static String leftPadding(String val, int size, String pad) {
-        return leftPad(val, size, pad);
+    public static String leftPadding(String str, int size, String pad) {
+        return leftPad(str, size, pad);
     }
 
-    public static String formatCurrency(BigDecimal value) {
-        return DecimalFormat.getCurrencyInstance(Locale.getDefault()).format(value);
+    public static String tail(String str, int length) {
+        return right(str, length);
     }
 
     public static String urlEncode(String str) {

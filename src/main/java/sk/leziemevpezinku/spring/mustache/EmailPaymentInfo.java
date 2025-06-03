@@ -15,12 +15,11 @@ public class EmailPaymentInfo {
     private String endDateTime;
 
     private String iban;
+    private String variableSymbol;
+    private String note;
+    private String paymentValue;
     private String payBySquareURL;
     private String depositPerChild;
-
-    private String paymentValue;
-    private String note;
-    private String variableSymbol;
 
     private List<EmailPerson> people;
 
