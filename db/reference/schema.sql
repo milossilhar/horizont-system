@@ -9,6 +9,12 @@ create sequence seq_payment_id start with 1 increment by 1;
 
 create sequence seq_registration_id start with 1 increment by 1;
 
+create table reg_app_param (
+    name varchar(100) not null,
+    value varchar(200) not null,
+    primary key (name)
+);
+
 create table reg_enumeration_item (
     id bigint not null,
     code varchar(10) not null,

@@ -19,6 +19,15 @@ public class StringUtils {
         return lowerCase(stripAccents(str));
     }
 
+    /**
+     * Lowers string case
+     * @param str given string
+     * @return lowered string
+     */
+    public static String lower(String str) {
+        return lowerCase(str);
+    }
+
     public static String strip(String str) {
         return stripAccents(str);
     }
