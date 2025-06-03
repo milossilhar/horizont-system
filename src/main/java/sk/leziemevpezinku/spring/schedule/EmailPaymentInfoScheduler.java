@@ -43,7 +43,7 @@ public class EmailPaymentInfoScheduler {
         }
 
         for (Registration registration : registrations) {
-            BigDecimal deposit = registration.getEventTerm().getDeposit();
+            BigDecimal deposit = registration.getPayment() == null ? null : registration.getPayment().getDeposit();
             if (deposit == null || BigDecimal.ZERO.equals(deposit)) {
                 log.info("not sending for registration {} with zero deposit", registration.getUuid());
                 continue;

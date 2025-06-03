@@ -27,7 +27,7 @@ public class CustomRegistrationRepositoryImpl implements CustomRegistrationRepos
                                 cb.isNull(root.get(Registration_.emailPaymentInfoSent)),
                                 cb.isFalse(root.get(Registration_.emailPaymentInfoSent))
                         ),
-                        cb.notEqual(root.get(Registration_.eventTerm).get(EventTerm_.deposit), BigDecimal.valueOf(0))
+                        cb.notEqual(root.get(Registration_.payment).get(Payment_.deposit), BigDecimal.valueOf(0))
                 )
         );
 
