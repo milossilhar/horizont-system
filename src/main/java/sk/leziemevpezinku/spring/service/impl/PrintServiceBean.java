@@ -96,6 +96,7 @@ public class PrintServiceBean implements PrintService {
                     .name(registration.getName())
                     .surname(registration.getSurname())
                     .eventName(eventTerm.getEvent().getName())
+                    .location(eventTerm.getEvent().getPlace())
                     .startDateTime(DateUtils.format(eventTerm.getStartAt()))
                     .endDateTime(DateUtils.format(eventTerm.getEndAt()))
                     .iban(IBAN_FORMATTED)

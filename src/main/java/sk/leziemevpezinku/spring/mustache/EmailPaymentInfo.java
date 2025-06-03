@@ -11,6 +11,7 @@ public class EmailPaymentInfo {
     private String name;
     private String surname;
     private String eventName;
+    private String location;
     private String startDateTime;
     private String endDateTime;
 
