@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>#leziemevpezinku - Platobné informácie</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #f2f3f1;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #556052 0%, #3d453b 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            z-index: 1;
+            position: relative;
+        }
+
+        .header-subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+            z-index: 1;
+            position: relative;
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-concept {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+        }
+
+        .greeting {
+            font-size: 24px;
+            color: #3d453b;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .message {
+            color: #555;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+
+        .details-section {
+            background: #d7dcd6;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 30px 0;
+            border-left: 4px solid #798a75;
+        }
+
+        .details-title {
+            font-size: 18px;
+            color: #3d453b;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .detail-row {
+            width: 100%;
+            display: table;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            display: table-cell;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .detail-value {
+            display: table-cell;
+            color: #3d453b;
+            text-align: right;
+        }
+
+        .payment-section {
+            background: #e8f5e8;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 30px 0;
+            border-left: 4px solid #27ae60;
+        }
+
+        .payment-row {
+            width: 100%;
+            display: table;
+            padding: 8px 0;
+        }
+
+        .payment-label {
+            display: table-cell;
+            font-weight: 600;
+            color: #2c5530;
+        }
+
+        .payment-value {
+            display: table-cell;
+            color: #1e3a21;
+            text-align: right;
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
+        }
+
+        .deadline-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin: 10px 0;
+        }
+
+        .important-section {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .important-title {
+            color: #856404;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .qr-section {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 30px 0;
+            border-left: 4px solid #007bff;
+            text-align: left;
+        }
+
+        .qr-container {
+            width: 100%:
+            display: table;
+            margin-top: 20px;
+        }
+
+        .qr-code {
+            display: table-cell;
+        }
+
+        .qr-code img {
+            padding: 5px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background: white;
+        }
+
+        .qr-instructions {
+            display: table-cell;
+            vertical-align: middle;
+            padding-left: 15px;
+            text-align: left;
+            color: #495057;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .participants-section {
+            margin: 0 0 30px;
+        }
+
+        .participant-card {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .participant-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #3d453b;
+            margin-bottom: 5px;
+        }
+
+        .participant-details {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .footer {
+            background: #f8f9fa;
+            padding: 30px;
+            text-align: center;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .footer-text {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .contact-info {
+            color: #778773;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        @media (max-width: 600px) {
+            .email-container {
+                margin: 10px;
+                border-radius: 8px;
+            }
+
+            .header, .content, .footer {
+                padding: 20px;
+            }
+
+            .detail-label, .detail-value, .payment-label, .payment-value {
+                display: table-row;
+                font-size: 14px;
+            }
+
+            .detail-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .detail-value {
+                text-align: left;
+                margin-top: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="email-container">
+    <div class="header">
+        <div class="header-title">Informácie o platbe</div>
+        <div class="header-subtitle">#leziemevpezinku</div>
+    </div>
+
+    <div class="content">
+        <div class="greeting">
+            Ahoj, {{name}} {{surname}}!
+        </div>
+
+        <div class="message">
+            Leto nám už klope na dvere aj u nás na lezeckej stene.<br>
+            Týmto emailom potvrdzujeme tvoju registráciu na {{eventName}} u nás na lezeckej stene.<br>
+            <strong>Už sa Vás nevieme dočkať!</strong>
+        </div>
+
+        <div class="important-section">
+            <div class="important-title">
+                ⚠️ Informácie k platnému potvrdeniu
+            </div>
+            <p style="color: #856404;">
+                Pre potvrdenie účasti prosíme zaslať <strong>nevratnú zálohu {{depositPerChild}} EUR / dieťa</strong> za letnú akciu 2025.
+                Zvyšok sumy sa bude platiť prevodom tesne pred nástupom na {{eventName}}.
+            </p>
+            <div class="deadline-badge">
+                Splatnosť zálohy: 30. 06. 2025
+            </div>
+        </div>
+
+        <div class="payment-section">
+            <div class="details-title">
+                💳 Platobné údaje
+            </div>
+
+            <div class="payment-row">
+                <div class="payment-label">IBAN:</div>
+                <div class="payment-value">{{iban}}</div>
+            </div>
+
+            <div class="payment-row">
+                <div class="payment-label">Variabilný symbol:</div>
+                <div class="payment-value">{{variableSymbol}}</div>
+            </div>
+
+            <div class="payment-row">
+                <div class="payment-label">Informácia pre príjemcu:</div>
+                <div class="payment-value">{{note}}</div>
+            </div>
+
+            <div class="payment-row">
+                <div class="payment-label">Suma:</div>
+                <div class="payment-value">{{paymentValue}} EUR</div>
+            </div>
+        </div>
+
+        {{#hasPayBySquare}}
+        <div class="qr-section">
+            <div class="details-title">Rýchla platba - PayBySquare</div>
+            <div class="qr-container">
+                <div class="qr-code">
+                    <img src="{{payBySquareURL}}" alt="QRKód" />
+                </div>
+                <div class="qr-instructions">
+                    <strong>Jednoducho naskenujte QR kód</strong><br>
+                    pomocou mobilnej aplikácie vašej banky<br>
+                    a potvrďte platbu zálohy.
+                </div>
+            </div>
+        </div>
+        {{/hasPayBySquare}}
+
+        <!-- Event details section -->
+        <div class="details-section">
+            <p class="details-title">
+                Zhrnutie registrácie
+            </p>
+
+            <div class="detail-row">
+                <div class="detail-label">Názov akcie:</div>
+                <div class="detail-value">{{eventName}}</div>
+            </div>
+
+            <div class="detail-row">
+                <div class="detail-label">Dátum a čas:</div>
+                <div class="detail-value">{{startDateTime}} - {{endDateTime}}</div>
+            </div>
+
+            <div class="detail-row">
+                <div class="detail-label">Miesto:</div>
+                <div class="detail-value">{{location}}</div>
+            </div>
+        </div>
+
+        <!-- Participants section -->
+        <div class="participants-section">
+            <p class="details-title">
+                Registrované deti ({{peopleLength}})
+            </p>
+
+            <!-- Loop through registered people -->
+            {{#people}}
+            <div class="participant-card">
+                <div class="participant-name">{{name}} {{surname}}</div>
+                <div class="participant-details">
+                    <div class="detail-row">
+                        <div class="detail-label">Dátum narodenia:</div>
+                        <div class="detail-value">{{birthDate}}</div>
+                    </div>
+
+                    <div class="detail-row">
+                        <div class="detail-label">Veľkosť trička:</div>
+                        <div class="detail-value">{{shirtSize}}</div>
+                    </div>
+
+                    <div class="detail-row">
+                        <div class="detail-label">Zdravotné poznámky:</div>
+                        <div class="detail-value"><b>{{healthNotes}}</b></div>
+                    </div>
+
+                    <div class="detail-row">
+                        <div class="detail-label">Alergie na jedlo:</div>
+                        <div class="detail-value"><b>{{foodAllergyNotes}}</b></div>
+                    </div>
+                </div>
+            </div>
+            {{/people}}
+        </div>
+
+        <div class="details-section">
+            <div class="details-title">
+                📋 Ďalšie kroky
+            </div>
+            <div class="message" style="margin: 0; color: #3d453b;">
+                <strong>1.</strong> Potvrdenie o zaplatení zálohy Vám príde po pripísaní platby na náš účet prostredníctvom mailu.<br><br>
+                <strong>2.</strong> Bližšie informácie Vám pošleme vždy týždeň pred začatím turnusu.<br><br>
+                <strong>3.</strong> Ak by ste mali akékoľvek otázky, neváhajte nás kontaktovať.
+            </div>
+        </div>
+
+        <div class="message">
+            <strong>Už sa na Vás tešíme!</strong><br>
+            S pozdravom,<br>
+            Trénerky 🧗‍♀️
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="footer-text">
+            <strong>#leziemevpezinku</strong>
+        </div>
+        <div class="footer-text">
+            📞 <a href="tel:0911709465" class="contact-info">0911 709 465</a><br>
+            ✉️ <a href="mailto:info@leziemevpezinku.sk" class="contact-info">info@leziemevpezinku.sk</a><br>
+            🌐 <a href="https://leziemevpezinku.sk" class="contact-info">leziemevpezinku.sk</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

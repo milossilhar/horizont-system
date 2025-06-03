@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import sk.leziemevpezinku.spring.model.Registration;
 import sk.leziemevpezinku.spring.service.NotificationService;
 import sk.leziemevpezinku.spring.service.PrintService;
+import sk.leziemevpezinku.spring.service.RegistrationService;
 import sk.leziemevpezinku.spring.service.exception.CommonException;
 import sk.leziemevpezinku.spring.service.model.ErrorCode;
 
@@ -20,6 +21,7 @@ public class NotificationServiceBean implements NotificationService {
 
     private final JavaMailSender mailSender;
     private final PrintService printService;
+    private final RegistrationService registrationService;
 
     @Value("${spring.mail.username}")
     private String sender;
@@ -34,8 +36,20 @@ public class NotificationServiceBean implements NotificationService {
         try {
             String emailBody = printService.printRegistrationConfirmed(registration);
             sendHtmlEmail("Potvrdenie registrácie", emailBody, registration);
+            registrationService.updateFlag(registration.getId(), Registration::setEmailConfirmSent);
         } catch (Exception ex) {
             log.error("Error sending registration confirmed notification for registration {}", registration.getUuid(), ex);
+        }
+    }
+
+    @Override
+    public void sendPaymentInformationNotification(Registration registration) {
+        try {
+            String emailBody = printService.printPaymentInfo(registration);
+            sendHtmlEmail("Platobné informácie", emailBody, registration);
+            registrationService.updateFlag(registration.getId(), Registration::setEmailPaymentInfoSent);
+        } catch (Exception ex) {
+            log.error("Error sending payment information notification for registration {}", registration.getUuid(), ex);
         }
     }
 
