@@ -2,6 +2,7 @@ package sk.leziemevpezinku.spring.service.impl;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Limit;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -82,6 +83,7 @@ public class RegistrationServiceBean implements RegistrationService {
     }
 
     @Override
+    @Transactional
     public Registration confirmRegistration(String jwtToken) {
         RegistrationTokenClaim registrationTokenClaim = encryptionService.validateRegistrationToken(jwtToken);
 
@@ -115,6 +117,7 @@ public class RegistrationServiceBean implements RegistrationService {
     }
 
     @Override
+    @Transactional
     public Payment calculatePriceForRegistration(Long eventTermId, String userEmail, Long numberOfPeople) {
         EventTerm eventTerm = findEventTerm(eventTermId);
 
@@ -129,6 +132,14 @@ public class RegistrationServiceBean implements RegistrationService {
         consumer.accept(registration, true);
 
         registrationRepository.save(registration);
+    }
+
+    @Override
+    @Transactional
+    public List<Registration> findForPaymentInfo(Long batchSize) {
+        if (batchSize == null) return Collections.emptyList();
+
+        return registrationRepository.findByEmailPaymentInfoSentIsNullOrFalseOrderByCreatedAtDesc(Limit.of(batchSize.intValue()));
     }
 
     private Payment calculatePriceForRegistration(EventTerm eventTerm, String userEmail, Long numberOfPeople) {
