@@ -10,6 +10,7 @@ import sk.leziemevpezinku.spring.service.AppParamService;
 import sk.leziemevpezinku.spring.service.NotificationService;
 import sk.leziemevpezinku.spring.service.RegistrationService;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -22,8 +23,10 @@ public class EmailPaymentInfoScheduler {
     private final RegistrationService registrationService;
     private final NotificationService notificationService;
 
-    @Scheduled(fixedDelay = 30, timeUnit = TimeUnit.MINUTES, initialDelay = 10000)
+    @Scheduled(fixedDelay = 30, timeUnit = TimeUnit.MINUTES)
     public void sendEmails() {
+        log.info("starting scheduler");
+
         if (!appParamService.hasEnabledFeature(AppParam.Names.SCHEDULE_PAYMENT_INFO_ENABLE)) {
             log.info("scheduler disabled - nothing to be done");
             return;
@@ -40,6 +43,12 @@ public class EmailPaymentInfoScheduler {
         }
 
         for (Registration registration : registrations) {
+            BigDecimal deposit = registration.getEventTerm().getDeposit();
+            if (deposit == null || BigDecimal.ZERO.equals(deposit)) {
+                log.info("not sending for registration {} with zero deposit", registration.getUuid());
+                continue;
+            }
+
             log.info("sending payment info notification for registration {}", registration.getUuid());
             notificationService.sendPaymentInformationNotification(registration);
         }
