@@ -1,8 +1,8 @@
 package sk.leziemevpezinku.spring.service.impl;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import sk.leziemevpezinku.spring.model.Event;
 import sk.leziemevpezinku.spring.model.Event_;
 import sk.leziemevpezinku.spring.repo.EventRepository;
