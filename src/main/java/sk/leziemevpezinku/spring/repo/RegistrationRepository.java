@@ -1,15 +1,14 @@
 package sk.leziemevpezinku.spring.repo;
 
-import org.springframework.data.domain.Limit;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.stereotype.Repository;
 import sk.leziemevpezinku.spring.model.Registration;
+import sk.leziemevpezinku.spring.repo.base.UidRepositoryBase;
 
 import java.util.List;
 
 @Repository
-public interface RegistrationRepository extends ListCrudRepository<Registration, Long>, JpaSpecificationExecutor<Registration> {
+public interface RegistrationRepository extends UidRepositoryBase<Registration, Long>, JpaSpecificationExecutor<Registration>, CustomRegistrationRepository {
 
     /**
      * Finds all registrations for given event term id.
@@ -17,11 +16,4 @@ public interface RegistrationRepository extends ListCrudRepository<Registration,
      * @return list of registrations
      */
     List<Registration> findByEventTermId(Long eventTermId);
-
-    /**
-     * Finds all registrations for which
-     * @param limit limits results
-     * @return list of registrations
-     */
-    List<Registration> findByEmailPaymentInfoSentIsNullOrFalseOrderByCreatedAtDesc(Limit limit);
 }

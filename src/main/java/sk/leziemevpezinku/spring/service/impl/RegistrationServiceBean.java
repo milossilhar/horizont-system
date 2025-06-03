@@ -3,6 +3,7 @@ package sk.leziemevpezinku.spring.service.impl;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Limit;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -139,7 +140,7 @@ public class RegistrationServiceBean implements RegistrationService {
     public List<Registration> findForPaymentInfo(Long batchSize) {
         if (batchSize == null) return Collections.emptyList();
 
-        return registrationRepository.findByEmailPaymentInfoSentIsNullOrFalseOrderByCreatedAtDesc(Limit.of(batchSize.intValue()));
+        return registrationRepository.findForDepositPaymentInfoEmail(Limit.of(batchSize.intValue()));
     }
 
     private Payment calculatePriceForRegistration(EventTerm eventTerm, String userEmail, Long numberOfPeople) {
