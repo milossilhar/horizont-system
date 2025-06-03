@@ -10,18 +10,27 @@ import java.util.Objects;
 
 public class DateUtils {
 
+    private static final String COMPACT_FORMAT = "yyyyMMdd";
     private static final String PRINT_DATE_FORMAT = "dd.MM.yyyy";
     private static final String PRINT_DATE_TIME_FORMAT = "dd.MM.yyyy, HH:mm";
 
+    public static String formatCompact(LocalDateTime localDateTime) {
+        Objects.requireNonNull(localDateTime);
+        return formatter(COMPACT_FORMAT).format(localDateTime);
+    }
+
+    public static String formatCompact(LocalDate localDate) {
+        Objects.requireNonNull(localDate);
+        return formatter(COMPACT_FORMAT).format(localDate);
+    }
+
     public static String format(LocalDateTime localDateTime) {
         Objects.requireNonNull(localDateTime);
-
         return formatter(PRINT_DATE_TIME_FORMAT).format(localDateTime);
     }
 
     public static String format(LocalDate localDate) {
         Objects.requireNonNull(localDate);
-
         return formatter(PRINT_DATE_FORMAT).format(localDate);
     }
 
