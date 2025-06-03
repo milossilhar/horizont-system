@@ -12,9 +12,9 @@ create sequence seq_registration_id start with 1 increment by 1;
 create table reg_enumeration_item (
     id bigint not null,
     code varchar(10) not null,
+    description varchar(150) not null,
     enum_name varchar(40) not null check (enum_name in ('REG_E_EVENT_CONDITION_TYPE','REG_E_EVENT_DISCOUNT_TYPE','REG_E_RELATION','REG_E_SHIRT_SIZE')),
     ordering integer not null,
-    description varchar(150) not null,
     visible boolean not null,
     primary key (id)
 );
@@ -85,6 +85,9 @@ create table reg_registration (
     consent_gdpr boolean not null,
     consent_photo boolean,
     email varchar(100) not null,
+    email_confirm_sent boolean,
+    email_payment_confirm_sent boolean,
+    email_payment_info_sent boolean,
     name varchar(50) not null,
     status varchar(10) not null check (status in ('CONCEPT','QUEUE','ACCEPTED','CONFIRMED')),
     surname varchar(50) not null,
