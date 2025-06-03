@@ -22,8 +22,8 @@ public class EmailRegistrationConfirm {
     private Long peopleLength;
     private boolean consentGDPR;
     private boolean consentPhoto;
-    private List<EmailRegistrationConfirmPerson> people;
-    private List<EmailRegistrationConfirmKnownPerson> knownPeople;
+    private List<EmailPerson> people;
+    private List<EmailKnownPerson> knownPeople;
 
     public boolean getHasKnownPeople() {
         return this.knownPeople != null && !this.knownPeople.isEmpty();
