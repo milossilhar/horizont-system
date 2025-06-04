@@ -30,7 +30,7 @@ dev:
 
 # runs SpringBoot app in development mode with DEBUG enabled
 debug:
-    {{MAVEN}} spring-boot:run -Dspring-boot.run.jvmArguments="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8000"
+    {{MAVEN}} spring-boot:run -Dspring-boot.run.profiles=dev -Dspring-boot.run.jvmArguments="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8000"
 
 # cleans whole project
 clean:
