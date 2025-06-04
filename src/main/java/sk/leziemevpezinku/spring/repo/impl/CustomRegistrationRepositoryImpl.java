@@ -5,6 +5,7 @@ import jakarta.persistence.criteria.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Limit;
 import sk.leziemevpezinku.spring.model.*;
+import sk.leziemevpezinku.spring.model.enums.RegistrationStatus;
 import sk.leziemevpezinku.spring.repo.CustomRegistrationRepository;
 
 import java.math.BigDecimal;
@@ -23,6 +24,7 @@ public class CustomRegistrationRepositoryImpl implements CustomRegistrationRepos
 
         query.where(
                 cb.and(
+                        cb.equal(root.get(Registration_.status), RegistrationStatus.CONFIRMED),
                         cb.or(
                                 cb.isNull(root.get(Registration_.emailPaymentInfoSent)),
                                 cb.isFalse(root.get(Registration_.emailPaymentInfoSent))
