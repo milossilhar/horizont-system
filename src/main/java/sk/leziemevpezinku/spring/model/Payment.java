@@ -57,31 +57,33 @@ public class Payment {
     private Boolean paid;
 
     @JsonBackReference
-    @OneToOne(mappedBy = "payment")
+    @OneToOne(mappedBy = "payment", fetch = FetchType.LAZY)
     private Registration registration;
 
-    @JsonGetter("final_price")
+    @JsonGetter("finalPrice")
     public BigDecimal getFinalPrice() {
-        if (discountValue != null && this.discountValue.compareTo(BigDecimal.ZERO) > 0) {
-            return price.subtract(discountValue);
-        }
-        if (discountPercent != null && this.discountPercent.compareTo(BigDecimal.ZERO) > 0) {
-            return price.multiply(
-                    BigDecimal.ONE.subtract(discountPercent.divide(BigDecimal.valueOf(100L), 2, RoundingMode.HALF_DOWN))
-            );
-        }
+        if (hasDiscountValue()) return price.subtract(discountValue);
+        if (hasDiscountPercent()) return price.subtract(getDiscountPercentValue());
         return price;
     }
 
     @JsonGetter("hasDiscount")
     public Boolean hasDiscount() {
-        return this.discountPercent != null && this.discountPercent.compareTo(BigDecimal.ZERO) > 0 ||
-                this.discountValue != null && this.discountValue.compareTo(BigDecimal.ZERO) > 0;
+        return hasDiscountValue() || hasDiscountPercent();
     }
 
     @JsonGetter("hasDeposit")
     public Boolean hasDeposit() {
-        return this.deposit != null && this.deposit.compareTo(BigDecimal.ZERO) > 0;
+        return deposit != null && deposit.compareTo(BigDecimal.ZERO) > 0;
+    }
+
+    @JsonGetter("discountPercentValue")
+    public BigDecimal getDiscountPercentValue() {
+        if (discountPercent == null) return BigDecimal.ZERO;
+
+        return price
+                .multiply(discountPercent.divide(BigDecimal.valueOf(100L), 2, RoundingMode.HALF_DOWN))
+                .setScale(2, RoundingMode.HALF_DOWN);
     }
 
     @JsonGetter("remainingValue")
@@ -101,5 +103,13 @@ public class Payment {
 
         return DateUtils.formatYYMMDD(this.registration.getCreatedAt()) +
                 StringUtils.leftPadding(StringUtils.tail(String.valueOf(id), 2), 2, "0");
+    }
+
+    private boolean hasDiscountValue() {
+        return this.discountValue != null && this.discountValue.compareTo(BigDecimal.ZERO) > 0;
+    }
+
+    private boolean hasDiscountPercent() {
+        return this.discountPercent != null && this.discountPercent.compareTo(BigDecimal.ZERO) > 0;
     }
 }

@@ -21,4 +21,10 @@ public interface NotificationService {
      * @param registration registration to send notification for
      */
     void sendPaymentInformationNotification(Registration registration);
+
+    /**
+     * Sends notification about confirmed payment
+     * @param registration registration to send notification for
+     */
+    void sendPaymentConfirmationNotification(Registration registration);
 }

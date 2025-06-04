@@ -3,7 +3,6 @@ package sk.leziemevpezinku.spring.service.impl;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Limit;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +31,18 @@ public class RegistrationServiceBean implements RegistrationService {
     private final EventTermRepository eventTermRepository;
     private final RegistrationRepository registrationRepository;
     private final EncryptionService encryptionService;
+
+    @Override
+    @Transactional
+    public Registration getById(Long id) {
+        return findRegistration(id);
+    }
+
+    @Override
+    @Transactional
+    public Registration getByPaymentId(Long paymentId) {
+        return findByPayment(paymentId);
+    }
 
     @Override
     @Transactional
@@ -66,19 +77,22 @@ public class RegistrationServiceBean implements RegistrationService {
             }
         }
 
+        Integer numberOfPeopleRegistered = eventTerm.getRegistrations().stream()
+                .reduce(0, (subtotal, reg) -> subtotal + reg.getPeople().size(), Integer::sum);
+
         // calculate and create payment
         Payment payment = calculatePriceForRegistration(eventTerm, registration.getEmail(), Long.valueOf(registration.getPeople().size()));
         registration.setPayment(payment);
         payment.setRegistration(registration);
 
         registration.setStatus(RegistrationStatus.CONFIRMED);
-        registration.setEventTerm(eventTerm);
-        eventTerm.getRegistrations().add(registration);
 
-        int registrationsCount = eventTerm.getRegistrations().size();
-        if (registrationsCount + registration.getPeople().size() > eventTerm.getCapacity()) {
+        if (numberOfPeopleRegistered + registration.getPeople().size() > eventTerm.getCapacity()) {
             registration.setStatus(RegistrationStatus.QUEUE);
         }
+
+        registration.setEventTerm(eventTerm);
+        eventTerm.getRegistrations().add(registration);
 
         return registrationRepository.save(registration);
     }
@@ -127,8 +141,8 @@ public class RegistrationServiceBean implements RegistrationService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void updateFlag(Long id, BiConsumer<Registration, Boolean> consumer) {
-        Registration registration = findRegistration(id);
+    public void updateFlagNewTx(Long id, BiConsumer<Registration, Boolean> consumer) {
+        Registration registration = findUninitializedRegistration(id);
 
         consumer.accept(registration, true);
 
@@ -176,11 +190,23 @@ public class RegistrationServiceBean implements RegistrationService {
         return eventTermOptional.get();
     }
 
+    private Registration checkRegistration(Optional<Registration> registration) {
+        if (registration.isEmpty()) throw CommonException.builder().errorCode(ErrorCode.MSG_NOT_FOUND_REGISTRATION).build();
+        return registration.get();
+    }
+
+    private Registration findUninitializedRegistration(Long registrationId) {
+        Optional<Registration> registration = registrationRepository.findUninitializedById(registrationId);
+        return checkRegistration(registration);
+    }
+
     private Registration findRegistration(Long registrationId) {
-        Optional<Registration> registrationOptional = registrationRepository.findById(registrationId);
+        Optional<Registration> registration = registrationRepository.findById(registrationId);
+        return checkRegistration(registration);
+    }
 
-        if (registrationOptional.isEmpty()) throw CommonException.builder().errorCode(ErrorCode.MSG_NOT_FOUND_REGISTRATION).build();
-
-        return registrationOptional.get();
+    private Registration findByPayment(Long paymentId) {
+        Optional<Registration> registration = registrationRepository.findByPaymentId(paymentId);
+        return checkRegistration(registration);
     }
 }

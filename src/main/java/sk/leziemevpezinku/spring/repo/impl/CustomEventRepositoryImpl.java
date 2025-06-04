@@ -20,7 +20,7 @@ public class CustomEventRepositoryImpl implements CustomEventRepository {
         CriteriaQuery<EventTermCapacity> query = cb.createQuery(EventTermCapacity.class);
         Root<EventTerm> root = query.from(EventTerm.class);
 
-        ListJoin<EventTerm, Registration> registration = root.join(EventTerm_.registrations, JoinType.LEFT);
+        SetJoin<EventTerm, Registration> registration = root.join(EventTerm_.registrations, JoinType.LEFT);
         ListJoin<Registration, Person> people = registration.join(Registration_.people, JoinType.INNER);
 
         query.multiselect(
