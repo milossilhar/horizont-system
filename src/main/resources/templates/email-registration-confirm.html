@@ -66,7 +66,7 @@
             letter-spacing: 0.5px;
         }
 
-        .status-concept {
+        .status-queue {
             background: linear-gradient(135deg, #f39c12, #e67e22);
         }
 
@@ -224,7 +224,7 @@
 
     <div class="content">
         <!-- Status badge - dynamically set based on registration.status -->
-        <div class="status-badge {{#isStatusConcept}}status-concept{{/isStatusConcept}}">
+        <div class="status-badge {{#isStatusQueue}}status-queue{{/isStatusQueue}}">
             Status: {{status}}
         </div>
 
@@ -234,8 +234,13 @@
 
         <div class="message">
             Ďakujeme za registráciu na našu lezeckú akciu!<br>
-            Tvoja registrácia bola úspešne prijatá a spracovávaná. Nižšie
-            nájdeš všetky dôležité detaily.
+            Tvoja registrácia bola úspešne prijatá a spracovávaná.<br>
+            {{#isStatusQueue}}
+            <strong>Bohužiaľ sa kapacita tohto termínu naplnila a tvoja registrácia bola zaradená do poradovníka.</strong>
+            {{/isStatusQueue}}
+            {{^isStatusQueue}}
+            Nižšie nájdeš všetky dôležité detaily.
+            {{/isStatusQueue}}
         </div>
 
         <div class="details-section">
@@ -371,8 +376,13 @@
 
         <div class="message">
             <strong>Čo ďalej?</strong><br>
+            {{#isStatusQueue}}
+            Pokiaľ sa uvolní termín táboru, tak Ťa budeme kontaktovať. Ak máš akékoľvek otázky, neváhaj sa nám ozvať.
+            {{/isStatusQueue}}
+            {{^isStatusQueue}}
             Budeme ťa kontaktovať s ďalšími pokynmi pred začiatkom akcie. Ak máš akékoľvek otázky, neváhaj nás
             kontaktovať.
+            {{/isStatusQueue}}
         </div>
     </div>
 

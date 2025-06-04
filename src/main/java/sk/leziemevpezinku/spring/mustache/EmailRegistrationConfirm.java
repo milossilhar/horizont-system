@@ -11,7 +11,7 @@ public class EmailRegistrationConfirm {
     private String name;
     private String surname;
     private String status;
-    private boolean isStatusConcept;
+    private boolean isStatusQueue;
     private String email;
     private String telPhone;
     private String createdAt;

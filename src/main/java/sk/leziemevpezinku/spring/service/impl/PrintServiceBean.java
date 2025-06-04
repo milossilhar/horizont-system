@@ -45,7 +45,7 @@ public class PrintServiceBean implements PrintService {
                     .name(registration.getName())
                     .surname(registration.getSurname())
                     .status(registration.getStatus().getDescription())
-                    .isStatusConcept(RegistrationStatus.CONCEPT.equals(registration.getStatus()))
+                    .isStatusQueue(RegistrationStatus.QUEUE.equals(registration.getStatus()))
                     .email(registration.getEmail())
                     .telPhone(registration.getTelPhone())
                     .eventName(registration.getEventTerm().getEvent().getName())
