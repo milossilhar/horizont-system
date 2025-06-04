@@ -7,6 +7,8 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import sk.leziemevpezinku.spring.model.EmailLog;
 import sk.leziemevpezinku.spring.model.Registration;
 import sk.leziemevpezinku.spring.repo.EmailLogRepository;
@@ -16,6 +18,8 @@ import sk.leziemevpezinku.spring.service.RegistrationService;
 import sk.leziemevpezinku.spring.service.exception.CommonException;
 import sk.leziemevpezinku.spring.service.model.EmailType;
 import sk.leziemevpezinku.spring.service.model.ErrorCode;
+
+import java.util.function.BiConsumer;
 
 @Log4j2
 @Service
@@ -31,30 +35,65 @@ public class NotificationServiceBean implements NotificationService {
     private String sender;
 
     @Override
+    @Transactional(propagation = Propagation.NEVER)
     public void sendRegistrationCreatedNotification(Registration registration) {
         log.warn("sendRegistrationCreatedNotification is not supported at the moment");
     }
 
     @Override
+    @Transactional(propagation = Propagation.NEVER)
     public void sendRegistrationConfirmedNotification(Registration registration) {
+        if (Boolean.TRUE.equals(registration.getEmailPaymentInfoSent())) {
+            log.info("Registration confirmed email for registration {} already sent.", registration.getUuid());
+            return;
+        }
+
         try {
             String emailBody = printService.printRegistrationConfirmed(registration);
             sendHtmlEmail(EmailType.REGISTRATION_CONFIRMATION, emailBody, registration);
-            registrationService.updateFlag(registration.getId(), Registration::setEmailConfirmSent);
+            updateRegistrationFlag(registration, Registration::setEmailConfirmSent);
         } catch (Exception ex) {
             log.error("Error sending registration confirmed notification for registration {}", registration.getUuid(), ex);
         }
     }
 
     @Override
+    @Transactional(propagation = Propagation.NEVER)
     public void sendPaymentInformationNotification(Registration registration) {
+        if (Boolean.TRUE.equals(registration.getEmailPaymentInfoSent())) {
+            log.info("Payment information email for registration {} already sent.", registration.getUuid());
+            return;
+        }
+
         try {
             String emailBody = printService.printPaymentInfo(registration);
             sendHtmlEmail(EmailType.PAYMENT_INFO, emailBody, registration);
-            registrationService.updateFlag(registration.getId(), Registration::setEmailPaymentInfoSent);
+            updateRegistrationFlag(registration, Registration::setEmailPaymentInfoSent);
         } catch (Exception ex) {
             log.error("Error sending payment information notification for registration {}", registration.getUuid(), ex);
         }
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.NEVER)
+    public void sendPaymentConfirmationNotification(Registration registration) {
+        if (Boolean.TRUE.equals(registration.getEmailPaymentConfirmSent())) {
+            log.info("Payment confirmation email for registration {} already sent.", registration.getUuid());
+            return;
+        }
+
+        try {
+            String emailBody = printService.printPaymentConfirm(registration);
+            sendHtmlEmail(EmailType.PAYMENT_CONFIRM, emailBody, registration);
+            updateRegistrationFlag(registration, Registration::setEmailPaymentConfirmSent);
+        } catch (Exception ex) {
+            log.error("Error sending payment confirmation notification for registration {}", registration.getUuid(), ex);
+        }
+    }
+
+    private void updateRegistrationFlag(Registration registration, BiConsumer<Registration, Boolean> consumer) {
+        registrationService.updateFlagNewTx(registration.getId(), consumer);
+        consumer.accept(registration, true);
     }
 
     private void sendHtmlEmail(EmailType emailType, String htmlBody, Registration registration) {

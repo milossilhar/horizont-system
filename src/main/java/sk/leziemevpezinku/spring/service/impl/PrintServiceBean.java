@@ -11,12 +11,9 @@ import sk.leziemevpezinku.spring.model.Payment;
 import sk.leziemevpezinku.spring.model.Registration;
 import sk.leziemevpezinku.spring.model.enums.EnumerationName;
 import sk.leziemevpezinku.spring.model.enums.RegistrationStatus;
-import sk.leziemevpezinku.spring.mustache.EmailKnownPerson;
-import sk.leziemevpezinku.spring.mustache.EmailPaymentInfo;
-import sk.leziemevpezinku.spring.mustache.EmailPerson;
+import sk.leziemevpezinku.spring.mustache.*;
 import sk.leziemevpezinku.spring.service.EnumerationService;
 import sk.leziemevpezinku.spring.service.PrintService;
-import sk.leziemevpezinku.spring.mustache.EmailRegistrationConfirm;
 import sk.leziemevpezinku.spring.util.DateUtils;
 import sk.leziemevpezinku.spring.util.NumberUtils;
 import sk.leziemevpezinku.spring.util.StringUtils;
@@ -25,8 +22,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.Month;
 import java.util.HashMap;
 
 @Log4j2
@@ -123,7 +118,42 @@ public class PrintServiceBean implements PrintService {
         }
     }
 
-    private String getPayBySquareURL(BigDecimal amount, LocalDate dueDate, String variableSymbol, String note, String iban) throws Exception {
+    @Override
+    public String printPaymentConfirm(Registration registration) {
+        try {
+            String paymentSubject = "záloha";
+            Payment payment = registration.getPayment();
+            EventTerm eventTerm = registration.getEventTerm();
+
+            EmailPaymentConfirm context = EmailPaymentConfirm.builder()
+                    .name(registration.getName())
+                    .surname(registration.getSurname())
+                    .eventName(eventTerm.getEvent().getName())
+                    .eventStartDate(DateUtils.format(eventTerm.getStartAt().toLocalDate()))
+                    .paymentSubject(paymentSubject)
+                    .paymentSubjectCaps(StringUtils.capitalizeFirst(paymentSubject))
+                    .paymentValue(NumberUtils.formatTwoDecimal(payment.getDeposit()))
+                    .variableSymbol(payment.getVariableSymbol())
+                    .remainingAmount(NumberUtils.formatTwoDecimal(payment.getRemainingValue()))
+                    .people(registration.getPeople().stream()
+                            .map(person -> EmailPerson.builder()
+                                    .name(person.getName())
+                                    .surname(person.getSurname())
+                                    .birthDate(DateUtils.format(person.getDateOfBirth()))
+                                    .shirtSize(person.getShirtSize())
+                                    .healthNotes(person.getHealthNotes())
+                                    .foodAllergyNotes(person.getFoodAllergyNotes())
+                                    .build())
+                            .toList())
+                    .build();
+
+            return executeTemplate(Templates.Emails.PAYMENT_CONFIRM, context);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private String getPayBySquareURL(BigDecimal amount, LocalDate dueDate, String variableSymbol, String note, String iban) {
         String template = "https://api.freebysquare.sk/pay/v1/generate-png?size=150&color=3&transparent=false&amount={{amount}}&dueDate={{dueDate}}&variableSymbol={{variableSymbol}}&paymentNote={{note}}&iban={{iban}}&";
 
         HashMap<String, String> context = new HashMap<>();
@@ -142,7 +172,7 @@ public class PrintServiceBean implements PrintService {
         return template.execute(context);
     }
 
-    private String executeString(String templateString, Object context) throws Exception {
+    private String executeString(String templateString, Object context) {
         Template template = compiler.compile(templateString);
         return template.execute(context);
     }

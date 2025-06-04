@@ -8,6 +8,7 @@ public interface PrintService {
         interface Emails {
             String REGISTRATION_CONFIRM = "email-registration-confirm";
             String PAYMENT_INFO = "email-payment-info";
+            String PAYMENT_CONFIRM = "email-payment-confirm";
         }
     }
 
@@ -24,4 +25,11 @@ public interface PrintService {
      * @return html code of an email with substituted values
      */
     String printPaymentInfo(Registration registration);
+
+    /**
+     * Creates email for payment confirmation
+     * @param registration registration for which create email
+     * @return html code of an email with substituted values
+     */
+    String printPaymentConfirm(Registration registration);
 }

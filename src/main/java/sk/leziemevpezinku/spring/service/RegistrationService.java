@@ -9,6 +9,20 @@ import java.util.function.BiConsumer;
 public interface RegistrationService {
 
     /**
+     * Gets registration by ID.
+     * @param id id
+     * @return registration
+     */
+    Registration getById(Long id);
+
+    /**
+     * Gets registration by payment ID.
+     * @param paymentId payment id
+     * @return registration
+     */
+    Registration getByPaymentId(Long paymentId);
+
+    /**
      * Creates registration for user.
      * @param eventTermId event term id
      * @param registration object with registration info
@@ -24,11 +38,11 @@ public interface RegistrationService {
     Registration confirmRegistration(String jwtToken);
 
     /**
-     *
-     * @param eventTermId
-     * @param userEmail
-     * @param numberOfPeople
-     * @return
+     * Calculates price for registration based on number of people registered.
+     * @param eventTermId event term id
+     * @param userEmail user email
+     * @param numberOfPeople number of people to be registered
+     * @return generated payment with all the info
      */
     Payment calculatePriceForRegistration(Long eventTermId, String userEmail, Long numberOfPeople);
 
@@ -37,7 +51,7 @@ public interface RegistrationService {
      * @param id registration id
      * @param invoker setter on registration
      */
-    void updateFlag(Long id, BiConsumer<Registration, Boolean> invoker);
+    void updateFlagNewTx(Long id, BiConsumer<Registration, Boolean> invoker);
 
     /**
      * Finds all registrations where payment-info email was not sent.

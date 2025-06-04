@@ -11,6 +11,7 @@ public enum ErrorCode {
     MSG_NOT_FOUND_EVENT(HttpStatus.NOT_FOUND, "Event with id {{id}} was not found."),
     MSG_NOT_FOUND_EVENT_TERM(HttpStatus.NOT_FOUND, "Event term with id {{id}} was not found."),
     MSG_NOT_FOUND_REGISTRATION(HttpStatus.NOT_FOUND, "Registration with id {{id}} was not found."),
+    MSG_NOT_FOUND_PAYMENT(HttpStatus.NOT_FOUND, "Payment with id {{id}} was not found."),
 
     // registration messages
     MSG_REG_SOON(HttpStatus.BAD_REQUEST, "Registration is not yet possible."),

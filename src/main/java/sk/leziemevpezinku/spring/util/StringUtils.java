@@ -43,4 +43,8 @@ public class StringUtils {
     public static String urlEncode(String str) {
         return URLEncoder.encode(str, StandardCharsets.UTF_8);
     }
+
+    public static String capitalizeFirst(String str) {
+        return capitalize(str);
+    }
 }
