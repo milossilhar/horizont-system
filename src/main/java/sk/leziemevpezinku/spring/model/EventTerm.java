@@ -1,18 +1,20 @@
 package sk.leziemevpezinku.spring.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.*;
+import org.hibernate.annotations.SortComparator;
+import sk.leziemevpezinku.spring.model.compare.AuditedCreatedAtComparator;
 import sk.leziemevpezinku.spring.repo.model.EventTermCapacity;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.SortedSet;
 
 @Getter
 @Setter
@@ -70,8 +72,9 @@ public class EventTerm implements Comparable<EventTerm> {
 
     @JsonView(Views.EventTerm.class)
     @JsonProperty("registrations")
+    @SortComparator(AuditedCreatedAtComparator.class)
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "eventTerm")
-    private List<Registration> registrations;
+    private SortedSet<Registration> registrations;
 
     @Builder.Default
     @JsonView(Views.Internal.class)
