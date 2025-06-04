@@ -3,6 +3,7 @@ package sk.leziemevpezinku.spring.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import sk.leziemevpezinku.spring.model.AppParam;
 import sk.leziemevpezinku.spring.repo.AppParamRepository;
 import sk.leziemevpezinku.spring.service.AppParamService;
@@ -19,6 +20,7 @@ public class AppParamServiceBean implements AppParamService {
     private final AppParamRepository appParamRepository;
 
     @Override
+    @Transactional
     public boolean hasEnabledFeature(String featureName) {
         String value = getValue(featureName);
 
@@ -26,6 +28,7 @@ public class AppParamServiceBean implements AppParamService {
     }
 
     @Override
+    @Transactional
     public Long getNumericValue(String name) {
         String value = getValue(name);
         try {
