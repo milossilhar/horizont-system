@@ -1,117 +1,81 @@
 package sk.leziemevpezinku.spring.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.AssertTrue;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import sk.leziemevpezinku.spring.model.annotation.validation.AccentedName;
-import sk.leziemevpezinku.spring.model.annotation.validation.TelephoneNumber;
-import sk.leziemevpezinku.spring.model.base.UidAuditedEntityBase;
+import sk.leziemevpezinku.spring.model.base.CreatedAtEntityBase;
 import sk.leziemevpezinku.spring.model.enums.RegistrationStatus;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "reg_registration")
-public class Registration extends UidAuditedEntityBase {
+public class Registration extends CreatedAtEntityBase {
 
     @Id
-    @JsonView(Views.Internal.class)
-    @JsonProperty("id")
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_registration_id")
     @SequenceGenerator(name = "seq_registration_id", sequenceName = "seq_registration_id", initialValue = 1, allocationSize = 1)
     private Long id;
 
+    @Column(name = "uuid", length = 40, nullable = false, updatable = false)
+    private String uuid;
+
+    /** Enumerated :: {@link RegistrationStatus} */
     @Builder.Default
-    @JsonProperty("status")
-    @Enumerated(EnumType.STRING)
     @Column(name = "status", length = 10, nullable = false)
-    private RegistrationStatus status = RegistrationStatus.CONCEPT;
+    private String status = RegistrationStatus.CONCEPT.name();
 
-    @NotNull
-    @AccentedName
-    @JsonProperty("name")
     @Column(name = "name", length = 50, nullable = false)
-    private String name;
+    private String parentName;
 
-    @NotNull
-    @AccentedName
-    @JsonProperty("surname")
     @Column(name = "surname", length = 50, nullable = false)
-    private String surname;
+    private String parentSurname;
 
-    @NotNull
-    @Email
-    @JsonProperty("email")
     @Column(name = "email", length = 100, nullable = false)
     private String email;
 
-    @NotNull
-    @TelephoneNumber
-    @JsonProperty("telPhone")
     @Column(name = "tel_phone", length = 20, nullable = false)
     private String telPhone;
 
-    @NotNull
-    @AssertTrue
-    @JsonProperty("consentGDPR")
+    @Column(name = "payment_scheme", length = 10)
+    private String paymentScheme;
+
     @Column(name = "consent_gdpr", nullable = false)
     private Boolean consentGDPR;
 
-    @NotNull
-    @JsonProperty("consentPhoto")
     @Column(name = "consent_photo")
     private Boolean consentPhoto;
 
-    @JsonProperty("emailConfirmSent")
-    @Column(name = "email_confirm_sent")
-    private Boolean emailConfirmSent;
-
-    @JsonProperty("emailPaymentInfoSent")
-    @Column(name = "email_payment_info_sent")
-    private Boolean emailPaymentInfoSent;
-
-    @JsonProperty("emailPaymentConfirmSent")
-    @Column(name = "email_payment_confirm_sent")
-    private Boolean emailPaymentConfirmSent;
-
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "event_term_id")
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "event_term_id", nullable = false)
     private EventTerm eventTerm;
 
-    @Builder.Default
-    @JsonProperty("people")
-    @OrderColumn(name = "ind")
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "reg_person", joinColumns = @JoinColumn(name = "registration_id"))
-    private List<Person> people = new ArrayList<>();
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "person_id", nullable = false)
+    private Person person;
 
     @Builder.Default
-    @JsonProperty("knownPeople")
     @OrderColumn(name = "ind")
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "reg_known_person", joinColumns = @JoinColumn(name = "registration_id"))
     private List<KnownPerson> knownPeople = new ArrayList<>();
 
-    @JsonProperty("payment")
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "payment_id", referencedColumnName = "id")
-    private Payment payment;
+    public RegistrationStatus getStatusEnum() {
+        return RegistrationStatus.valueOf(status);
+    }
 
-    @JsonIgnore
-    public boolean hasPerson(Person person) {
-        return people.stream().anyMatch(p -> p.isEqual(person));
+    public void setStatusEnum(RegistrationStatus statusEnum) {
+        this.status = statusEnum.name();
+    }
+
+    public boolean isStatus(RegistrationStatus status) {
+        if (status == null) {
+            return this.status == null;
+        }
+        return status.name().equals(this.status);
     }
 }

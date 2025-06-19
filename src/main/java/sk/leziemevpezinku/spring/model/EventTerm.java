@@ -1,89 +1,73 @@
 package sk.leziemevpezinku.spring.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import lombok.*;
+import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.SortComparator;
+import org.hibernate.type.SqlTypes;
+import sk.leziemevpezinku.spring.model.base.AuditedEntityBase;
 import sk.leziemevpezinku.spring.model.compare.AuditedCreatedAtComparator;
-import sk.leziemevpezinku.spring.repo.model.EventTermCapacity;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedSet;
 
-@Getter
-@Setter
-@Builder
+@Data
+@EqualsAndHashCode(callSuper = true)
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "reg_event_term")
-public class EventTerm implements Comparable<EventTerm> {
+public class EventTerm extends AuditedEntityBase {
 
     @Id
-    @JsonView(Views.Public.class)
-    @JsonProperty("id")
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_event_term_id")
     @SequenceGenerator(name = "seq_event_term_id", sequenceName = "seq_event_term_id", initialValue = 1, allocationSize = 1)
     private Long id;
 
-    @JsonView(Views.Public.class)
-    @JsonProperty("startAt")
-    @Column(name = "start_at", nullable = false)
-    private LocalDateTime startAt;
+    @Column(name = "start_date", nullable = false)
+    private LocalDate startDate;
 
-    @JsonView(Views.Public.class)
-    @JsonProperty("endAt")
-    @Column(name = "end_at", nullable = false)
-    private LocalDateTime endAt;
+    @Column(name = "end_date")
+    private LocalDate endDate;
 
-    @NotNull
-    @Positive
-    @JsonView(Views.Public.class)
-    @JsonProperty("capacity")
-    @Column(name = "capacity", nullable = false)
-    private Integer capacity;
+    @Column(name = "start_time", nullable = false)
+    private LocalTime startTime;
 
-    @NotNull
-    @Positive
-    @JsonView(Views.Public.class)
-    @JsonProperty("deposit")
-    @Column(name = "deposit", nullable = false)
+    @Column(name = "duration_minutes", nullable = false)
+    private Integer durationMinutes;
+
+    @Column(name = "number_of_lessons")
+    private Long numberOfLessons;
+
+    @JdbcTypeCode(value = SqlTypes.JSON)
+    @Column(name = "expected_trainers")
+    private List<String> expectedTrainers = new ArrayList<>();
+
+    @Column(name = "deposit")
     private BigDecimal deposit;
 
-    @NotNull
-    @Positive
-    @JsonView(Views.Public.class)
-    @JsonProperty("price")
     @Column(name = "price", nullable = false)
     private BigDecimal price;
 
-    @JsonView(Views.EventTerm.class)
-    @JsonProperty("event")
-    @ManyToOne
+    @Column(name = "capacity")
+    private Long capacity;
+
+    @Column(name = "has_attendance")
+    private Boolean hasAttendance;
+
+    @Enumerated(value = EnumType.ORDINAL)
+    @Column(name = "day_of_week")
+    private DayOfWeek dayOfWeek;
+
+    @ManyToOne(optional = false)
     @JoinColumn(name = "event_id", nullable = false)
     private Event event;
 
-    @JsonView(Views.EventTerm.class)
-    @JsonProperty("registrations")
     @SortComparator(AuditedCreatedAtComparator.class)
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "eventTerm")
+    @OneToMany(mappedBy = "eventTerm", fetch = FetchType.LAZY)
     private SortedSet<Registration> registrations;
-
-    @Builder.Default
-    @JsonView(Views.Internal.class)
-    @JsonProperty("currentCapacities")
-    @Transient
-    private List<EventTermCapacity> currentCapacities = new ArrayList<>();
-
-    @Override
-    public int compareTo(EventTerm eventTerm) {
-        return startAt.compareTo(eventTerm.startAt);
-    }
 }

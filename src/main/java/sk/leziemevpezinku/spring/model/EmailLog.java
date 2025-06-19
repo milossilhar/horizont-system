@@ -2,7 +2,7 @@ package sk.leziemevpezinku.spring.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import sk.leziemevpezinku.spring.model.base.AuditedCreationEntityBase;
+import sk.leziemevpezinku.spring.model.base.CreatedAtEntityBase;
 
 @Getter
 @Setter
@@ -11,7 +11,7 @@ import sk.leziemevpezinku.spring.model.base.AuditedCreationEntityBase;
 @AllArgsConstructor
 @Entity
 @Table(name = "reg_email_logs")
-public class EmailLog extends AuditedCreationEntityBase {
+public class EmailLog extends CreatedAtEntityBase {
 
     @Id
     @Column(name = "id")

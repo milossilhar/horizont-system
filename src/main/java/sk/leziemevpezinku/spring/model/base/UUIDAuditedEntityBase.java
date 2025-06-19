@@ -1,22 +1,17 @@
 package sk.leziemevpezinku.spring.model.base;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
-import lombok.Getter;
-import lombok.Setter;
-import sk.leziemevpezinku.spring.model.Views;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.UUID;
 
-@Getter
-@Setter
+@Data
+@EqualsAndHashCode(callSuper = true)
 @MappedSuperclass
-public class UidAuditedEntityBase extends AuditedCreationEntityBase {
+public class UUIDAuditedEntityBase extends AuditedEntityBase {
 
-    @JsonView(Views.Public.class)
-    @JsonProperty("uuid")
     @Column(name = "uuid", length = 40, nullable = false, unique = true, updatable = false)
     private String uuid;
 

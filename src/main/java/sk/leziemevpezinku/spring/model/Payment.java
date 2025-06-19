@@ -1,13 +1,11 @@
 package sk.leziemevpezinku.spring.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.*;
-import sk.leziemevpezinku.spring.util.DateUtils;
 import sk.leziemevpezinku.spring.util.StringUtils;
 
 import java.math.BigDecimal;
@@ -56,10 +54,6 @@ public class Payment {
     @Column(name = "paid")
     private Boolean paid;
 
-    @JsonBackReference
-    @OneToOne(mappedBy = "payment", fetch = FetchType.LAZY)
-    private Registration registration;
-
     @JsonGetter("finalPrice")
     public BigDecimal getFinalPrice() {
         if (hasDiscountValue()) return price.subtract(discountValue);
@@ -99,10 +93,7 @@ public class Payment {
 
     @JsonGetter("variableSymbol")
     public String getVariableSymbol() {
-        if (this.registration == null) return null;
-
-        return DateUtils.formatYYMMDD(this.registration.getCreatedAt()) +
-                StringUtils.leftPadding(StringUtils.tail(String.valueOf(id), 2), 2, "0");
+        return StringUtils.leftPadding(String.valueOf(id), 10, "0");
     }
 
     private boolean hasDiscountValue() {
