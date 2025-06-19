@@ -1,10 +1,9 @@
 package sk.leziemevpezinku.spring.util;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoUnit;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -65,6 +64,16 @@ public class DateUtils {
         return formatter(PRINT_DATE_FORMAT).format(localDate);
     }
 
+    public static String formatISO(LocalDateTime localDateTime) {
+        Objects.requireNonNull(localDateTime);
+        return DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(toUTC(localDateTime));
+    }
+
+    public static String formatISO(LocalDate localDate) {
+        Objects.requireNonNull(localDate);
+        return DateTimeFormatter.ISO_LOCAL_DATE.format(localDate);
+    }
+
     public static ZonedDateTime tryParse(String text, DateTimeFormatter formatter) {
         try {
             return ZonedDateTime.parse(text, formatter);
@@ -75,5 +84,12 @@ public class DateUtils {
 
     private static DateTimeFormatter formatter(String pattern) {
         return DateTimeFormatter.ofPattern(pattern, Locale.getDefault());
+    }
+
+    private static LocalDateTime toUTC(LocalDateTime localDateTime) {
+        return ZonedDateTime
+                .of(localDateTime.truncatedTo(ChronoUnit.MILLIS), ZoneId.systemDefault())
+                .withZoneSameInstant(ZoneOffset.UTC)
+                .toLocalDateTime();
     }
 }

@@ -1,10 +1,7 @@
 package sk.leziemevpezinku.spring.util;
 
-import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.text.DecimalFormat;
-import java.util.Locale;
 
 import static org.apache.commons.lang3.StringUtils.*;
 
@@ -46,5 +43,15 @@ public class StringUtils {
 
     public static String capitalizeFirst(String str) {
         return capitalize(str);
+    }
+
+    /**
+     * Cuts off string at max length characters.
+     * @param str given string
+     * @param maxLength max length
+     * @return string with length equal to maxLength
+     */
+    public static String limit(String str, int maxLength) {
+        return left(str, maxLength);
     }
 }
