@@ -1,5 +1,7 @@
 package sk.leziemevpezinku.spring.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import sk.leziemevpezinku.spring.model.Payment;
 import sk.leziemevpezinku.spring.model.Registration;
 
@@ -7,6 +9,13 @@ import java.util.List;
 import java.util.function.BiConsumer;
 
 public interface RegistrationService {
+
+    /**
+     * Finds all registrations with pagination and sorting.
+     * @param page page and sort
+     * @return paginated result
+     */
+    Page<Registration> getAll(Pageable page);
 
     /**
      * Gets registration by ID.

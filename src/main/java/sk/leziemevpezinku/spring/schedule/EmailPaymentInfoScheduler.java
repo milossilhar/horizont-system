@@ -47,19 +47,7 @@ public class EmailPaymentInfoScheduler {
         }
 
         for (Registration registration : registrations) {
-            BigDecimal deposit = registration.getPayment() == null ? null : registration.getPayment().getDeposit();
-            if (deposit == null || BigDecimal.ZERO.equals(deposit)) {
-                log.info("not sending email payment for registration {} with zero deposit", registration.getUuid());
-                continue;
-            }
-
-            if (!RegistrationStatus.CONFIRMED.equals(registration.getStatus())) {
-                log.warn("not sending email payment for registration {} with status {}", registration.getUuid(), registration.getStatus());
-                continue;
-            }
-
             log.info("sending payment info notification for registration {}", registration.getUuid());
-            notificationService.sendPaymentInformationNotification(registration);
         }
 
         log.info("processed {} registrations", registrations.size());

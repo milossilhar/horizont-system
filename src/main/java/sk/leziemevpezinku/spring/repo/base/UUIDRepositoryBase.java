@@ -1,13 +1,13 @@
 package sk.leziemevpezinku.spring.repo.base;
 
-import org.springframework.data.repository.ListCrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
-import sk.leziemevpezinku.spring.model.base.UidAuditedEntityBase;
+import sk.leziemevpezinku.spring.model.base.UUIDAuditedEntityBase;
 
 import java.util.Optional;
 
 @NoRepositoryBean
-public interface UidRepositoryBase<T extends UidAuditedEntityBase, ID> extends ListCrudRepository<T, ID> {
+public interface UUIDRepositoryBase<T extends UUIDAuditedEntityBase, ID> extends JpaRepository<T, ID> {
 
     /**
      * Finds entity by uuid column.

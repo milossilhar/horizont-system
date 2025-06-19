@@ -1,16 +1,16 @@
 package sk.leziemevpezinku.spring.repo;
 
 import org.springframework.data.jpa.repository.EntityGraph;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 import sk.leziemevpezinku.spring.model.Registration;
-import sk.leziemevpezinku.spring.repo.base.UidRepositoryBase;
 
 import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface RegistrationRepository extends UidRepositoryBase<Registration, Long>, JpaSpecificationExecutor<Registration>, CustomRegistrationRepository {
+public interface RegistrationRepository extends JpaRepository<Registration, Long>, JpaSpecificationExecutor<Registration>, CustomRegistrationRepository {
 
     @EntityGraph(type = EntityGraph.EntityGraphType.FETCH)
     Optional<Registration> findUninitializedById(Long id);
@@ -21,6 +21,13 @@ public interface RegistrationRepository extends UidRepositoryBase<Registration, 
      * @return list of registrations
      */
     List<Registration> findByEventTermId(Long eventTermId);
+
+    /**
+     * Finds all registrations with same uuid.
+     * @param uuid uuid
+     * @return list of registrations
+     */
+    List<Registration> findByUUID(String uuid);
 
     /**
      * Finds registration for given payment id.

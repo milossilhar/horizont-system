@@ -1,5 +1,8 @@
 package sk.leziemevpezinku.spring.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import sk.leziemevpezinku.spring.model.Event;
 import sk.leziemevpezinku.spring.repo.model.EventTermCapacity;
 
@@ -50,6 +53,13 @@ public interface EventService {
      * @return list of all events
      */
     List<Event> getAll();
+
+    /**
+     * Finds all events with pagination and sorting.
+     * @param page page and sort
+     * @return paginated result
+     */
+    Page<Event> getAll(Pageable page);
 
     /**
      * Finds all events and adds computed current registration capacities.

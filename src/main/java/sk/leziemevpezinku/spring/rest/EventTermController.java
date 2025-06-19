@@ -30,10 +30,4 @@ public class EventTermController {
     public EventTerm getEventTerm(@PathVariable("id") @NotNull Long eventTermId) {
         return eventTermService.getById(eventTermId);
     }
-
-    @GetMapping("/current")
-    @JsonView(Views.Public.class)
-    public List<EventTerm> getEventTermsCurrent() {
-        return eventTermService.getCurrent();
-    }
 }

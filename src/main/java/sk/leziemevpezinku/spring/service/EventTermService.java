@@ -2,8 +2,6 @@ package sk.leziemevpezinku.spring.service;
 
 import sk.leziemevpezinku.spring.model.EventTerm;
 
-import java.util.List;
-
 public interface EventTermService {
 
     /**
@@ -12,10 +10,4 @@ public interface EventTermService {
      * @return found event term
      */
     EventTerm getById(Long eventTermId);
-
-    /**
-     * Finds all currently active terms
-     * @return list of active event terms
-     */
-    List<EventTerm> getCurrent();
 }

@@ -6,16 +6,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.autoconfigure.mustache.MustacheResourceTemplateLoader;
 import org.springframework.stereotype.Service;
-import sk.leziemevpezinku.spring.model.EventTerm;
-import sk.leziemevpezinku.spring.model.Payment;
 import sk.leziemevpezinku.spring.model.Registration;
-import sk.leziemevpezinku.spring.model.enums.EnumerationName;
-import sk.leziemevpezinku.spring.model.enums.RegistrationStatus;
 import sk.leziemevpezinku.spring.mustache.*;
 import sk.leziemevpezinku.spring.service.EnumerationService;
 import sk.leziemevpezinku.spring.service.PrintService;
 import sk.leziemevpezinku.spring.util.DateUtils;
-import sk.leziemevpezinku.spring.util.NumberUtils;
 import sk.leziemevpezinku.spring.util.StringUtils;
 
 import java.math.BigDecimal;
@@ -37,37 +32,6 @@ public class PrintServiceBean implements PrintService {
     public String printRegistrationConfirmed(Registration registration) {
         try {
             EmailRegistrationConfirm context = EmailRegistrationConfirm.builder()
-                    .name(registration.getName())
-                    .surname(registration.getSurname())
-                    .status(registration.getStatus().getDescription())
-                    .isStatusQueue(RegistrationStatus.QUEUE.equals(registration.getStatus()))
-                    .email(registration.getEmail())
-                    .telPhone(registration.getTelPhone())
-                    .eventName(registration.getEventTerm().getEvent().getName())
-                    .createdAt(DateUtils.format(registration.getCreatedAt()))
-                    .startDateTime(DateUtils.format(registration.getEventTerm().getStartAt()))
-                    .endDateTime(DateUtils.format(registration.getEventTerm().getEndAt()))
-                    .location(registration.getEventTerm().getEvent().getPlace())
-                    .peopleLength((long) registration.getPeople().size())
-                    .consentGDPR(registration.getConsentGDPR())
-                    .consentPhoto(registration.getConsentPhoto())
-                    .people(registration.getPeople().stream()
-                            .map(person -> EmailPerson.builder()
-                                    .name(person.getName())
-                                    .surname(person.getSurname())
-                                    .birthDate(DateUtils.format(person.getDateOfBirth()))
-                                    .shirtSize(person.getShirtSize())
-                                    .healthNotes(person.getHealthNotes())
-                                    .foodAllergyNotes(person.getFoodAllergyNotes())
-                                    .build())
-                            .toList())
-                    .knownPeople(registration.getKnownPeople().stream()
-                            .map(knownPerson -> EmailKnownPerson.builder()
-                                    .name(knownPerson.getName())
-                                    .surname(knownPerson.getSurname())
-                                    .relation(enumerationService.getDescription(EnumerationName.REG_E_RELATION, knownPerson.getRelation()))
-                                    .build())
-                            .toList())
                     .build();
 
             return executeTemplate(Templates.Emails.REGISTRATION_CONFIRM, context);
@@ -79,37 +43,7 @@ public class PrintServiceBean implements PrintService {
     @Override
     public String printPaymentInfo(Registration registration) {
         try {
-            final String IBAN = "SK9111000000002947266169";
-            final String IBAN_FORMATTED = "SK91 1100 0000 0029 4726 6169";
-
-            Payment payment = registration.getPayment();
-            EventTerm eventTerm = registration.getEventTerm();
-
-            String note = StringUtils.strip(registration.getName()) + " " + StringUtils.strip(registration.getSurname());
-
             EmailPaymentInfo context = EmailPaymentInfo.builder()
-                    .name(registration.getName())
-                    .surname(registration.getSurname())
-                    .eventName(eventTerm.getEvent().getName())
-                    .location(eventTerm.getEvent().getPlace())
-                    .startDateTime(DateUtils.format(eventTerm.getStartAt()))
-                    .endDateTime(DateUtils.format(eventTerm.getEndAt()))
-                    .iban(IBAN_FORMATTED)
-                    .paymentValue(NumberUtils.formatTwoDecimal(payment.getDeposit()))
-                    .note(note)
-                    .payBySquareURL(getPayBySquareURL(payment.getDeposit(), LocalDate.now(), payment.getVariableSymbol(), note, IBAN))
-                    .depositPerChild(NumberUtils.formatTwoDecimal(eventTerm.getDeposit()))
-                    .variableSymbol(payment.getVariableSymbol())
-                    .people(registration.getPeople().stream()
-                            .map(person -> EmailPerson.builder()
-                                    .name(person.getName())
-                                    .surname(person.getSurname())
-                                    .birthDate(DateUtils.format(person.getDateOfBirth()))
-                                    .shirtSize(person.getShirtSize())
-                                    .healthNotes(person.getHealthNotes())
-                                    .foodAllergyNotes(person.getFoodAllergyNotes())
-                                    .build())
-                            .toList())
                     .build();
 
             return executeTemplate(Templates.Emails.PAYMENT_INFO, context);
@@ -121,30 +55,7 @@ public class PrintServiceBean implements PrintService {
     @Override
     public String printPaymentConfirm(Registration registration) {
         try {
-            String paymentSubject = "záloha";
-            Payment payment = registration.getPayment();
-            EventTerm eventTerm = registration.getEventTerm();
-
             EmailPaymentConfirm context = EmailPaymentConfirm.builder()
-                    .name(registration.getName())
-                    .surname(registration.getSurname())
-                    .eventName(eventTerm.getEvent().getName())
-                    .eventStartDate(DateUtils.format(eventTerm.getStartAt().toLocalDate()))
-                    .paymentSubject(paymentSubject)
-                    .paymentSubjectCaps(StringUtils.capitalizeFirst(paymentSubject))
-                    .paymentValue(NumberUtils.formatTwoDecimal(payment.getDeposit()))
-                    .variableSymbol(payment.getVariableSymbol())
-                    .remainingAmount(NumberUtils.formatTwoDecimal(payment.getRemainingValue()))
-                    .people(registration.getPeople().stream()
-                            .map(person -> EmailPerson.builder()
-                                    .name(person.getName())
-                                    .surname(person.getSurname())
-                                    .birthDate(DateUtils.format(person.getDateOfBirth()))
-                                    .shirtSize(person.getShirtSize())
-                                    .healthNotes(person.getHealthNotes())
-                                    .foodAllergyNotes(person.getFoodAllergyNotes())
-                                    .build())
-                            .toList())
                     .build();
 
             return executeTemplate(Templates.Emails.PAYMENT_CONFIRM, context);

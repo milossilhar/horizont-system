@@ -3,6 +3,8 @@ package sk.leziemevpezinku.spring.service.impl;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Limit;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +17,7 @@ import sk.leziemevpezinku.spring.service.RegistrationService;
 import sk.leziemevpezinku.spring.service.exception.CommonException;
 import sk.leziemevpezinku.spring.service.model.ErrorCode;
 import sk.leziemevpezinku.spring.service.model.RegistrationTokenClaim;
+import sk.leziemevpezinku.spring.util.DateUtils;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -31,6 +34,12 @@ public class RegistrationServiceBean implements RegistrationService {
     private final EventTermRepository eventTermRepository;
     private final RegistrationRepository registrationRepository;
     private final EncryptionService encryptionService;
+
+    @Override
+    @Transactional
+    public Page<Registration> getAll(Pageable page) {
+        return registrationRepository.findAll(page);
+    }
 
     @Override
     @Transactional
@@ -57,42 +66,18 @@ public class RegistrationServiceBean implements RegistrationService {
         if (now.isBefore(event.getRegStartAt())) {
             throw CommonException.builder()
                     .errorCode(ErrorCode.MSG_REG_SOON)
+                    .parameter("startDate", DateUtils.formatISO(event.getRegStartAt()))
+                    .parameter("endDate", DateUtils.formatISO(event.getRegEndAt()))
                     .build();
         }
 
         if (now.isAfter(event.getRegEndAt())) {
             throw CommonException.builder()
                     .errorCode(ErrorCode.MSG_REG_DEADLINE)
+                    .parameter("startDate", DateUtils.formatISO(event.getRegStartAt()))
+                    .parameter("endDate", DateUtils.formatISO(event.getRegEndAt()))
                     .build();
         }
-
-        // check if there is same registration
-        for (Person registrationPerson : registration.getPeople()) {
-            for (Registration eventTermRegistration : eventTerm.getRegistrations()) {
-                if (eventTermRegistration.hasPerson(registrationPerson)) {
-                    throw CommonException.builder()
-                            .errorCode(ErrorCode.MSG_REG_ALREADY_EXISTS)
-                            .build();
-                }
-            }
-        }
-
-        Integer numberOfPeopleRegistered = eventTerm.getRegistrations().stream()
-                .reduce(0, (subtotal, reg) -> subtotal + reg.getPeople().size(), Integer::sum);
-
-        // calculate and create payment
-        Payment payment = calculatePriceForRegistration(eventTerm, registration.getEmail(), Long.valueOf(registration.getPeople().size()));
-        registration.setPayment(payment);
-        payment.setRegistration(registration);
-
-        registration.setStatus(RegistrationStatus.CONFIRMED);
-
-        if (numberOfPeopleRegistered + registration.getPeople().size() > eventTerm.getCapacity()) {
-            registration.setStatus(RegistrationStatus.QUEUE);
-        }
-
-        registration.setEventTerm(eventTerm);
-        eventTerm.getRegistrations().add(registration);
 
         return registrationRepository.save(registration);
     }
@@ -127,7 +112,6 @@ public class RegistrationServiceBean implements RegistrationService {
             return registration;
         }
 
-        registration.setStatus(RegistrationStatus.CONFIRMED);
         return registrationRepository.save(registration);
     }
 
@@ -158,20 +142,10 @@ public class RegistrationServiceBean implements RegistrationService {
     }
 
     private Payment calculatePriceForRegistration(EventTerm eventTerm, String userEmail, Long numberOfPeople) {
-        Payment payment = Payment.builder()
+        return Payment.builder()
                 .price(eventTerm.getPrice().multiply(BigDecimal.valueOf(numberOfPeople)))
                 .deposit(eventTerm.getDeposit().multiply(BigDecimal.valueOf(numberOfPeople)))
                 .build();
-
-        Event event = eventTerm.getEvent();
-        String discountType = event.getDiscountType();
-
-        if (LETO_TABOR_25.equals(discountType)) {
-            if (numberOfPeople == 2) payment.setDiscountValue(BigDecimal.valueOf(20));
-            if (numberOfPeople > 2) payment.setDiscountValue(BigDecimal.valueOf(50));
-        }
-
-        return payment;
     }
 
     private EventTerm findEventTerm(Long eventTermId) {
@@ -190,23 +164,28 @@ public class RegistrationServiceBean implements RegistrationService {
         return eventTermOptional.get();
     }
 
-    private Registration checkRegistration(Optional<Registration> registration) {
-        if (registration.isEmpty()) throw CommonException.builder().errorCode(ErrorCode.MSG_NOT_FOUND_REGISTRATION).build();
+    private Registration checkRegistration(Optional<Registration> registration, Long registrationId) {
+        if (registration.isEmpty()) {
+            throw CommonException.builder()
+                    .errorCode(ErrorCode.MSG_NOT_FOUND_REGISTRATION)
+                    .parameter("id", registrationId)
+                    .build();
+        }
         return registration.get();
     }
 
     private Registration findUninitializedRegistration(Long registrationId) {
         Optional<Registration> registration = registrationRepository.findUninitializedById(registrationId);
-        return checkRegistration(registration);
+        return checkRegistration(registration, registrationId);
     }
 
     private Registration findRegistration(Long registrationId) {
         Optional<Registration> registration = registrationRepository.findById(registrationId);
-        return checkRegistration(registration);
+        return checkRegistration(registration, registrationId);
     }
 
     private Registration findByPayment(Long paymentId) {
         Optional<Registration> registration = registrationRepository.findByPaymentId(paymentId);
-        return checkRegistration(registration);
+        return checkRegistration(registration, paymentId);
     }
 }

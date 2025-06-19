@@ -5,11 +5,9 @@ import sk.leziemevpezinku.spring.service.model.ErrorCode;
 
 import java.util.Map;
 
-@Getter
-@Setter
+@Data
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 public class CommonException extends RuntimeException {
 
     private ErrorCode errorCode;

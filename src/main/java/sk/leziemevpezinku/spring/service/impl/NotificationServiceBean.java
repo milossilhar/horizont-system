@@ -43,15 +43,9 @@ public class NotificationServiceBean implements NotificationService {
     @Override
     @Transactional(propagation = Propagation.NEVER)
     public void sendRegistrationConfirmedNotification(Registration registration) {
-        if (Boolean.TRUE.equals(registration.getEmailPaymentInfoSent())) {
-            log.info("Registration confirmed email for registration {} already sent.", registration.getUuid());
-            return;
-        }
-
         try {
             String emailBody = printService.printRegistrationConfirmed(registration);
             sendHtmlEmail(EmailType.REGISTRATION_CONFIRMATION, emailBody, registration);
-            updateRegistrationFlag(registration, Registration::setEmailConfirmSent);
         } catch (Exception ex) {
             log.error("Error sending registration confirmed notification for registration {}", registration.getUuid(), ex);
         }
@@ -60,15 +54,9 @@ public class NotificationServiceBean implements NotificationService {
     @Override
     @Transactional(propagation = Propagation.NEVER)
     public void sendPaymentInformationNotification(Registration registration) {
-        if (Boolean.TRUE.equals(registration.getEmailPaymentInfoSent())) {
-            log.info("Payment information email for registration {} already sent.", registration.getUuid());
-            return;
-        }
-
         try {
             String emailBody = printService.printPaymentInfo(registration);
             sendHtmlEmail(EmailType.PAYMENT_INFO, emailBody, registration);
-            updateRegistrationFlag(registration, Registration::setEmailPaymentInfoSent);
         } catch (Exception ex) {
             log.error("Error sending payment information notification for registration {}", registration.getUuid(), ex);
         }
@@ -77,15 +65,9 @@ public class NotificationServiceBean implements NotificationService {
     @Override
     @Transactional(propagation = Propagation.NEVER)
     public void sendPaymentConfirmationNotification(Registration registration) {
-        if (Boolean.TRUE.equals(registration.getEmailPaymentConfirmSent())) {
-            log.info("Payment confirmation email for registration {} already sent.", registration.getUuid());
-            return;
-        }
-
         try {
             String emailBody = printService.printPaymentConfirm(registration);
             sendHtmlEmail(EmailType.PAYMENT_CONFIRM, emailBody, registration);
-            updateRegistrationFlag(registration, Registration::setEmailPaymentConfirmSent);
         } catch (Exception ex) {
             log.error("Error sending payment confirmation notification for registration {}", registration.getUuid(), ex);
         }

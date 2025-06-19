@@ -8,7 +8,6 @@ import sk.leziemevpezinku.spring.model.*;
 import sk.leziemevpezinku.spring.model.enums.RegistrationStatus;
 import sk.leziemevpezinku.spring.repo.CustomRegistrationRepository;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -24,12 +23,7 @@ public class CustomRegistrationRepositoryImpl implements CustomRegistrationRepos
 
         query.where(
                 cb.and(
-                        cb.equal(root.get(Registration_.status), RegistrationStatus.CONFIRMED),
-                        cb.or(
-                                cb.isNull(root.get(Registration_.emailPaymentInfoSent)),
-                                cb.isFalse(root.get(Registration_.emailPaymentInfoSent))
-                        ),
-                        cb.notEqual(root.get(Registration_.payment).get(Payment_.deposit), BigDecimal.valueOf(0))
+                        cb.equal(root.get(Registration_.status), RegistrationStatus.CONFIRMED)
                 )
         );
 

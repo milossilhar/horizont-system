@@ -1,6 +1,9 @@
 package sk.leziemevpezinku.spring.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sk.leziemevpezinku.spring.model.Event;
@@ -46,7 +49,6 @@ public class EventServiceBean implements EventService {
         dbEvent.setName(event.getName());
         dbEvent.setRegStartAt(event.getRegStartAt());
         dbEvent.setRegEndAt(event.getRegEndAt());
-        dbEvent.setDiscountType(event.getDiscountType());
 
         return eventRepository.save(dbEvent);
     }
@@ -79,20 +81,13 @@ public class EventServiceBean implements EventService {
     }
 
     @Override
+    public Page<Event> getAll(Pageable page) {
+        return this.eventRepository.findAll(page);
+    }
+
+    @Override
     public List<Event> getAllWithCapacities() {
-        List<Event> events = eventRepository.findAll();
-
-        events.forEach(event -> {
-            List<EventTermCapacity> eventTermCapacities = eventRepository.countRegistrations(event.getId());
-
-            event.getTerms().forEach(et -> et.setCurrentCapacities(
-                    eventTermCapacities.stream()
-                            .filter(etc -> etc.getStatus() != null && etc.getEventTermId().equals(et.getId()))
-                            .toList())
-            );
-        });
-
-        return events;
+        return eventRepository.findAll();
     }
 
     @Override

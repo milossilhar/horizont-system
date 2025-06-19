@@ -31,16 +31,4 @@ public class EventTermServiceBean implements EventTermService {
 
         return eventTermOptional.get();
     }
-
-    @Override
-    public List<EventTerm> getCurrent() {
-        LocalDateTime now = LocalDateTime.now();
-
-        return eventTermRepository.findAll((root, query, cb) ->
-            cb.and(
-                    cb.lessThanOrEqualTo(root.get(EventTerm_.startAt), now),
-                    cb.greaterThanOrEqualTo(root.get(EventTerm_.endAt), now)
-            )
-        );
-    }
 }

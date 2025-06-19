@@ -17,6 +17,7 @@ import sk.leziemevpezinku.spring.service.model.ErrorCode;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @Log4j2
 @RestControllerAdvice
@@ -42,6 +43,7 @@ public class GlobalExceptionHandler {
                 .code(error.name())
                 .statusCode(error.getStatus().value())
                 .message(error.getMessage())
+                .parameter("exceptionMessage", ex.getMessage())
                 .build();
     }
 
@@ -53,6 +55,7 @@ public class GlobalExceptionHandler {
                 .code(error.name())
                 .statusCode(error.getStatus().value())
                 .message(error.getMessage())
+                .parameter("resourcePath", ex.getResourcePath())
                 .build();
     }
 
@@ -84,14 +87,16 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<GenericError> defaultExceptionHandler(Exception ex) {
-        log.error("Generic error in rest call.", ex);
         var error = ErrorCode.MSG_GENERIC_ERROR;
+        var uuid = UUID.randomUUID().toString();
+        log.error("Generic error in rest call {}.", uuid, ex);
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(GenericError.builder()
                         .code(error.name())
                         .statusCode(error.getStatus().value())
                         .message(error.getMessage())
+                        .parameter("uuid", uuid)
                         .build()
                 );
     }

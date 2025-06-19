@@ -3,20 +3,20 @@ package sk.leziemevpezinku.spring.rest;
 import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import sk.leziemevpezinku.spring.model.Event;
-import sk.leziemevpezinku.spring.model.Payment;
-import sk.leziemevpezinku.spring.model.Registration;
-import sk.leziemevpezinku.spring.model.Views;
+import sk.leziemevpezinku.spring.model.*;
 import sk.leziemevpezinku.spring.model.enums.EnumerationItem;
 import sk.leziemevpezinku.spring.model.enums.EnumerationName;
 import sk.leziemevpezinku.spring.repo.model.EventTermCapacity;
 import sk.leziemevpezinku.spring.rest.model.EventTermCapacityResponse;
 import sk.leziemevpezinku.spring.rest.model.GenericRequest;
+import sk.leziemevpezinku.spring.rest.model.PageableResponse;
 import sk.leziemevpezinku.spring.rest.model.RegistrationPricingRequest;
 import sk.leziemevpezinku.spring.service.EnumerationService;
 import sk.leziemevpezinku.spring.service.EventService;
@@ -44,9 +44,9 @@ public class PublicController {
 
         Map<EnumerationName, List<EnumerationItem>> result = new HashMap<>();
 
-        visibleEnumerations.forEach(enumerationItem -> result
-                .computeIfAbsent(enumerationItem.getName(), en -> new ArrayList<>())
-                .add(enumerationItem));
+        visibleEnumerations.forEach(ei -> result
+                .computeIfAbsent(EnumerationName.valueOf(ei.getName()), en -> new ArrayList<>())
+                .add(ei));
 
         return result;
     }
@@ -55,6 +55,20 @@ public class PublicController {
     @GetMapping(path = "/events/current")
     public List<Event> getEventsCurrent() {
         return eventService.getCurrentAndFuture();
+    }
+
+    @JsonView(Views.EventPublic.class)
+    @GetMapping(path = "/events", produces = MediaType.APPLICATION_JSON_VALUE)
+    public PageableResponse<Event> getEventsPS(@Valid Pageable pageable) {
+        Page<Event> events = eventService.getAll(pageable);
+        return PageableResponse.of(events);
+    }
+
+    @JsonView(Views.Public.class)
+    @GetMapping(path = "/registrations", produces = MediaType.APPLICATION_JSON_VALUE)
+    public PageableResponse<Registration> getRegistrations(@Valid Pageable pageable) {
+        Page<Registration> registrations = registrationService.getAll(pageable);
+        return PageableResponse.of(registrations);
     }
 
     @JsonView(Views.EventPublic.class)
