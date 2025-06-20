@@ -4,7 +4,7 @@ SQL_SCHEMA_DIR := './db/reference'
 
 DOCKER_PROD_FILE := './docker/compose.prod.yaml'
 DOCKER_DEV_FILE := './docker/compose.dev.yaml'
-DOCKER_TEST_FILE := './docker/compose.test.yaml'
+DOCKER_OPENAPI_FILE := './docker/compose.openapi.yaml'
 
 FRONTEND_PROJECT_DIR := '~/projects/leziemevpezinku/horizont-web'
 
@@ -17,8 +17,11 @@ generate-model:
 
 # generates openapi yaml from spring controllers
 generate-openapi:
+    docker compose -f {{DOCKER_OPENAPI_FILE}} up -d
+    sleep 5
     {{MAVEN}} verify -DskipTests=true -Popenapi
     cp ./target/openapi.json {{FRONTEND_PROJECT_DIR}}/openapi/openapi.json
+    docker compose -f {{DOCKER_OPENAPI_FILE}} down -v
 
 # runs SpringBoot app in production mode
 prod:
@@ -71,11 +74,3 @@ dbstop:
 # connects to LOCAL postgres in Docker
 dbconnect:
     psql "postgresql://horizon_user:horizon_pass@localhost:5431/horizon"
-
-# starts TEST postgres in Docker
-testdbstart:
-    docker compose -f {{DOCKER_TEST_FILE}} up -d
-
-# stops and removes TEST postgres in Docker
-testdbstop:
-    docker compose -f {{DOCKER_TEST_FILE}} down -v

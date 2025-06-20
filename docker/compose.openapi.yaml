@@ -1,5 +1,5 @@
 # Creates test Database
-name: "horizon_test"
+name: "horizon_openapi"
 services:
   postgres:
     image: "postgres:16-alpine"
@@ -7,25 +7,14 @@ services:
     restart: always
     ports:
       - "5433:5432"
-    networks:
-      - horizon_test_network
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
     environment:
       TZ: "Europe/Bratislava"
       PGTZ: "Europe/Bratislava"
-      POSTGRES_USER: test_user
-      POSTGRES_PASSWORD: test_pass
-      POSTGRES_DB: horizon_test
+      POSTGRES_USER: openapi
+      POSTGRES_PASSWORD: openapi
+      POSTGRES_DB: horizon
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -d $$POSTGRES_DB -U $$POSTGRES_USER"]
       interval: 1s
       timeout: 5s
       retries: 10
-volumes:
-  postgres_data:
-    name: horizon_test_data
-networks:
-  horizon_test_network:
-    name: horizon_test_network
-    driver: bridge
