@@ -5,29 +5,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import sk.leziemevpezinku.spring.annotation.UnitTest;
 import sk.leziemevpezinku.spring.model.Period;
 
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @UnitTest
 public class PeriodRepositoryTest extends AbstractRepositoryTest {
 
     @Autowired
-    private PeriodRepository periodRepository;
+    private PeriodRepository repository;
 
     @Test
     public void testSave() {
-        Period p = Period.builder()
+        var p = Period.builder()
                 .name("Jar 2025")
                 .build();
 
-        Period saved = periodRepository.saveAndFlush(p);
+        var saved = repository.saveAndFlush(p);
 
-        Long id = saved.getId();
+        var id = saved.getId();
         assertNotNull(id);
 
-        Optional<Period> dbPeriod = periodRepository.findById(id);
-        assertTrue(dbPeriod.isPresent());
-        assertEquals(id, dbPeriod.get().getId());
+        assertTrue(repository.existsById(id));
     }
 }

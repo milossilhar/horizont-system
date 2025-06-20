@@ -1,6 +1,5 @@
 package sk.leziemevpezinku.spring.repo;
 
-import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@Log4j2
 @UnitTest
 public class EventTermRepositoryTest extends AbstractRepositoryTest {
 
@@ -45,17 +43,17 @@ public class EventTermRepositoryTest extends AbstractRepositoryTest {
     @DisplayName("saving EventTerm entity with json")
     public void testSaveWithJson() {
         var event = eventRepository.findById(1L);
+        var expected = List.of("migmig", "melis");
         var eventTerm =  EventTerm.builder()
                 .event(event.orElseThrow())
                 .startDate(LocalDate.now())
                 .startTime(LocalTime.of(14, 0, 0))
                 .durationMinutes(45)
                 .price(BigDecimal.valueOf(400))
-                .expectedTrainers(List.of("migmig", "melis"))
+                .expectedTrainers(expected)
                 .build();
 
         var saved = repository.saveAndFlush(eventTerm);
-
         entityManager.clear();
 
         assertTrue(repository.existsById(saved.getId()));
@@ -63,7 +61,6 @@ public class EventTermRepositoryTest extends AbstractRepositoryTest {
         var dbEventTerm = repository.findById(saved.getId());
         assertTrue(dbEventTerm.isPresent());
 
-//        assertEquals("").orElseThrow();
-        log.info("TESTING logging");
+        assertLinesMatch(expected, dbEventTerm.orElseThrow().getExpectedTrainers());
     }
 }

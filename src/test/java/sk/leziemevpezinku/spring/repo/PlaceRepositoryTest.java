@@ -28,8 +28,6 @@ public class PlaceRepositoryTest extends AbstractRepositoryTest {
         var id = saved.getId();
         assertNotNull(id);
 
-        var dbPeriod = repository.findById(id);
-        assertTrue(dbPeriod.isPresent());
-        assertEquals(id, dbPeriod.get().getId());
+        assertTrue(repository.existsById(id));
     }
 }
