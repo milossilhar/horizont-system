@@ -5,7 +5,6 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Lock;
-import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.stereotype.Repository;
 import sk.leziemevpezinku.spring.model.EventTerm;
 
