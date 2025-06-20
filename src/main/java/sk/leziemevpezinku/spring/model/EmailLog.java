@@ -4,8 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import sk.leziemevpezinku.spring.model.base.CreatedAtEntityBase;
 
-@Getter
-@Setter
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

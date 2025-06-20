@@ -1,6 +1,6 @@
 package sk.leziemevpezinku.spring.service;
 
-import sk.leziemevpezinku.spring.model.enums.EnumerationItem;
+import sk.leziemevpezinku.spring.model.EnumerationItem;
 import sk.leziemevpezinku.spring.model.enums.EnumerationName;
 
 import java.util.List;

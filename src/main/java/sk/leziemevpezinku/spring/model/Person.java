@@ -10,16 +10,20 @@ import java.util.Objects;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "reg_person")
 public class Person {
 
     @Id
+    @ToString.Include
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_person_id")
     @SequenceGenerator(name = "seq_person_id", sequenceName = "seq_person_id", initialValue = 1, allocationSize = 1)
     private Long id;
 
+    @ToString.Include
     @Column(name = "name", length = 50, nullable = false)
     private String name;
 
@@ -39,29 +43,18 @@ public class Person {
     @Column(name = "shirt_size", length = 10)
     private String shirtSize;
 
+    @ToString.Include
     @Column(name = "is_independent", nullable = false)
     private Boolean isIndependent;
 
+    @EqualsAndHashCode.Exclude
     @ElementCollection
     @OrderColumn(name = "ind")
     @CollectionTable(name = "reg_substitute_lesson", joinColumns = @JoinColumn(name = "person_id"))
     private List<SubstituteLesson> substituteLessons;
 
+    @EqualsAndHashCode.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
-
-    public boolean isEqual(Person person) {
-        if (person == null) return false;
-
-        String normalizedName = StringUtils.normalize(name);
-        String normalizedPersonName = StringUtils.normalize(person.name);
-
-        String normalizedSurname = StringUtils.normalize(surname);
-        String normalizedPersonSurname = StringUtils.normalize(person.surname);
-
-        return Objects.equals(normalizedName, normalizedPersonName) &&
-                Objects.equals(normalizedSurname, normalizedPersonSurname) &&
-                (dateOfBirth == null || dateOfBirth.isEqual(person.dateOfBirth));
-    }
 }

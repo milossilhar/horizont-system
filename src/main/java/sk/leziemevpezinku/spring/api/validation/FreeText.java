@@ -1,4 +1,4 @@
-package sk.leziemevpezinku.spring.model.annotation.validation;
+package sk.leziemevpezinku.spring.api.validation;
 
 import jakarta.validation.constraints.Pattern;
 

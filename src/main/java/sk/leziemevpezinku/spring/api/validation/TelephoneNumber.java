@@ -1,4 +1,4 @@
-package sk.leziemevpezinku.spring.model.annotation.validation;
+package sk.leziemevpezinku.spring.api.validation;
 
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -10,6 +10,6 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-@Size(min = 1, max = 50)
-@Pattern(regexp = "^[a-zA-ZÀ-ʯ \\-_]+$")
-public @interface AccentedName { }
+@Size(min = 5, max = 20)
+@Pattern(regexp = "^[+]?\\d+$")
+public @interface TelephoneNumber { }

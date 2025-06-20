@@ -3,12 +3,10 @@ package sk.leziemevpezinku.spring.model.base;
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.util.UUID;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
 @MappedSuperclass
 public class UUIDAuditedEntityBase extends AuditedEntityBase {
 

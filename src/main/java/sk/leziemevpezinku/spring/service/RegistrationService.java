@@ -25,13 +25,6 @@ public interface RegistrationService {
     Registration getById(Long id);
 
     /**
-     * Gets registration by payment ID.
-     * @param paymentId payment id
-     * @return registration
-     */
-    Registration getByPaymentId(Long paymentId);
-
-    /**
      * Creates registration for user.
      * @param eventTermId event term id
      * @param registration object with registration info

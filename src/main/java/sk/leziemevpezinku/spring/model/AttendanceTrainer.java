@@ -1,27 +1,32 @@
 package sk.leziemevpezinku.spring.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import sk.leziemevpezinku.spring.model.base.AuditedEntityBase;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "reg_attendance_trainer")
 public class AttendanceTrainer extends AuditedEntityBase {
 
+    @ToString.Include
     @EmbeddedId
     private AttendanceTrainerId id;
 
+    @EqualsAndHashCode.Exclude
     @MapsId("lessonId")
     @ManyToOne(fetch = FetchType.LAZY)
     private Lesson lesson;
 
+    @EqualsAndHashCode.Exclude
     @MapsId("userId")
     @ManyToOne(fetch = FetchType.LAZY)
     private Person person;
 
+    @ToString.Include
     @Column(name = "duration_minutes", nullable = false)
     private Integer durationMinutes;
 }

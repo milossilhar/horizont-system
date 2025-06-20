@@ -27,12 +27,5 @@ public interface RegistrationRepository extends JpaRepository<Registration, Long
      * @param uuid uuid
      * @return list of registrations
      */
-    List<Registration> findByUUID(String uuid);
-
-    /**
-     * Finds registration for given payment id.
-     * @param paymentId payment id
-     * @return found registration, maybe
-     */
-    Optional<Registration> findByPaymentId(Long paymentId);
+    List<Registration> findByUuid(String uuid);
 }

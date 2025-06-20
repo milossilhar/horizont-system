@@ -4,17 +4,22 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.Data;
+import lombok.*;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "reg_app_param")
 public class AppParam {
 
     @Id
+    @ToString.Include
     @Column(name = "name", length = 100)
     private String name;
 
+    @ToString.Include
     @Column(name = "value", length = 200, nullable = false)
     private String value;
 

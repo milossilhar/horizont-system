@@ -1,8 +1,7 @@
 package sk.leziemevpezinku.spring.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 import sk.leziemevpezinku.spring.model.base.CreatedAtEntityBase;
@@ -13,12 +12,15 @@ import java.util.List;
 import java.util.Set;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "reg_user")
 public class User extends CreatedAtEntityBase {
 
     @Id
+    @ToString.Include
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_user_id")
     @SequenceGenerator(name = "seq_user_id", sequenceName = "seq_user_id", initialValue = 1, allocationSize = 1)
@@ -36,21 +38,29 @@ public class User extends CreatedAtEntityBase {
     @Column(name = "telPhone", length = 20, nullable = false)
     private String telPhone;
 
+    @ToString.Include
     @Column(name = "verified")
     private Boolean verified;
 
+    @ToString.Include
     @Column(name = "disabled")
     private Boolean disabled;
 
+    @Builder.Default
+    @EqualsAndHashCode.Exclude
     @JdbcTypeCode(value = SqlTypes.JSON)
     @Column(name = "roles")
     private List<String> roles = new ArrayList<>();
 
+    @Builder.Default
+    @EqualsAndHashCode.Exclude
     @OrderColumn(name = "ind")
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "reg_user_known_person", joinColumns = @JoinColumn(name = "user_id"))
     private List<KnownPerson> knownPeople = new ArrayList<>();
 
+    @Builder.Default
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private Set<Person> people = new HashSet<>();
 }

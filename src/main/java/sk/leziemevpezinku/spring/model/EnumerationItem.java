@@ -1,7 +1,8 @@
-package sk.leziemevpezinku.spring.model.enums;
+package sk.leziemevpezinku.spring.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import sk.leziemevpezinku.spring.model.enums.EnumerationName;
 
 @Data
 @Entity
@@ -15,12 +16,15 @@ public class EnumerationItem {
     private Long id;
 
     /** Enumerated :: {@link EnumerationName} */
+    @ToString.Include
     @Column(name = "enum_name", length = 40, nullable = false)
     private String name;
 
+    @ToString.Include
     @Column(name = "code", length = 10, nullable = false)
     private String code;
 
+    @ToString.Include
     @Column(name = "description", length = 150, nullable = false)
     private String description;
 

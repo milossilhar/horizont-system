@@ -11,7 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import sk.leziemevpezinku.spring.model.*;
-import sk.leziemevpezinku.spring.model.enums.EnumerationItem;
+import sk.leziemevpezinku.spring.model.EnumerationItem;
 import sk.leziemevpezinku.spring.model.enums.EnumerationName;
 import sk.leziemevpezinku.spring.repo.model.EventTermCapacity;
 import sk.leziemevpezinku.spring.rest.model.EventTermCapacityResponse;

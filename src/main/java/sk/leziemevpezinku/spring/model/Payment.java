@@ -11,12 +11,11 @@ import sk.leziemevpezinku.spring.util.StringUtils;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-@Getter
-@Setter
-@Entity
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
 @Table(name = "reg_payment")
 public class Payment {
 

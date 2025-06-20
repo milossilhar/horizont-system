@@ -7,7 +7,6 @@ import java.util.Map;
 
 @Data
 @Builder
-@EqualsAndHashCode(callSuper = true)
 public class CommonException extends RuntimeException {
 
     private ErrorCode errorCode;

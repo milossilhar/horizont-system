@@ -24,8 +24,6 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.function.BiConsumer;
 
-import static sk.leziemevpezinku.spring.model.enums.EnumerationValues.REG_E_EVENT_DISCOUNT_TYPE.LETO_TABOR_25;
-
 @Log4j2
 @Service
 @AllArgsConstructor
@@ -45,12 +43,6 @@ public class RegistrationServiceBean implements RegistrationService {
     @Transactional
     public Registration getById(Long id) {
         return findRegistration(id);
-    }
-
-    @Override
-    @Transactional
-    public Registration getByPaymentId(Long paymentId) {
-        return findByPayment(paymentId);
     }
 
     @Override
@@ -182,10 +174,5 @@ public class RegistrationServiceBean implements RegistrationService {
     private Registration findRegistration(Long registrationId) {
         Optional<Registration> registration = registrationRepository.findById(registrationId);
         return checkRegistration(registration, registrationId);
-    }
-
-    private Registration findByPayment(Long paymentId) {
-        Optional<Registration> registration = registrationRepository.findByPaymentId(paymentId);
-        return checkRegistration(registration, paymentId);
     }
 }

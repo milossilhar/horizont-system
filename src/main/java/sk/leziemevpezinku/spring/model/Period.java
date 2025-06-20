@@ -1,8 +1,7 @@
 package sk.leziemevpezinku.spring.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import sk.leziemevpezinku.spring.model.base.AuditedEntityBase;
 
 import java.time.LocalDate;
@@ -10,7 +9,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "reg_period")
 public class Period extends AuditedEntityBase {
@@ -21,7 +22,8 @@ public class Period extends AuditedEntityBase {
     @SequenceGenerator(name = "seq_period_id", sequenceName = "seq_period_id", initialValue = 1, allocationSize = 1)
     private Long id;
 
-    @Column(name = "name", length = 100)
+    @ToString.Include
+    @Column(name = "name", length = 100, nullable = false)
     private String name;
 
     @Column(name = "start_at")
@@ -30,6 +32,8 @@ public class Period extends AuditedEntityBase {
     @Column(name = "end_at")
     private LocalDate endAt;
 
+    @Builder.Default
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "period", fetch = FetchType.LAZY)
     private Set<Event> events = new HashSet<>();
 }

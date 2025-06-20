@@ -28,7 +28,7 @@ public class RegistrationController {
             @RequestParam("deposit") @NotNull Boolean deposit) {
         paymentService.confirmPayment(paymentId, deposit);
 
-        Registration registration = registrationService.getByPaymentId(paymentId);
+        Registration registration = registrationService.getById(paymentId);
         notificationService.sendPaymentConfirmationNotification(registration);
         return registration;
     }
