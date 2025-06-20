@@ -1,5 +1,5 @@
 --liquibase formatted sql
---changeset dugong:INIT_DATA
+--changeset dugong:prod_001_enum
 
 INSERT INTO reg_enumeration_item (id, enum_name, code, description, ordering, visible) VALUES (nextval('seq_enumeration_item_id'), 'REG_E_SHIRT_SIZE', 'XS', 'XS', 1, true);
 INSERT INTO reg_enumeration_item (id, enum_name, code, description, ordering, visible) VALUES (nextval('seq_enumeration_item_id'), 'REG_E_SHIRT_SIZE', 'S', 'S', 2, true);

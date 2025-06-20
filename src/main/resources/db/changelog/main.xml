@@ -8,16 +8,13 @@
         http://www.liquibase.org/xml/ns/dbchangelog-ext
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    <!-- Initialize Database -->
-    <include file="init/_init.xml" relativeToChangelogFile="true"/>
+    <!-- Initial schema -->
+    <include file="schema.sql" relativeToChangelogFile="true"/>
 
-    <!-- Updates -->
-    <includeAll path="updates" relativeToChangelogFile="true"/>
+    <!-- Updates (environment agnostic) -->
+    <includeAll path="updates" relativeToChangelogFile="true" errorIfMissingOrEmpty="false"/>
 
-    <!-- Run Dev Initialization - ONLY IN dev CONTEXT -->
-<!--    <includeAll path="development" relativeToChangelogFile="true" contextFilter="dev"/>-->
-
-    <!-- Run Test Initialization - ONLY IN test CONTEXT -->
-    <includeAll path="test" relativeToChangelogFile="true" contextFilter="test"/>
+    <!-- Environment specific updates -->
+    <include file="environment/index.xml" relativeToChangelogFile="true" />
 
 </databaseChangeLog>

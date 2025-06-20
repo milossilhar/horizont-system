@@ -8,10 +8,13 @@
         http://www.liquibase.org/xml/ns/dbchangelog-ext
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    <!-- Initial schema -->
-    <include file="schema.sql" relativeToChangelogFile="true"/>
+    <!-- DEV environment updates -->
+    <includeAll path="dev" relativeToChangelogFile="true" contextFilter="dev"/>
 
-    <!-- Initial enumerations -->
-    <include file="enum.sql" relativeToChangelogFile="true"/>
+    <!-- TEST environment updates -->
+    <includeAll path="test" relativeToChangelogFile="true" contextFilter="test"/>
+
+    <!-- PROD environment updates -->
+    <includeAll path="prod" relativeToChangelogFile="true" contextFilter="prod"/>
 
 </databaseChangeLog>
