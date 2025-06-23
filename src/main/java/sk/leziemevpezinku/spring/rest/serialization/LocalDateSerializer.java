@@ -1,4 +1,4 @@
-package sk.leziemevpezinku.spring.rest.mapper;
+package sk.leziemevpezinku.spring.rest.serialization;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
