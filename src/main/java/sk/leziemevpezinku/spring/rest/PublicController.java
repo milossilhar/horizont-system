@@ -10,14 +10,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import sk.leziemevpezinku.spring.api.EnumerationItemDTO;
 import sk.leziemevpezinku.spring.model.*;
-import sk.leziemevpezinku.spring.model.EnumerationItem;
 import sk.leziemevpezinku.spring.model.enums.EnumerationName;
-import sk.leziemevpezinku.spring.repo.model.EventTermCapacity;
-import sk.leziemevpezinku.spring.rest.model.EventTermCapacityResponse;
 import sk.leziemevpezinku.spring.rest.model.GenericRequest;
 import sk.leziemevpezinku.spring.rest.model.PageableResponse;
-import sk.leziemevpezinku.spring.rest.model.RegistrationPricingRequest;
 import sk.leziemevpezinku.spring.service.EnumerationService;
 import sk.leziemevpezinku.spring.service.EventService;
 import sk.leziemevpezinku.spring.service.NotificationService;
@@ -37,16 +34,15 @@ public class PublicController {
     private final NotificationService notificationService;
     private final EventService eventService;
 
-    @JsonView(Views.Public.class)
-    @GetMapping("/enums")
-    public Map<EnumerationName, List<EnumerationItem>> getPublicEnumerations() {
-        List<EnumerationItem> visibleEnumerations = enumerationService.getVisibleEnumerations();
+    @GetMapping("/enumeration")
+    public Map<EnumerationName, List<EnumerationItemDTO>> getEnumeration() {
+        List<EnumerationItemDTO> visibleEnumerations = enumerationService.getVisibleEnumerations();
 
-        Map<EnumerationName, List<EnumerationItem>> result = new HashMap<>();
+        Map<EnumerationName, List<EnumerationItemDTO>> result = new HashMap<>();
 
-        visibleEnumerations.forEach(ei -> result
-                .computeIfAbsent(EnumerationName.valueOf(ei.getName()), en -> new ArrayList<>())
-                .add(ei));
+        visibleEnumerations.forEach(item -> result
+                .computeIfAbsent(item.getName(), en -> new ArrayList<>())
+                .add(item));
 
         return result;
     }
@@ -78,25 +74,6 @@ public class PublicController {
     }
 
     @JsonView(Views.Public.class)
-    @GetMapping(path = "/events/{eventUUID}/capacity")
-    public Map<Long, EventTermCapacityResponse> getEventCapacities(@PathVariable("eventUUID") @NotNull String eventUUID) {
-        List<EventTermCapacity> eventRegistrationCount = eventService.getEventRegistrationCount(eventUUID);
-
-        Map<Long, EventTermCapacityResponse> result = new HashMap<>();
-        eventRegistrationCount.forEach(etc -> result.compute(
-                etc.getEventTermId(), (key, response) -> {
-                    var value = Objects.requireNonNullElse(response, new EventTermCapacityResponse(etc.getCapacity()));
-
-                    return value
-                            .addRegistered(etc.getRegisteredCount())
-                            .addConfirmed(etc.getConfirmedCount());
-                })
-        );
-
-        return result;
-    }
-
-    @JsonView(Views.Public.class)
     @PostMapping(path = "/registration/{eventTermId:\\d+}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Registration createRegistration(
             @PathVariable("eventTermId") @NotNull Long eventTermId,
@@ -107,15 +84,6 @@ public class PublicController {
         notificationService.sendRegistrationConfirmedNotification(createdRegistration);
 
         return createdRegistration;
-    }
-
-    @JsonView(Views.Public.class)
-    @PostMapping(path = "/registration/{eventTermId:\\d+}/calculate-price", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Payment calculatePriceForRegistration(
-            @PathVariable("eventTermId") @NotNull Long eventTermId,
-            @RequestBody @Valid RegistrationPricingRequest request) {
-
-        return registrationService.calculatePriceForRegistration(eventTermId, request.getUserEmail(), request.getNumberOfPeople());
     }
 
     @JsonView(Views.Public.class)

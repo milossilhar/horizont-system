@@ -1,5 +1,6 @@
 package sk.leziemevpezinku.spring.service;
 
+import sk.leziemevpezinku.spring.api.EnumerationItemDTO;
 import sk.leziemevpezinku.spring.model.EnumerationItem;
 import sk.leziemevpezinku.spring.model.enums.EnumerationName;
 
@@ -11,7 +12,7 @@ public interface EnumerationService {
      * Returns only enumerations with flag visible = true.
      * @return list of visible enumerations
      */
-    List<EnumerationItem> getVisibleEnumerations();
+    List<EnumerationItemDTO> getVisibleEnumerations();
 
     /**
      * Finds description for given enumeration name and code combination.

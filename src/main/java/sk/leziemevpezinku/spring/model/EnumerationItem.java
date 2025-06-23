@@ -5,6 +5,9 @@ import lombok.*;
 import sk.leziemevpezinku.spring.model.enums.EnumerationName;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "reg_enumeration_item")
 public class EnumerationItem {

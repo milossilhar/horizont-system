@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import sk.leziemevpezinku.spring.api.EnumerationItemDTO;
+import sk.leziemevpezinku.spring.api.mapper.EnumerationItemMapper;
 import sk.leziemevpezinku.spring.model.EnumerationItem;
 import sk.leziemevpezinku.spring.model.EnumerationItem_;
 import sk.leziemevpezinku.spring.model.enums.EnumerationName;
@@ -20,10 +22,12 @@ import java.util.Optional;
 public class EnumerationServiceBean implements EnumerationService {
 
     private final EnumerationRepository enumerationRepository;
+    private final EnumerationItemMapper mapper;
 
     @Override
-    public List<EnumerationItem> getVisibleEnumerations() {
-        return enumerationRepository.findByVisible(true, Sort.by(Sort.Direction.ASC, EnumerationItem_.ORDERING));
+    public List<EnumerationItemDTO> getVisibleEnumerations() {
+        var items = enumerationRepository.findByVisible(true, Sort.by(Sort.Direction.ASC, EnumerationItem_.ORDERING));
+        return mapper.toDTOList(items);
     }
 
     @Override
