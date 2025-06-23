@@ -4,10 +4,10 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import sk.leziemevpezinku.spring.rest.mapper.LocalDateDeserializer;
-import sk.leziemevpezinku.spring.rest.mapper.LocalDateSerializer;
-import sk.leziemevpezinku.spring.rest.mapper.LocalDateTimeDeserializer;
-import sk.leziemevpezinku.spring.rest.mapper.LocalDateTimeSerializer;
+import sk.leziemevpezinku.spring.rest.serialization.LocalDateDeserializer;
+import sk.leziemevpezinku.spring.rest.serialization.LocalDateSerializer;
+import sk.leziemevpezinku.spring.rest.serialization.LocalDateTimeDeserializer;
+import sk.leziemevpezinku.spring.rest.serialization.LocalDateTimeSerializer;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

@@ -12,4 +12,4 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 @Size(min = 1, max = 10)
 @Pattern(regexp = "^[a-zA-Z_]+$")
-public @interface Enumeration { }
+public @interface SystemName { }
