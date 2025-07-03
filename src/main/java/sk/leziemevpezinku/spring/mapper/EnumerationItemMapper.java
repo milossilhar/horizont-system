@@ -1,8 +1,8 @@
-package sk.leziemevpezinku.spring.api.mapper;
+package sk.leziemevpezinku.spring.mapper;
 
 import org.mapstruct.*;
 import sk.leziemevpezinku.spring.api.dto.EnumerationItemDTO;
-import sk.leziemevpezinku.spring.api.mapper.base.BaseMapper;
+import sk.leziemevpezinku.spring.mapper.base.BaseMapper;
 import sk.leziemevpezinku.spring.model.EnumerationItem;
 import sk.leziemevpezinku.spring.api.enumeration.EnumerationName;
 

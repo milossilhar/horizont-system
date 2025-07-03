@@ -1,8 +1,8 @@
-package sk.leziemevpezinku.spring.api.mapper;
+package sk.leziemevpezinku.spring.mapper;
 
 import org.mapstruct.*;
 import sk.leziemevpezinku.spring.api.dto.EventDTO;
-import sk.leziemevpezinku.spring.api.mapper.base.BaseMapper;
+import sk.leziemevpezinku.spring.mapper.base.BaseMapper;
 import sk.leziemevpezinku.spring.model.Event;
 
 @Mapper(
@@ -11,10 +11,6 @@ import sk.leziemevpezinku.spring.model.Event;
 )
 public interface EventMapper extends
         BaseMapper<Event, EventDTO, EventDTO, EventDTO> {
-
-    @Override
-    @Mapping(target = "periodId", source = "period.id")
-    EventDTO toDTO(Event event);
 
     @Override
     @BeanMapping(ignoreByDefault = true)

@@ -1,9 +1,9 @@
-package sk.leziemevpezinku.spring.api.mapper;
+package sk.leziemevpezinku.spring.mapper;
 
 import org.mapstruct.*;
 import sk.leziemevpezinku.spring.api.dto.EventTermDTO;
-import sk.leziemevpezinku.spring.api.mapper.base.BaseMapper;
-import sk.leziemevpezinku.spring.api.mapper.config.IgnoreUnmappedConfig;
+import sk.leziemevpezinku.spring.mapper.base.BaseMapper;
+import sk.leziemevpezinku.spring.mapper.config.IgnoreUnmappedConfig;
 import sk.leziemevpezinku.spring.model.EventTerm;
 
 @Mapper(

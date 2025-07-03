@@ -18,6 +18,7 @@ import java.util.Set;
 public class Period extends AuditedEntityBase {
 
     @Id
+    @Access(AccessType.PROPERTY)
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_period_id")
     @SequenceGenerator(name = "seq_period_id", sequenceName = "seq_period_id", initialValue = 1, allocationSize = 1)

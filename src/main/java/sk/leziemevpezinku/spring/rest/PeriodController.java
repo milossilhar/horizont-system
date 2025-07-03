@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import sk.leziemevpezinku.spring.api.dto.PeriodDTO;
-import sk.leziemevpezinku.spring.api.mapper.PeriodMapper;
+import sk.leziemevpezinku.spring.mapper.PeriodMapper;
 import sk.leziemevpezinku.spring.model.Period;
 import sk.leziemevpezinku.spring.repo.PeriodRepository;
 import sk.leziemevpezinku.spring.api.dto.GenericResponseDTO;

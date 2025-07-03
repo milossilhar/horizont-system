@@ -3,7 +3,7 @@ package sk.leziemevpezinku.spring.api;
 import org.junit.jupiter.api.Test;
 import sk.leziemevpezinku.spring.annotation.UnitTest;
 import sk.leziemevpezinku.spring.api.dto.AppParamDTO;
-import sk.leziemevpezinku.spring.api.mapper.AppParamMapper;
+import sk.leziemevpezinku.spring.mapper.AppParamMapper;
 import sk.leziemevpezinku.spring.model.AppParam;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

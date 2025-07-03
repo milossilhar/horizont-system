@@ -1,4 +1,4 @@
-package sk.leziemevpezinku.spring.api.mapper.annotation;
+package sk.leziemevpezinku.spring.mapper.annotation;
 
 import org.mapstruct.Mapping;
 

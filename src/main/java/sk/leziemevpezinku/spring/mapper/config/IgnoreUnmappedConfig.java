@@ -1,4 +1,4 @@
-package sk.leziemevpezinku.spring.api.mapper.config;
+package sk.leziemevpezinku.spring.mapper.config;
 
 import org.mapstruct.MapperConfig;
 import org.mapstruct.ReportingPolicy;

@@ -1,9 +1,8 @@
-package sk.leziemevpezinku.spring.api.mapper.base;
+package sk.leziemevpezinku.spring.mapper.base;
 
 import org.mapstruct.BeanMapping;
 import org.mapstruct.MappingTarget;
 import org.springframework.data.domain.Page;
-import sk.leziemevpezinku.spring.api.mapper.annotation.IgnoreAuditedProperties;
 
 import java.util.List;
 import java.util.Set;

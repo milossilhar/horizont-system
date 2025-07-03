@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sk.leziemevpezinku.spring.api.dto.EventDTO;
-import sk.leziemevpezinku.spring.api.mapper.EventMapper;
+import sk.leziemevpezinku.spring.mapper.EventMapper;
 import sk.leziemevpezinku.spring.repo.EventRepository;
 import sk.leziemevpezinku.spring.service.EventService;
 import sk.leziemevpezinku.spring.api.exception.CommonException;

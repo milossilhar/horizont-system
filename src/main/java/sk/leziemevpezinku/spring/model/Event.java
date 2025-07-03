@@ -65,6 +65,10 @@ public class Event extends UuidAuditedEntityBase {
     @JoinColumn(name = "period_id")
     private Period period;
 
+    @EqualsAndHashCode.Exclude
+    @Column(name = "period_id", insertable = false, updatable = false)
+    private Long periodId;
+
     @Builder.Default
     @EqualsAndHashCode.Exclude
     @ElementCollection
