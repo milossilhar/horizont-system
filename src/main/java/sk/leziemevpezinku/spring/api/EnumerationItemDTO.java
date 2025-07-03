@@ -18,7 +18,6 @@ import sk.leziemevpezinku.spring.api.validation.SystemName;
 @AllArgsConstructor
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
-        include = JsonTypeInfo.As.EXTERNAL_PROPERTY,
         property = "type",
         defaultImpl = EnumerationItemDTO.class
 )
