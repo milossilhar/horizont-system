@@ -1,7 +1,7 @@
-package sk.leziemevpezinku.spring.service.exception;
+package sk.leziemevpezinku.spring.api.exception;
 
 import lombok.*;
-import sk.leziemevpezinku.spring.service.model.ErrorCode;
+import sk.leziemevpezinku.spring.api.enumeration.ErrorCode;
 
 import java.util.Map;
 

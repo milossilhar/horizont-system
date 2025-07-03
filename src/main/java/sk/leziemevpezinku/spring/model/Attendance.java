@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import sk.leziemevpezinku.spring.model.base.AuditedEntityBase;
-import sk.leziemevpezinku.spring.model.enums.AttendanceStatus;
+import sk.leziemevpezinku.spring.api.enumeration.AttendanceStatus;
 
 @Data
 @SuperBuilder

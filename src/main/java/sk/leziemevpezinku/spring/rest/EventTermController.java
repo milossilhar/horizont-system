@@ -6,8 +6,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import sk.leziemevpezinku.spring.api.EventTermDTO;
-import sk.leziemevpezinku.spring.rest.model.GenericResponse;
+import sk.leziemevpezinku.spring.api.dto.EventTermDTO;
+import sk.leziemevpezinku.spring.api.dto.GenericResponseDTO;
 import sk.leziemevpezinku.spring.service.EventTermService;
 
 @RestController
@@ -22,10 +22,10 @@ public class EventTermController {
     private final EventTermService service;
 
     @GetMapping(path = PER_EVENT_URL)
-    public GenericResponse<Long> getEventTerms(
+    public GenericResponseDTO<Long> getEventTerms(
             @PathVariable("eventId") @NotNull Long eventId
     ) {
-        return GenericResponse.of(eventId);
+        return GenericResponseDTO.of(eventId);
     }
 
     @PostMapping(path = PER_EVENT_URL, consumes = MediaType.APPLICATION_JSON_VALUE)

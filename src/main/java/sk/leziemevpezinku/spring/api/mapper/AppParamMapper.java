@@ -1,7 +1,7 @@
 package sk.leziemevpezinku.spring.api.mapper;
 
 import org.mapstruct.*;
-import sk.leziemevpezinku.spring.api.AppParamDTO;
+import sk.leziemevpezinku.spring.api.dto.AppParamDTO;
 import sk.leziemevpezinku.spring.api.mapper.base.BaseMapper;
 import sk.leziemevpezinku.spring.model.AppParam;
 

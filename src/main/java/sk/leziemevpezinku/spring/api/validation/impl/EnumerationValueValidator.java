@@ -4,7 +4,7 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import lombok.RequiredArgsConstructor;
 import sk.leziemevpezinku.spring.api.validation.EnumerationValue;
-import sk.leziemevpezinku.spring.model.enums.EnumerationName;
+import sk.leziemevpezinku.spring.api.enumeration.EnumerationName;
 import sk.leziemevpezinku.spring.repo.EnumerationRepository;
 
 @RequiredArgsConstructor

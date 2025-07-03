@@ -1,9 +1,9 @@
-package sk.leziemevpezinku.spring.model.enums;
+package sk.leziemevpezinku.spring.api.enumeration;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import sk.leziemevpezinku.spring.api.EnumerationItemDTO;
-import sk.leziemevpezinku.spring.api.PlaceDTO;
+import sk.leziemevpezinku.spring.api.dto.EnumerationItemDTO;
+import sk.leziemevpezinku.spring.api.dto.PlaceDTO;
 
 import java.util.Arrays;
 import java.util.List;

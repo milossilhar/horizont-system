@@ -2,7 +2,7 @@ package sk.leziemevpezinku.spring.api.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
-import sk.leziemevpezinku.spring.api.EventConditionDTO;
+import sk.leziemevpezinku.spring.api.dto.EventConditionDTO;
 import sk.leziemevpezinku.spring.api.mapper.base.BaseMapper;
 import sk.leziemevpezinku.spring.model.EventCondition;
 

@@ -5,7 +5,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.Cascade;
 import sk.leziemevpezinku.spring.model.base.UuidAuditedEntityBase;
-import sk.leziemevpezinku.spring.model.enums.EventStatus;
+import sk.leziemevpezinku.spring.api.enumeration.EventStatus;
 
 import java.time.LocalDateTime;
 import java.util.*;

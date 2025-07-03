@@ -6,7 +6,7 @@ import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 import sk.leziemevpezinku.spring.model.base.AuditedEntityBase;
-import sk.leziemevpezinku.spring.model.enums.EventTermRepeatType;
+import sk.leziemevpezinku.spring.api.enumeration.EventTermRepeatType;
 
 import java.math.BigDecimal;
 import java.time.DayOfWeek;

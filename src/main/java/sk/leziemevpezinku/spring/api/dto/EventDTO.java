@@ -1,4 +1,4 @@
-package sk.leziemevpezinku.spring.api;
+package sk.leziemevpezinku.spring.api.dto;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -6,8 +6,8 @@ import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
 import sk.leziemevpezinku.spring.api.validation.*;
-import sk.leziemevpezinku.spring.model.enums.EnumerationName;
-import sk.leziemevpezinku.spring.model.enums.EventStatus;
+import sk.leziemevpezinku.spring.api.enumeration.EnumerationName;
+import sk.leziemevpezinku.spring.api.enumeration.EventStatus;
 import sk.leziemevpezinku.spring.service.EventService;
 
 import java.time.LocalDateTime;

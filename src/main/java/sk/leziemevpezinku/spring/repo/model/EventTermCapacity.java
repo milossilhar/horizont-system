@@ -3,9 +3,9 @@ package sk.leziemevpezinku.spring.repo.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import sk.leziemevpezinku.spring.model.enums.RegistrationStatus;
+import sk.leziemevpezinku.spring.api.enumeration.RegistrationStatus;
 
-import static sk.leziemevpezinku.spring.model.enums.RegistrationStatus.*;
+import static sk.leziemevpezinku.spring.api.enumeration.RegistrationStatus.*;
 
 @Data
 @AllArgsConstructor

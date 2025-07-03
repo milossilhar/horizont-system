@@ -3,7 +3,7 @@ package sk.leziemevpezinku.spring.api.validation;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 import sk.leziemevpezinku.spring.api.validation.impl.EnumerationValueValidator;
-import sk.leziemevpezinku.spring.model.enums.EnumerationName;
+import sk.leziemevpezinku.spring.api.enumeration.EnumerationName;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

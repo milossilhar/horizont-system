@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import sk.leziemevpezinku.spring.model.AppParam;
 import sk.leziemevpezinku.spring.repo.AppParamRepository;
 import sk.leziemevpezinku.spring.service.AppParamService;
-import sk.leziemevpezinku.spring.service.exception.AppParamNotFound;
+import sk.leziemevpezinku.spring.api.exception.AppParamNotFound;
 import sk.leziemevpezinku.spring.util.StringUtils;
 
 import java.util.Optional;

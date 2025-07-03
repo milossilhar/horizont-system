@@ -3,12 +3,13 @@ package sk.leziemevpezinku.spring.api;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 import sk.leziemevpezinku.spring.annotation.UnitTest;
+import sk.leziemevpezinku.spring.api.dto.EventDTO;
 import sk.leziemevpezinku.spring.api.mapper.EventConditionMapper;
 import sk.leziemevpezinku.spring.api.mapper.EventMapper;
 import sk.leziemevpezinku.spring.model.Event;
 import sk.leziemevpezinku.spring.model.EventCondition;
 import sk.leziemevpezinku.spring.model.EventTerm;
-import sk.leziemevpezinku.spring.model.enums.EventConditionType;
+import sk.leziemevpezinku.spring.api.enumeration.EventConditionType;
 import sk.leziemevpezinku.spring.util.TestUtil;
 
 import java.time.LocalDate;

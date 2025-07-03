@@ -2,7 +2,7 @@ package sk.leziemevpezinku.spring.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import sk.leziemevpezinku.spring.model.enums.EnumerationName;
+import sk.leziemevpezinku.spring.api.enumeration.EnumerationName;
 
 import java.math.BigDecimal;
 

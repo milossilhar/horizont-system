@@ -1,7 +1,7 @@
 package sk.leziemevpezinku.spring.api.mapper;
 
 import org.mapstruct.*;
-import sk.leziemevpezinku.spring.api.PeriodDTO;
+import sk.leziemevpezinku.spring.api.dto.PeriodDTO;
 import sk.leziemevpezinku.spring.api.mapper.annotation.IgnoreAuditedProperties;
 import sk.leziemevpezinku.spring.api.mapper.base.BaseMapper;
 import sk.leziemevpezinku.spring.model.Period;

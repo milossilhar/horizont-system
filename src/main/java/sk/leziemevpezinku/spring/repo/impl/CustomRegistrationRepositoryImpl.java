@@ -5,7 +5,7 @@ import jakarta.persistence.criteria.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Limit;
 import sk.leziemevpezinku.spring.model.*;
-import sk.leziemevpezinku.spring.model.enums.RegistrationStatus;
+import sk.leziemevpezinku.spring.api.enumeration.RegistrationStatus;
 import sk.leziemevpezinku.spring.repo.CustomRegistrationRepository;
 
 import java.util.List;

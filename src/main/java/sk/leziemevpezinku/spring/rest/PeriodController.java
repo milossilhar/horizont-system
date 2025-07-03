@@ -1,19 +1,18 @@
 package sk.leziemevpezinku.spring.rest;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import sk.leziemevpezinku.spring.api.PeriodDTO;
+import sk.leziemevpezinku.spring.api.dto.PeriodDTO;
 import sk.leziemevpezinku.spring.api.mapper.PeriodMapper;
 import sk.leziemevpezinku.spring.model.Period;
 import sk.leziemevpezinku.spring.repo.PeriodRepository;
-import sk.leziemevpezinku.spring.rest.model.GenericResponse;
-import sk.leziemevpezinku.spring.service.exception.CommonException;
-import sk.leziemevpezinku.spring.service.model.ErrorCode;
+import sk.leziemevpezinku.spring.api.dto.GenericResponseDTO;
+import sk.leziemevpezinku.spring.api.exception.CommonException;
+import sk.leziemevpezinku.spring.api.enumeration.ErrorCode;
 
 import java.util.List;
 
@@ -64,8 +63,8 @@ public class PeriodController {
     }
 
     @DeleteMapping(path = "/{id:\\d+}")
-    public GenericResponse<String> deletePeriod(@PathVariable("id") @NotNull Long id) {
+    public GenericResponseDTO<String> deletePeriod(@PathVariable("id") @NotNull Long id) {
         repository.deleteById(id);
-        return GenericResponse.of("Successfully deleted.");
+        return GenericResponseDTO.of("Successfully deleted.");
     }
 }

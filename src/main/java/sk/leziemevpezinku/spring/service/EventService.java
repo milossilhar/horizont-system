@@ -1,6 +1,6 @@
 package sk.leziemevpezinku.spring.service;
 
-import sk.leziemevpezinku.spring.api.EventDTO;
+import sk.leziemevpezinku.spring.api.dto.EventDTO;
 import sk.leziemevpezinku.spring.service.base.CrudPageService;
 import sk.leziemevpezinku.spring.service.base.UuidService;
 

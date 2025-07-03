@@ -2,13 +2,13 @@ package sk.leziemevpezinku.spring.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import sk.leziemevpezinku.spring.api.EventTermDTO;
+import sk.leziemevpezinku.spring.api.dto.EventTermDTO;
 import sk.leziemevpezinku.spring.api.mapper.EventTermMapper;
 import sk.leziemevpezinku.spring.repo.EventRepository;
 import sk.leziemevpezinku.spring.repo.EventTermRepository;
 import sk.leziemevpezinku.spring.service.EventTermService;
-import sk.leziemevpezinku.spring.service.exception.CommonException;
-import sk.leziemevpezinku.spring.service.model.ErrorCode;
+import sk.leziemevpezinku.spring.api.exception.CommonException;
+import sk.leziemevpezinku.spring.api.enumeration.ErrorCode;
 
 import java.util.List;
 import java.util.Objects;

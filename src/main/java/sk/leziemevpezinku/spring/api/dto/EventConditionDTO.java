@@ -1,10 +1,10 @@
-package sk.leziemevpezinku.spring.api;
+package sk.leziemevpezinku.spring.api.dto;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
-import sk.leziemevpezinku.spring.model.enums.EventConditionType;
+import sk.leziemevpezinku.spring.api.enumeration.EventConditionType;
 
 @Data
 @Builder

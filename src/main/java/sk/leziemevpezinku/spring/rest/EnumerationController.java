@@ -7,8 +7,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import sk.leziemevpezinku.spring.api.EnumerationItemDTO;
-import sk.leziemevpezinku.spring.model.enums.EnumerationName;
+import sk.leziemevpezinku.spring.api.dto.EnumerationItemDTO;
+import sk.leziemevpezinku.spring.api.enumeration.EnumerationName;
 import sk.leziemevpezinku.spring.service.EnumerationService;
 
 import java.util.List;

@@ -5,12 +5,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import sk.leziemevpezinku.spring.api.EventDTO;
+import sk.leziemevpezinku.spring.api.dto.EventDTO;
 import sk.leziemevpezinku.spring.api.mapper.EventMapper;
 import sk.leziemevpezinku.spring.repo.EventRepository;
 import sk.leziemevpezinku.spring.service.EventService;
-import sk.leziemevpezinku.spring.service.exception.CommonException;
-import sk.leziemevpezinku.spring.service.model.ErrorCode;
+import sk.leziemevpezinku.spring.api.exception.CommonException;
+import sk.leziemevpezinku.spring.api.enumeration.ErrorCode;
 
 import java.util.List;
 import java.util.Objects;

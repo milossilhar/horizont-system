@@ -1,6 +1,6 @@
 package sk.leziemevpezinku.spring.service;
 
-import sk.leziemevpezinku.spring.api.PeriodDTO;
+import sk.leziemevpezinku.spring.api.dto.PeriodDTO;
 import sk.leziemevpezinku.spring.service.base.CreateService;
 import sk.leziemevpezinku.spring.service.base.ReadService;
 import sk.leziemevpezinku.spring.service.base.UpdateService;

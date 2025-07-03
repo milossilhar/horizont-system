@@ -3,13 +3,13 @@ package sk.leziemevpezinku.spring.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
-import sk.leziemevpezinku.spring.api.PeriodDTO;
+import sk.leziemevpezinku.spring.api.dto.PeriodDTO;
 import sk.leziemevpezinku.spring.api.mapper.PeriodMapper;
 import sk.leziemevpezinku.spring.model.Period;
 import sk.leziemevpezinku.spring.repo.PeriodRepository;
 import sk.leziemevpezinku.spring.service.PeriodService;
-import sk.leziemevpezinku.spring.service.exception.CommonException;
-import sk.leziemevpezinku.spring.service.model.ErrorCode;
+import sk.leziemevpezinku.spring.api.exception.CommonException;
+import sk.leziemevpezinku.spring.api.enumeration.ErrorCode;
 
 import java.util.List;
 import java.util.Objects;

@@ -1,7 +1,7 @@
 package sk.leziemevpezinku.spring.service;
 
 import sk.leziemevpezinku.spring.model.Registration;
-import sk.leziemevpezinku.spring.service.model.RegistrationTokenClaim;
+import sk.leziemevpezinku.spring.api.dto.RegistrationTokenClaimDTO;
 
 public interface EncryptionService {
 
@@ -16,5 +16,5 @@ public interface EncryptionService {
      *
      * @param encryptedToken
      */
-    RegistrationTokenClaim validateRegistrationToken(String encryptedToken);
+    RegistrationTokenClaimDTO validateRegistrationToken(String encryptedToken);
 }

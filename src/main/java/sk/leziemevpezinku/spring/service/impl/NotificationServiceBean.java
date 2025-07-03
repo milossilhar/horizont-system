@@ -14,9 +14,9 @@ import sk.leziemevpezinku.spring.model.Registration;
 import sk.leziemevpezinku.spring.repo.EmailLogRepository;
 import sk.leziemevpezinku.spring.service.NotificationService;
 import sk.leziemevpezinku.spring.service.PrintService;
-import sk.leziemevpezinku.spring.service.exception.CommonException;
-import sk.leziemevpezinku.spring.service.model.EmailType;
-import sk.leziemevpezinku.spring.service.model.ErrorCode;
+import sk.leziemevpezinku.spring.api.exception.CommonException;
+import sk.leziemevpezinku.spring.api.enumeration.EmailType;
+import sk.leziemevpezinku.spring.api.enumeration.ErrorCode;
 
 @Log4j2
 @Service

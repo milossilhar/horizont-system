@@ -1,4 +1,4 @@
-package sk.leziemevpezinku.spring.service.model;
+package sk.leziemevpezinku.spring.api.enumeration;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

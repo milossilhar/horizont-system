@@ -1,4 +1,4 @@
-package sk.leziemevpezinku.spring.api;
+package sk.leziemevpezinku.spring.api.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;

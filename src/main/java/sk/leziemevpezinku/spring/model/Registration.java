@@ -3,7 +3,7 @@ package sk.leziemevpezinku.spring.model;
 import jakarta.persistence.*;
 import lombok.*;
 import sk.leziemevpezinku.spring.model.base.CreatedAtEntityBase;
-import sk.leziemevpezinku.spring.model.enums.RegistrationStatus;
+import sk.leziemevpezinku.spring.api.enumeration.RegistrationStatus;
 
 import java.util.ArrayList;
 import java.util.List;

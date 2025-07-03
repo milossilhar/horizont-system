@@ -1,4 +1,4 @@
-package sk.leziemevpezinku.spring.rest.model;
+package sk.leziemevpezinku.spring.api.dto;
 
 import lombok.*;
 import org.springframework.data.domain.Page;
@@ -11,19 +11,19 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PageableResponse<T> {
+public class PageableResponseDTO<T> {
     private List<T> content;
     private long pageNumber;
     private long pageSize;
     private long totalPages;
     private long totalElements;
 
-    public static <T> PageableResponse<T> of(Page<T> page) {
-        if (page.isEmpty()) return PageableResponse.<T>builder()
+    public static <T> PageableResponseDTO<T> of(Page<T> page) {
+        if (page.isEmpty()) return PageableResponseDTO.<T>builder()
                 .content(Collections.emptyList())
                 .build();
 
-        return PageableResponse.<T>builder()
+        return PageableResponseDTO.<T>builder()
                 .content(page.getContent())
                 .pageNumber(page.getPageable().getPageNumber())
                 .pageSize(page.getPageable().getPageSize())

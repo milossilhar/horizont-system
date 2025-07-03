@@ -7,7 +7,7 @@ import sk.leziemevpezinku.spring.model.base.UuidAuditedEntityBase;
 import java.util.Optional;
 
 @NoRepositoryBean
-public interface UUIDRepositoryBase<T extends UuidAuditedEntityBase, ID> extends JpaRepository<T, ID> {
+public interface UuidRepositoryBase<T extends UuidAuditedEntityBase, ID> extends JpaRepository<T, ID> {
 
     /**
      * Finds entity by uuid column.

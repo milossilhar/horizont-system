@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import sk.leziemevpezinku.spring.annotation.UnitTest;
 import sk.leziemevpezinku.spring.model.Registration;
 import sk.leziemevpezinku.spring.service.impl.EncryptionServiceBean;
-import sk.leziemevpezinku.spring.service.model.RegistrationTokenClaim;
+import sk.leziemevpezinku.spring.api.dto.RegistrationTokenClaimDTO;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -28,7 +28,7 @@ public class EncryptionServiceTest {
         assertNotNull(token);
         assertTrue(token.length() < 1000, "Generated token has length more than 1000 characters.");
 
-        RegistrationTokenClaim claim = encryptionService.validateRegistrationToken(token);
+        RegistrationTokenClaimDTO claim = encryptionService.validateRegistrationToken(token);
 
         assertNotNull(claim);
         assertEquals(120L, claim.getId());

@@ -1,4 +1,4 @@
-package sk.leziemevpezinku.spring.api;
+package sk.leziemevpezinku.spring.api.dto;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -9,7 +9,7 @@ import lombok.Data;
 import org.hibernate.validator.constraints.UniqueElements;
 import sk.leziemevpezinku.spring.api.validation.RequiredForeignKey;
 import sk.leziemevpezinku.spring.api.validation.ValidRepeatType;
-import sk.leziemevpezinku.spring.model.enums.EventTermRepeatType;
+import sk.leziemevpezinku.spring.api.enumeration.EventTermRepeatType;
 
 import java.math.BigDecimal;
 import java.time.DayOfWeek;

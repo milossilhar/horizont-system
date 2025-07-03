@@ -1,4 +1,4 @@
-package sk.leziemevpezinku.spring.rest.model;
+package sk.leziemevpezinku.spring.api.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
@@ -10,7 +10,7 @@ import java.util.Map;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class GenericError {
+public class GenericErrorDTO {
 
     @JsonProperty("code")
     private String code;

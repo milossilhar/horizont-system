@@ -1,6 +1,6 @@
 package sk.leziemevpezinku.spring.service;
 
-import sk.leziemevpezinku.spring.api.EventTermDTO;
+import sk.leziemevpezinku.spring.api.dto.EventTermDTO;
 import sk.leziemevpezinku.spring.service.base.CrudService;
 import sk.leziemevpezinku.spring.service.base.ReadByParentService;
 

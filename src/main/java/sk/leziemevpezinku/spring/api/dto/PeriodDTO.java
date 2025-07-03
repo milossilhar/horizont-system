@@ -1,4 +1,4 @@
-package sk.leziemevpezinku.spring.api;
+package sk.leziemevpezinku.spring.api.dto;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;

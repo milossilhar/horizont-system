@@ -6,7 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import sk.leziemevpezinku.spring.rest.model.GenericResponse;
+import sk.leziemevpezinku.spring.api.dto.GenericResponseDTO;
 
 @RestController
 @RequestMapping(path = HealthController.URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -19,7 +19,7 @@ public class HealthController {
     private String environment;
 
     @GetMapping(path = "/env")
-    public GenericResponse<String> getEnvironment() {
-        return GenericResponse.of(environment);
+    public GenericResponseDTO<String> getEnvironment() {
+        return GenericResponseDTO.of(environment);
     }
 }

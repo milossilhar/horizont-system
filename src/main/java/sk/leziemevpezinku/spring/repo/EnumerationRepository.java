@@ -3,7 +3,7 @@ package sk.leziemevpezinku.spring.repo;
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.stereotype.Repository;
 import sk.leziemevpezinku.spring.model.EnumerationItem;
-import sk.leziemevpezinku.spring.model.enums.EnumerationName;
+import sk.leziemevpezinku.spring.api.enumeration.EnumerationName;
 
 import java.util.List;
 import java.util.Optional;

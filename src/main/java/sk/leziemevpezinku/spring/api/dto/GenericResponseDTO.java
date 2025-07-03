@@ -1,10 +1,10 @@
-package sk.leziemevpezinku.spring.rest.model;
+package sk.leziemevpezinku.spring.api.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Value;
 
 @Value(staticConstructor = "of")
-public class GenericResponse<T> {
+public class GenericResponseDTO<T> {
 
     @JsonProperty("value")
     T value;

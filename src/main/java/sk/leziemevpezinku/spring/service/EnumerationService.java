@@ -1,7 +1,7 @@
 package sk.leziemevpezinku.spring.service;
 
-import sk.leziemevpezinku.spring.api.EnumerationItemDTO;
-import sk.leziemevpezinku.spring.model.enums.EnumerationName;
+import sk.leziemevpezinku.spring.api.dto.EnumerationItemDTO;
+import sk.leziemevpezinku.spring.api.enumeration.EnumerationName;
 
 import java.util.List;
 

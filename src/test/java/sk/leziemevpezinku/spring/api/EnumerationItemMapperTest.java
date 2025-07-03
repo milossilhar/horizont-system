@@ -2,6 +2,7 @@ package sk.leziemevpezinku.spring.api;
 
 import org.junit.jupiter.api.Test;
 import sk.leziemevpezinku.spring.annotation.UnitTest;
+import sk.leziemevpezinku.spring.api.dto.EnumerationItemDTO;
 import sk.leziemevpezinku.spring.api.mapper.EnumerationItemMapper;
 import sk.leziemevpezinku.spring.model.EnumerationItem;
 

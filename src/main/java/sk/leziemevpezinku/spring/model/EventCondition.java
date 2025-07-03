@@ -3,7 +3,7 @@ package sk.leziemevpezinku.spring.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.*;
-import sk.leziemevpezinku.spring.model.enums.EventConditionType;
+import sk.leziemevpezinku.spring.api.enumeration.EventConditionType;
 
 @Data
 @Builder

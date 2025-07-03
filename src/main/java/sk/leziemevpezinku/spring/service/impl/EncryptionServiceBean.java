@@ -10,9 +10,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import sk.leziemevpezinku.spring.model.Registration;
 import sk.leziemevpezinku.spring.service.EncryptionService;
-import sk.leziemevpezinku.spring.service.exception.CommonException;
-import sk.leziemevpezinku.spring.service.model.ErrorCode;
-import sk.leziemevpezinku.spring.service.model.RegistrationTokenClaim;
+import sk.leziemevpezinku.spring.api.exception.CommonException;
+import sk.leziemevpezinku.spring.api.enumeration.ErrorCode;
+import sk.leziemevpezinku.spring.api.dto.RegistrationTokenClaimDTO;
 import sk.leziemevpezinku.spring.util.Base64Util;
 
 import javax.crypto.*;
@@ -75,7 +75,7 @@ public class EncryptionServiceBean implements EncryptionService {
     }
 
     @Override
-    public RegistrationTokenClaim validateRegistrationToken(String encryptedToken) {
+    public RegistrationTokenClaimDTO validateRegistrationToken(String encryptedToken) {
         try {
             // decoding from base64
             byte[] encryptedBytes = Base64Util.decodeUrlNoPadding(encryptedToken);
@@ -92,7 +92,7 @@ public class EncryptionServiceBean implements EncryptionService {
 
             JWTClaimsSet jwtClaims = signedJWT.getJWTClaimsSet();
 
-            return RegistrationTokenClaim.builder()
+            return RegistrationTokenClaimDTO.builder()
                     .email(jwtClaims.getSubject())
                     .id(jwtClaims.getLongClaim(REGISTRATION_ID_TOKEN_CLAIM_NAME))
                     .build();

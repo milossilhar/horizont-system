@@ -1,10 +1,10 @@
 package sk.leziemevpezinku.spring.api.mapper;
 
 import org.mapstruct.*;
-import sk.leziemevpezinku.spring.api.EnumerationItemDTO;
+import sk.leziemevpezinku.spring.api.dto.EnumerationItemDTO;
 import sk.leziemevpezinku.spring.api.mapper.base.BaseMapper;
 import sk.leziemevpezinku.spring.model.EnumerationItem;
-import sk.leziemevpezinku.spring.model.enums.EnumerationName;
+import sk.leziemevpezinku.spring.api.enumeration.EnumerationName;
 
 @Mapper(
         componentModel = MappingConstants.ComponentModel.SPRING

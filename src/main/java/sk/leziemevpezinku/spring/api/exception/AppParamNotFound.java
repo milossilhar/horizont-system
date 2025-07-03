@@ -1,4 +1,4 @@
-package sk.leziemevpezinku.spring.service.exception;
+package sk.leziemevpezinku.spring.api.exception;
 
 public class AppParamNotFound extends RuntimeException {
 

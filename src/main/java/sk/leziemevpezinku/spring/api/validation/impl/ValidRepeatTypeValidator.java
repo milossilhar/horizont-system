@@ -2,9 +2,9 @@ package sk.leziemevpezinku.spring.api.validation.impl;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import sk.leziemevpezinku.spring.api.EventTermDTO;
+import sk.leziemevpezinku.spring.api.dto.EventTermDTO;
 import sk.leziemevpezinku.spring.api.validation.ValidRepeatType;
-import sk.leziemevpezinku.spring.model.enums.EventTermRepeatType;
+import sk.leziemevpezinku.spring.api.enumeration.EventTermRepeatType;
 
 public class ValidRepeatTypeValidator implements ConstraintValidator<ValidRepeatType, EventTermDTO> {
 

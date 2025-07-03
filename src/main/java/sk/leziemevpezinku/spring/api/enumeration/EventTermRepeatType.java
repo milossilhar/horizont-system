@@ -1,4 +1,4 @@
-package sk.leziemevpezinku.spring.model.enums;
+package sk.leziemevpezinku.spring.api.enumeration;
 
 /**
  * Represents the different types of repetition that an event term can follow.
