@@ -12,31 +12,28 @@ import sk.leziemevpezinku.spring.service.EventTermService;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(path = EventTermController.URL, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = EventController.URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Tag(name = "eventTerm")
 //@RolesAllowed("ADMIN")
 public class EventTermController {
 
-    public static final String URL = EventController.URL + "/{eventId:\\d+}/terms";
+    public static final String PER_EVENT_URL = EventController.URL + "/{eventId:\\d+}/terms";
 
     private final EventTermService service;
 
-    @GetMapping
-    public GenericResponse<Long> getEventTerms(@PathVariable("eventId") @NotNull Long eventId) {
+    @GetMapping(path = PER_EVENT_URL)
+    public GenericResponse<Long> getEventTerms(
+            @PathVariable("eventId") @NotNull Long eventId
+    ) {
         return GenericResponse.of(eventId);
     }
 
-    @PostMapping
+    @PostMapping(path = PER_EVENT_URL, consumes = MediaType.APPLICATION_JSON_VALUE)
     public EventTermDTO createEventTerm(
             @PathVariable("eventId") @NotNull Long eventId,
             @RequestBody @Valid EventTermDTO dto
     ) {
         dto.setEventId(eventId);
         return service.create(dto);
-    }
-
-    @GetMapping("/{id:\\d+}")
-    public EventTermDTO getEventTerm(@PathVariable("id") @NotNull Long id) {
-        return service.getOne(id);
     }
 }
