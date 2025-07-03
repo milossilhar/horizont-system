@@ -83,11 +83,11 @@ create table reg_event (
     image_url varchar(100),
     locked timestamp(6),
     name varchar(200) not null,
+    period_id bigint,
     place_code varchar(10) not null,
     registration_ends timestamp(6) not null,
     registration_starts timestamp(6) not null,
     status varchar(10) not null,
-    period_id bigint,
     primary key (id)
 );
 
