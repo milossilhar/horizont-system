@@ -2,7 +2,6 @@ package sk.leziemevpezinku.spring.api.validation;
 
 import jakarta.validation.constraints.Pattern;
 
-import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;

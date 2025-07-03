@@ -7,7 +7,6 @@ import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
 import org.hibernate.validator.constraints.UniqueElements;
-import sk.leziemevpezinku.spring.api.base.Identifiable;
 import sk.leziemevpezinku.spring.api.validation.RequiredForeignKey;
 import sk.leziemevpezinku.spring.api.validation.ValidRepeatType;
 import sk.leziemevpezinku.spring.model.enums.EventTermRepeatType;

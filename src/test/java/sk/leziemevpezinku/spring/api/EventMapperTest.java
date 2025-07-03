@@ -9,7 +9,6 @@ import sk.leziemevpezinku.spring.model.Event;
 import sk.leziemevpezinku.spring.model.EventCondition;
 import sk.leziemevpezinku.spring.model.EventTerm;
 import sk.leziemevpezinku.spring.model.enums.EventConditionType;
-import sk.leziemevpezinku.spring.model.enums.EventType;
 import sk.leziemevpezinku.spring.util.TestUtil;
 
 import java.time.LocalDate;
@@ -45,7 +44,7 @@ public class EventMapperTest extends AbstractMapperTest<EventMapper> {
                 )
                 .uuid("test-uuid")
                 .name("Test Event")
-                .eventType(EventType.EVENT.name())
+                .eventType("SUPER_TYPE")
                 .build();
 
         EventDTO dto = mapper.toDTO(event);
