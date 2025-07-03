@@ -49,7 +49,7 @@ public class JVMConfiguration {
             log.warn("Cannot find timezone with name: {} USING default timezone {}", timezone, DEFAULT_TIMEZONE);
             TimeZone.setDefault(DEFAULT_TIMEZONE);
         } else {
-            log.info("Setting default TIMEZONE to  {}", foundTimezoneID.get());
+            log.info("Setting default TIMEZONE to {}", foundTimezoneID.get());
             TimeZone.setDefault(TimeZone.getTimeZone(foundTimezoneID.get()));
         }
     }

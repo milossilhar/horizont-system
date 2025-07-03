@@ -5,8 +5,6 @@ import sk.leziemevpezinku.spring.annotation.UnitTest;
 import sk.leziemevpezinku.spring.api.mapper.AppParamMapper;
 import sk.leziemevpezinku.spring.model.AppParam;
 
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @UnitTest
@@ -18,7 +16,7 @@ public class AppParamMapperTest extends AbstractMapperTest<AppParamMapper> {
 
     @Test
     public void testToEntity() {
-        var entity = mapper.toEntity(
+        var entity = mapper.createEntity(
                 AppParamDTO.builder()
                         .name("name")
                         .value("value")
@@ -26,18 +24,6 @@ public class AppParamMapperTest extends AbstractMapperTest<AppParamMapper> {
 
         assertEquals("name", entity.getName());
         assertEquals("value", entity.getValue());
-    }
-
-    @Test
-    public void testToEntityList() {
-        var list = List.of(
-                AppParamDTO.builder().name("name1").value("value1").build(),
-                AppParamDTO.builder().name("name2").value("value2").build()
-        );
-
-        var dtos = mapper.toEntityList(list);
-
-        assertEquals(2, dtos.size());
     }
 
     @Test

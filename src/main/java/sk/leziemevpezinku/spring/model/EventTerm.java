@@ -2,11 +2,11 @@ package sk.leziemevpezinku.spring.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.annotations.SortComparator;
 import org.hibernate.type.SqlTypes;
 import sk.leziemevpezinku.spring.model.base.AuditedEntityBase;
-import sk.leziemevpezinku.spring.model.compare.AuditedCreatedAtComparator;
+import sk.leziemevpezinku.spring.model.enums.EventTermRepeatType;
 
 import java.math.BigDecimal;
 import java.time.DayOfWeek;
@@ -14,10 +14,10 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.SortedSet;
+import java.util.Set;
 
 @Data
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -46,6 +46,15 @@ public class EventTerm extends AuditedEntityBase {
     @Column(name = "duration_minutes", nullable = false)
     private Integer durationMinutes;
 
+    /** Enumerated: {@link EventTermRepeatType} */
+    @ToString.Include
+    @Column(name = "repeat_type", length = 10, nullable = false)
+    private String repeatType;
+
+    @Enumerated(value = EnumType.STRING)
+    @Column(name = "day_of_week", length = 10)
+    private DayOfWeek dayOfWeek;
+
     @Column(name = "number_of_lessons")
     private Long numberOfLessons;
 
@@ -61,15 +70,12 @@ public class EventTerm extends AuditedEntityBase {
     @Column(name = "price", nullable = false)
     private BigDecimal price;
 
-    @Column(name = "capacity")
+    @Column(name = "capacity", nullable = false)
     private Long capacity;
 
-    @Column(name = "has_attendance")
-    private Boolean hasAttendance;
-
-    @Enumerated(value = EnumType.ORDINAL)
-    @Column(name = "day_of_week")
-    private DayOfWeek dayOfWeek;
+    @Builder.Default
+    @Column(name = "has_attendance", nullable = false)
+    private Boolean hasAttendance = Boolean.FALSE;
 
     @EqualsAndHashCode.Exclude
     @ManyToOne(optional = false)
@@ -77,7 +83,12 @@ public class EventTerm extends AuditedEntityBase {
     private Event event;
 
     @EqualsAndHashCode.Exclude
-    @SortComparator(AuditedCreatedAtComparator.class)
+    @OrderBy(value = "createdAt ASC")
     @OneToMany(mappedBy = "eventTerm", fetch = FetchType.LAZY)
-    private SortedSet<Registration> registrations;
+    private Set<Registration> registrations;
+
+    @EqualsAndHashCode.Exclude
+    @OrderBy(value = "startAt ASC")
+    @OneToMany(mappedBy = "eventTerm", fetch = FetchType.LAZY)
+    private Set<Lesson> lessons;
 }

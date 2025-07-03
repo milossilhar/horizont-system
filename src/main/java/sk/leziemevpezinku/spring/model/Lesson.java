@@ -2,6 +2,7 @@ package sk.leziemevpezinku.spring.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 import sk.leziemevpezinku.spring.model.base.AuditedEntityBase;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -39,10 +40,10 @@ public class Lesson extends AuditedEntityBase {
     @Column(name = "expected_trainers")
     private List<String> expectedTrainers = new ArrayList<>();
 
-    @EqualsAndHashCode.Exclude
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "place_id", nullable = false)
-    private Place place;
+    /** Enumerated: REG_PLACE */
+    @ToString.Include
+    @Column(name = "place_code", length = 10, nullable = false)
+    private String placeCode;
 
     @EqualsAndHashCode.Exclude
     @ManyToOne(optional = false)

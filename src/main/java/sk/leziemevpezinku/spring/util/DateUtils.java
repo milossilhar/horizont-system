@@ -74,9 +74,17 @@ public class DateUtils {
         return DateTimeFormatter.ISO_LOCAL_DATE.format(localDate);
     }
 
-    public static ZonedDateTime tryParse(String text, DateTimeFormatter formatter) {
+    public static ZonedDateTime tryParseDateTime(String text, DateTimeFormatter formatter) {
         try {
             return ZonedDateTime.parse(text, formatter);
+        } catch (DateTimeParseException e) {
+            return null;
+        }
+    }
+
+    public static LocalDate tryParseDate(String text, DateTimeFormatter formatter) {
+        try {
+            return LocalDate.parse(text, formatter);
         } catch (DateTimeParseException e) {
             return null;
         }

@@ -2,6 +2,7 @@ package sk.leziemevpezinku.spring.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import sk.leziemevpezinku.spring.model.base.AuditedEntityBase;
 
 import java.time.LocalDate;
@@ -9,7 +10,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Data
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -26,11 +27,11 @@ public class Period extends AuditedEntityBase {
     @Column(name = "name", length = 100, nullable = false)
     private String name;
 
-    @Column(name = "start_at")
-    private LocalDate startAt;
+    @Column(name = "start_date")
+    private LocalDate startDate;
 
-    @Column(name = "end_at")
-    private LocalDate endAt;
+    @Column(name = "end_date")
+    private LocalDate endDate;
 
     @Builder.Default
     @EqualsAndHashCode.Exclude

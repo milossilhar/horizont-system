@@ -8,11 +8,8 @@ import sk.leziemevpezinku.spring.util.DateUtils;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 public class LocalDateDeserializer extends JsonDeserializer<LocalDate> {
@@ -24,17 +21,15 @@ public class LocalDateDeserializer extends JsonDeserializer<LocalDate> {
             return null;
         }
 
-        Optional<ZonedDateTime> zonedDateTime = Stream.of(DateTimeFormatter.ISO_OFFSET_DATE_TIME, DateTimeFormatter.ISO_DATE)
-                .map(formatter -> DateUtils.tryParse(dateText, formatter))
+        var localDate = Stream.of(DateTimeFormatter.ISO_OFFSET_DATE_TIME, DateTimeFormatter.ISO_DATE)
+                .map(formatter -> DateUtils.tryParseDate(dateText, formatter))
                 .filter(Objects::nonNull)
                 .findFirst();
 
-        if (zonedDateTime.isEmpty()) {
+        if (localDate.isEmpty()) {
             throw new IOException("Unable to parse date: " + dateText);
         }
 
-        return zonedDateTime.get()
-                .withZoneSameInstant(ZoneId.systemDefault())
-                .toLocalDate();
+        return localDate.get();
     }
 }

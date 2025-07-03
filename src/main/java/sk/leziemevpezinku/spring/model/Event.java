@@ -2,20 +2,21 @@ package sk.leziemevpezinku.spring.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.Cascade;
-import sk.leziemevpezinku.spring.model.base.UUIDAuditedEntityBase;
-import sk.leziemevpezinku.spring.model.enums.EventType;
+import sk.leziemevpezinku.spring.model.base.UuidAuditedEntityBase;
+import sk.leziemevpezinku.spring.model.enums.EventStatus;
 
 import java.time.LocalDateTime;
 import java.util.*;
 
 @Data
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "reg_event")
-public class Event extends UUIDAuditedEntityBase {
+public class Event extends UuidAuditedEntityBase {
 
     @Id
     @ToString.Include
@@ -31,7 +32,7 @@ public class Event extends UUIDAuditedEntityBase {
     @Column(name = "details", nullable = false, length = 2000)
     private String details;
 
-    /** Enumerated :: {@link EventType} */
+    /** Enumerated: REG_EVENT_TYPE */
     @ToString.Include
     @Column(name = "event_type", length = 20, nullable = false)
     private String eventType;
@@ -39,30 +40,35 @@ public class Event extends UUIDAuditedEntityBase {
     @Column(name = "image_url", length = 100)
     private String imageUrl;
 
-    @Column(name = "reg_start_at", nullable = false)
-    private LocalDateTime regStartAt;
+    @Column(name = "registration_starts", nullable = false)
+    private LocalDateTime registrationStarts;
 
-    @Column(name = "reg_end_at", nullable = false)
-    private LocalDateTime regEndAt;
+    @Column(name = "registration_ends", nullable = false)
+    private LocalDateTime registrationEnds;
 
     @ToString.Include
     @Column(name = "locked")
-    private Boolean locked;
+    private LocalDateTime locked;
+
+    @Builder.Default
+    @ToString.Include
+    @Column(name = "status", length = 10, nullable = false)
+    private String status = EventStatus.DRAFT.name();
+
+    /** Enumerated: REG_PLACE */
+    @ToString.Include
+    @Column(name = "place_code", length = 10, nullable = false)
+    private String placeCode;
 
     @EqualsAndHashCode.Exclude
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "place_id", nullable = false)
-    private Place place;
-
-    @EqualsAndHashCode.Exclude
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "period_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "period_id")
     private Period period;
 
     @Builder.Default
     @EqualsAndHashCode.Exclude
+    @ElementCollection
     @OrderColumn(name = "ind")
-    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "reg_event_condition", joinColumns = @JoinColumn(name = "event_id"))
     private List<EventCondition> conditions = new ArrayList<>();
 

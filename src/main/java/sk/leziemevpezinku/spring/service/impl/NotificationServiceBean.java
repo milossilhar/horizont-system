@@ -14,12 +14,9 @@ import sk.leziemevpezinku.spring.model.Registration;
 import sk.leziemevpezinku.spring.repo.EmailLogRepository;
 import sk.leziemevpezinku.spring.service.NotificationService;
 import sk.leziemevpezinku.spring.service.PrintService;
-import sk.leziemevpezinku.spring.service.RegistrationService;
 import sk.leziemevpezinku.spring.service.exception.CommonException;
 import sk.leziemevpezinku.spring.service.model.EmailType;
 import sk.leziemevpezinku.spring.service.model.ErrorCode;
-
-import java.util.function.BiConsumer;
 
 @Log4j2
 @Service
@@ -28,7 +25,6 @@ public class NotificationServiceBean implements NotificationService {
 
     private final JavaMailSender mailSender;
     private final PrintService printService;
-    private final RegistrationService registrationService;
     private final EmailLogRepository emailLogRepository;
 
     @Value("${spring.mail.username}")
@@ -71,11 +67,6 @@ public class NotificationServiceBean implements NotificationService {
         } catch (Exception ex) {
             log.error("Error sending payment confirmation notification for registration {}", registration.getUuid(), ex);
         }
-    }
-
-    private void updateRegistrationFlag(Registration registration, BiConsumer<Registration, Boolean> consumer) {
-        registrationService.updateFlagNewTx(registration.getId(), consumer);
-        consumer.accept(registration, true);
     }
 
     private void sendHtmlEmail(EmailType emailType, String htmlBody, Registration registration) {

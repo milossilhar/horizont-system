@@ -15,8 +15,6 @@ create sequence seq_period_id start with 1 increment by 1;
 
 create sequence seq_person_id start with 1 increment by 1;
 
-create sequence seq_place_id start with 1 increment by 1;
-
 create sequence seq_registration_id start with 1 increment by 1;
 
 create sequence seq_user_id start with 1 increment by 1;
@@ -62,11 +60,15 @@ create table reg_email_logs (
 create table reg_enumeration_item (
     id bigint not null,
     code varchar(10) not null,
-    description varchar(150) not null,
+    description varchar(500),
     enum_name varchar(40) not null,
+    hidden boolean,
+    latitude numeric(18,15),
+    longitude numeric(18,15),
+    name varchar(100) not null,
     ordering integer not null,
-    visible boolean not null,
-    primary key (id)
+    primary key (id),
+    unique (enum_name, code)
 );
 
 create table reg_event (
@@ -79,12 +81,13 @@ create table reg_event (
     details varchar(2000) not null,
     event_type varchar(20) not null,
     image_url varchar(100),
-    locked boolean,
+    locked timestamp(6),
     name varchar(200) not null,
-    reg_end_at timestamp(6) not null,
-    reg_start_at timestamp(6) not null,
-    period_id bigint not null,
-    place_id bigint not null,
+    place_code varchar(10) not null,
+    registration_ends timestamp(6) not null,
+    registration_starts timestamp(6) not null,
+    status varchar(10) not null,
+    period_id bigint,
     primary key (id)
 );
 
@@ -104,15 +107,16 @@ create table reg_event_term (
     created_by varchar(50),
     modified_at timestamp(6),
     modified_by varchar(50),
-    capacity bigint,
-    day_of_week smallint check (day_of_week between 0 and 6),
+    capacity bigint not null,
+    day_of_week varchar(10) check (day_of_week in ('MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY','SUNDAY')),
     deposit numeric(38,2),
     duration_minutes integer not null,
     end_date date,
     expected_trainers jsonb,
-    has_attendance boolean,
+    has_attendance boolean not null,
     number_of_lessons bigint,
     price numeric(38,2) not null,
+    repeat_type varchar(10) not null,
     start_date date not null,
     start_time time(6) not null,
     event_id bigint not null,
@@ -122,7 +126,7 @@ create table reg_event_term (
 create table reg_known_person (
     registration_id bigint not null,
     name varchar(50) not null,
-    relation varchar(10) not null,
+    relation_code varchar(10) not null,
     surname varchar(50) not null,
     ind integer not null,
     primary key (registration_id, ind)
@@ -136,9 +140,9 @@ create table reg_lesson (
     modified_by varchar(50),
     duration_minutes integer not null,
     expected_trainers jsonb,
+    place_code varchar(10) not null,
     start_at timestamp(6) not null,
     event_term_id bigint not null,
-    place_id bigint not null,
     primary key (id)
 );
 
@@ -159,9 +163,9 @@ create table reg_period (
     created_by varchar(50),
     modified_at timestamp(6),
     modified_by varchar(50),
-    end_at date,
+    end_date date,
     name varchar(100) not null,
-    start_at date,
+    start_date date,
     primary key (id)
 );
 
@@ -175,20 +179,6 @@ create table reg_person (
     shirt_size varchar(10),
     surname varchar(50) not null,
     user_id bigint,
-    primary key (id)
-);
-
-create table reg_place (
-    id bigint not null,
-    created_at timestamp(6) not null,
-    created_by varchar(50),
-    modified_at timestamp(6),
-    modified_by varchar(50),
-    description varchar(500),
-    latitude numeric(12,8) not null,
-    longitude numeric(12,8) not null,
-    name varchar(100) not null,
-    training_price numeric(38,2),
     primary key (id)
 );
 
@@ -234,7 +224,7 @@ create table reg_user (
 create table reg_user_known_person (
     user_id bigint not null,
     name varchar(50) not null,
-    relation varchar(10) not null,
+    relation_code varchar(10) not null,
     surname varchar(50) not null,
     ind integer not null,
     primary key (user_id, ind)
@@ -270,12 +260,6 @@ alter table if exists reg_event
    foreign key (period_id)
    references reg_period;
 
-create index FKpor1e24qsfson7f3fxwfoypfe on reg_event (place_id);
-alter table if exists reg_event
-   add constraint FKpor1e24qsfson7f3fxwfoypfe
-   foreign key (place_id)
-   references reg_place;
-
 create index FKn5r2rv274w1jmhrfopttnlmgh on reg_event_condition (event_id);
 alter table if exists reg_event_condition
    add constraint FKn5r2rv274w1jmhrfopttnlmgh
@@ -299,12 +283,6 @@ alter table if exists reg_lesson
    add constraint FK7badtl7mhctw5h9v7wkccuc1x
    foreign key (event_term_id)
    references reg_event_term;
-
-create index FKm2k40vsbt2s507jv6f12fom1k on reg_lesson (place_id);
-alter table if exists reg_lesson
-   add constraint FKm2k40vsbt2s507jv6f12fom1k
-   foreign key (place_id)
-   references reg_place;
 
 create index FKbjayrwgy5k5b0sgo32v5k9bvq on reg_person (user_id);
 alter table if exists reg_person

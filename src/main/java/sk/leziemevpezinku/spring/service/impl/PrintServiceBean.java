@@ -8,7 +8,6 @@ import org.springframework.boot.autoconfigure.mustache.MustacheResourceTemplateL
 import org.springframework.stereotype.Service;
 import sk.leziemevpezinku.spring.model.Registration;
 import sk.leziemevpezinku.spring.mustache.*;
-import sk.leziemevpezinku.spring.service.EnumerationService;
 import sk.leziemevpezinku.spring.service.PrintService;
 import sk.leziemevpezinku.spring.util.DateUtils;
 import sk.leziemevpezinku.spring.util.StringUtils;
@@ -26,7 +25,6 @@ public class PrintServiceBean implements PrintService {
 
     private final MustacheResourceTemplateLoader templateLoader;
     private final Mustache.Compiler compiler;
-    private final EnumerationService enumerationService;
 
     @Override
     public String printRegistrationConfirmed(Registration registration) {

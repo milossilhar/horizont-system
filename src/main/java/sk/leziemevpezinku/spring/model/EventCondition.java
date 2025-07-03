@@ -12,7 +12,7 @@ import sk.leziemevpezinku.spring.model.enums.EventConditionType;
 @Embeddable
 public class EventCondition {
 
-    /** Enumerated :: {@link EventConditionType} */
+    /** Enumerated: {@link EventConditionType} */
     @ToString.Include
     @Column(name = "condition_type", length = 20, nullable = false)
     private String conditionType;

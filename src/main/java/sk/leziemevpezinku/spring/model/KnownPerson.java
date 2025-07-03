@@ -5,7 +5,9 @@ import jakarta.persistence.Embeddable;
 import lombok.*;
 
 /**
- * Known person, that can pickup child from the Event.
+ * Represents a known person associated with a user.
+ * This class is embeddable and can be used as part of another database entity.
+ * The data includes essential information such as name, surname, and a relation code.
  */
 @Data
 @Builder
@@ -22,8 +24,8 @@ public class KnownPerson {
     @Column(name = "surname", length = 50, nullable = false)
     private String surname;
 
-    /** Enumerated :: REG_E_RELATION */
+    /** Enumerated: REG_RELATION */
     @ToString.Include
-    @Column(name = "relation", length = 10, nullable = false)
-    private String relation;
+    @Column(name = "relation_code", length = 10, nullable = false)
+    private String relationCode;
 }

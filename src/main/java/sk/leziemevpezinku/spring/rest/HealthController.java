@@ -9,15 +9,17 @@ import org.springframework.web.bind.annotation.RestController;
 import sk.leziemevpezinku.spring.rest.model.GenericResponse;
 
 @RestController
-@RequestMapping(path = "/health", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = HealthController.URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Tag(name = "health")
 public class HealthController {
+
+    public static final String URL = "/health";
 
     @Value("${horizon.environment}")
     private String environment;
 
     @GetMapping(path = "/env")
     public GenericResponse<String> getEnvironment() {
-        return new GenericResponse<>(environment);
+        return GenericResponse.of(environment);
     }
 }

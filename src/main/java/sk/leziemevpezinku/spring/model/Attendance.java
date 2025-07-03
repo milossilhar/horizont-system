@@ -2,11 +2,12 @@ package sk.leziemevpezinku.spring.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import sk.leziemevpezinku.spring.model.base.AuditedEntityBase;
 import sk.leziemevpezinku.spring.model.enums.AttendanceStatus;
 
 @Data
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -27,7 +28,7 @@ public class Attendance extends AuditedEntityBase {
     @ManyToOne(fetch = FetchType.LAZY)
     private Person person;
 
-    /** Enumerated :: {@link AttendanceStatus} */
+    /** Enumerated: {@link AttendanceStatus} */
     @ToString.Include
     @Column(name = "status", length = 10, nullable = false)
     private String status;

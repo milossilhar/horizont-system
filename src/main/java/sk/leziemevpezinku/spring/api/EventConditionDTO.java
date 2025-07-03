@@ -11,7 +11,7 @@ import sk.leziemevpezinku.spring.model.enums.EventConditionType;
 public class EventConditionDTO {
 
     @NotNull
-    private EventConditionType type;
+    private EventConditionType conditionType;
 
     @Size(max = 50)
     private String minValue;

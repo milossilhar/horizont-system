@@ -1,75 +1,97 @@
 package sk.leziemevpezinku.spring.api;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
-import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
-import sk.leziemevpezinku.spring.model.enums.CapacityStatus;
+import org.hibernate.validator.constraints.UniqueElements;
+import sk.leziemevpezinku.spring.api.base.Identifiable;
+import sk.leziemevpezinku.spring.api.validation.RequiredForeignKey;
+import sk.leziemevpezinku.spring.api.validation.ValidRepeatType;
+import sk.leziemevpezinku.spring.model.enums.EventTermRepeatType;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.Objects;
 
 @Data
 @Builder
+@ValidRepeatType
 public class EventTermDTO {
 
+    @Positive
+    private Long id;
+
+    @NotNull
+    private EventTermRepeatType repeatType;
+
+    @NotNull
     private LocalDate startDate;
+
+    @NotNull
+    private LocalTime startTime;
+
+    @NotNull
+    @Positive
+    private Integer durationMinutes;
 
     private LocalDate endDate;
 
     private DayOfWeek dayOfWeek;
 
-    private LocalTime startTime;
-
-    @Schema(description = "duration of the event term in minutes")
-    private Integer duration;
-
-    private Long numberOfLessons;
-
+    @Size(min = 1)
+    @UniqueElements
     private List<String> expectedTrainers;
 
-    @Builder.Default
-    private BigDecimal deposit = BigDecimal.ZERO;
+    @PositiveOrZero
+    private BigDecimal deposit;
 
-    @Builder.Default
-    private Long capacity = 0L;
+    @NotNull
+    @PositiveOrZero
+    private BigDecimal price;
 
-    @Builder.Default
-    private Long registered = 0L;
+    @NotNull
+    @Positive
+    private Long capacity;
 
-    @JsonGetter("available")
-    public Long getAvailable() {
-        if (capacity == null) return 0L;
-        return capacity - Objects.requireNonNullElse(registered, 0L);
-    }
+    @NotNull
+    private Boolean hasAttendance;
 
-    @JsonGetter("capacityStatus")
-    public CapacityStatus getCapacityStatus() {
-        Objects.requireNonNull(registered);
-        Objects.requireNonNull(capacity);
+    @RequiredForeignKey
+    private Long eventId;
 
-        if (registered >= capacity) {
-            return CapacityStatus.FILLED;
-        } else if (registered + 1 == capacity) {
-            return CapacityStatus.LAST_ONE;
-        } else {
-            var available = capacity - registered;
-            var remainsPercent = BigDecimal.valueOf(available)
-                    .divide(BigDecimal.valueOf(capacity), RoundingMode.HALF_DOWN)
-                    .multiply(BigDecimal.valueOf(100L));
-
-            if (remainsPercent.compareTo(BigDecimal.valueOf(CapacityStatus.ALMOST_FILLED.getPercentThreshold())) <= 0) {
-                return CapacityStatus.ALMOST_FILLED;
-            } else if (remainsPercent.compareTo(BigDecimal.valueOf(CapacityStatus.FILLING.getPercentThreshold())) <= 0) {
-                return CapacityStatus.FILLING;
-            }
-        }
-
-        return CapacityStatus.FREE;
-    }
+//    @JsonGetter("available")
+//    public Long getAvailable() {
+//        if (capacity == null || registered == null) return null;
+//
+//        return capacity - registered;
+//    }
+//
+//    @JsonGetter("capacityStatus")
+//    public CapacityStatus getCapacityStatus() {
+//        if (capacity == null || registered == null) return CapacityStatus.FREE;
+//
+//        if (registered >= capacity) {
+//            return CapacityStatus.FILLED;
+//        } else if (registered + 1 == capacity) {
+//            return CapacityStatus.LAST_ONE;
+//        } else {
+//            var available = capacity - registered;
+//            var remainsPercent = BigDecimal.valueOf(available)
+//                    .divide(BigDecimal.valueOf(capacity), RoundingMode.HALF_DOWN)
+//                    .multiply(BigDecimal.valueOf(100L));
+//
+//            if (remainsPercent.compareTo(BigDecimal.valueOf(CapacityStatus.ALMOST_FILLED.getPercentThreshold())) <= 0) {
+//                return CapacityStatus.ALMOST_FILLED;
+//            } else if (remainsPercent.compareTo(BigDecimal.valueOf(CapacityStatus.FILLING.getPercentThreshold())) <= 0) {
+//                return CapacityStatus.FILLING;
+//            }
+//        }
+//
+//        return CapacityStatus.FREE;
+//    }
 }

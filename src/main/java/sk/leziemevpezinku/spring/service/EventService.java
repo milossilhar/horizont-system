@@ -1,82 +1,20 @@
 package sk.leziemevpezinku.spring.service;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import sk.leziemevpezinku.spring.model.Event;
-import sk.leziemevpezinku.spring.repo.model.EventTermCapacity;
+import sk.leziemevpezinku.spring.api.EventDTO;
+import sk.leziemevpezinku.spring.service.base.CrudPageService;
+import sk.leziemevpezinku.spring.service.base.UuidService;
 
-import java.util.List;
-
-public interface EventService {
-
-    /**
-     * Creates new event.
-     * @param event event to create
-     * @return created event
-     */
-    Event createEvent(Event event);
-
-    /**
-     * Updates event.
-     * @param eventId id of the event
-     * @param event object with updated information
-     * @return updated event
-     */
-    Event updateEvent(Long eventId, Event event);
-
-    /**
-     * Removes event with given io
-     * @param id event id
-     * @throws sk.leziemevpezinku.spring.service.exception.CommonException when event with id does not exist
-     */
-    void removeEvent(Long id);
-
-    /**
-     * Gets event by id.
-     * @param id id of an event
-     * @return found event
-     * @throws sk.leziemevpezinku.spring.service.exception.CommonException when event with given uuid is not found
-     */
-    Event getById(Long id);
-
-    /**
-     * Gets event by uuid.
-     * @param uuid uuid of an event
-     * @return found event
-     * @throws sk.leziemevpezinku.spring.service.exception.CommonException when event with given uuid is not found
-     */
-    Event getByUUID(String uuid);
-
-    /**
-     * Finds all events.
-     * @return list of all events
-     */
-    List<Event> getAll();
-
-    /**
-     * Finds all events with pagination and sorting.
-     * @param page page and sort
-     * @return paginated result
-     */
-    Page<Event> getAll(Pageable page);
-
-    /**
-     * Finds all events and adds computed current registration capacities.
-     * @return list of all events with term capacities
-     */
-    List<Event> getAllWithCapacities();
-
-    /**
-     * Finds current and future events.
-     * @return list of current and future events
-     */
-    List<Event> getCurrentAndFuture();
-
-    /**
-     * Counts all registrations for Event.
-     * @param eventUUID uuid of an event
-     * @return counted registrations by eventTerm
-     */
-    List<EventTermCapacity> getEventRegistrationCount(String eventUUID);
+/**
+ * Service interface for operations related to event management. This interface extends
+ * the UuidCrudService interface, providing CRUD operations for events and enabling
+ * retrieval by UUID.
+ * <p>
+ * This service typically handles tasks such as creating, updating, retrieving, and deleting
+ * event data. It operates on data transfer objects (DTOs) to ensure a separation of concerns
+ * between the service layer and persistence layer.
+ */
+public interface EventService extends
+        UuidService<EventDTO>,
+        CrudPageService<EventDTO, EventDTO, EventDTO, Long> {
+    // custom contract here
 }

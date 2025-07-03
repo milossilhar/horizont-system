@@ -25,7 +25,7 @@ public class LocalDateTimeDeserializer extends JsonDeserializer<LocalDateTime> {
         }
 
         Optional<ZonedDateTime> zonedDateTime = Stream.of(DateTimeFormatter.ISO_OFFSET_DATE_TIME, DateTimeFormatter.ISO_DATE)
-                .map(formatter -> DateUtils.tryParse(dateText, formatter))
+                .map(formatter -> DateUtils.tryParseDateTime(dateText, formatter))
                 .filter(Objects::nonNull)
                 .findFirst();
 

@@ -8,10 +8,13 @@ import org.springframework.data.jpa.repository.Lock;
 import org.springframework.stereotype.Repository;
 import sk.leziemevpezinku.spring.model.EventTerm;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface EventTermRepository extends JpaRepository<EventTerm, Long>, JpaSpecificationExecutor<EventTerm> {
+
+    List<EventTerm> findByEventId(Long eventId);
 
     @EntityGraph(type = EntityGraph.EntityGraphType.LOAD, attributePaths = {"registrations"})
     Optional<EventTerm> findLoadedById(Long id);

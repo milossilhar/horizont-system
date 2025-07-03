@@ -1,6 +1,8 @@
 package sk.leziemevpezinku.spring.rest.exception;
 
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.TypeMismatchException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -50,12 +52,37 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NoResourceFoundException.class)
     public GenericError noResourceFoundExceptionHandler(NoResourceFoundException ex) {
+        log.warn("Resource {} not found in rest call.", ex.getMessage());
         var error = ErrorCode.MSG_NOT_FOUND;
         return GenericError.builder()
                 .code(error.name())
                 .statusCode(error.getStatus().value())
                 .message(error.getMessage())
                 .parameter("resourcePath", ex.getResourcePath())
+                .build();
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public GenericError dataIntegrityViolationExceptionHandler(DataIntegrityViolationException ex) {
+        log.error("Data integrity violation in rest call.", ex);
+        var error = ErrorCode.MSG_DATA_INTEGRITY_VIOLATION;
+        return GenericError.builder()
+                .code(error.name())
+                .statusCode(error.getStatus().value())
+                .message(error.getMessage())
+                .build();
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(TypeMismatchException.class)
+    public GenericError typeMismatchExceptionHandler(TypeMismatchException ex) {
+        var error = ErrorCode.MSG_TYPE_MISMATCH;
+        return GenericError.builder()
+                .code(error.name())
+                .statusCode(error.getStatus().value())
+                .message(error.getMessage())
+                .parameter("property", ex.getPropertyName())
                 .build();
     }
 

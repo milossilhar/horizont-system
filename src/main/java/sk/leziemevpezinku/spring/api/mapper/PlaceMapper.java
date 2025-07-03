@@ -1,0 +1,28 @@
+package sk.leziemevpezinku.spring.api.mapper;
+
+import org.mapstruct.*;
+import sk.leziemevpezinku.spring.api.PlaceDTO;
+import sk.leziemevpezinku.spring.api.mapper.base.BaseMapper;
+import sk.leziemevpezinku.spring.model.EnumerationItem;
+import sk.leziemevpezinku.spring.model.enums.EnumerationName;
+
+@Mapper(
+        componentModel = MappingConstants.ComponentModel.SPRING
+)
+public interface PlaceMapper extends
+        BaseMapper<EnumerationItem, PlaceDTO, PlaceDTO, PlaceDTO> {
+
+    @Override
+    @Mapping(target = "enumName", constant = EnumerationName.Names.REG_PLACE)
+    EnumerationItem createEntity(PlaceDTO placeDTO);
+
+    @Override
+    @BeanMapping(ignoreByDefault = true)
+    @Mapping(target = "name", source = "name")
+    @Mapping(target = "description", source = "description")
+    @Mapping(target = "ordering", source = "ordering")
+    @Mapping(target = "latitude", source = "latitude")
+    @Mapping(target = "longitude", source = "longitude")
+    @Mapping(target = "hidden", source = "hidden")
+    void updateEntity(PlaceDTO dto, @MappingTarget EnumerationItem entity);
+}

@@ -27,7 +27,7 @@ public class Registration extends CreatedAtEntityBase {
     @Column(name = "uuid", length = 40, nullable = false, updatable = false)
     private String uuid;
 
-    /** Enumerated :: {@link RegistrationStatus} */
+    /** Enumerated: {@link RegistrationStatus} */
     @Builder.Default
     @ToString.Include
     @Column(name = "status", length = 10, nullable = false)
@@ -70,19 +70,4 @@ public class Registration extends CreatedAtEntityBase {
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "reg_known_person", joinColumns = @JoinColumn(name = "registration_id"))
     private List<KnownPerson> knownPeople = new ArrayList<>();
-
-    public RegistrationStatus getStatusEnum() {
-        return RegistrationStatus.valueOf(status);
-    }
-
-    public void setStatusEnum(RegistrationStatus statusEnum) {
-        this.status = statusEnum.name();
-    }
-
-    public boolean isStatus(RegistrationStatus status) {
-        if (status == null) {
-            return this.status == null;
-        }
-        return status.name().equals(this.status);
-    }
 }

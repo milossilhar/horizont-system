@@ -1,68 +1,55 @@
 package sk.leziemevpezinku.spring.rest;
 
-import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import sk.leziemevpezinku.spring.model.Event;
-import sk.leziemevpezinku.spring.model.Views;
+import sk.leziemevpezinku.spring.api.EventDTO;
 import sk.leziemevpezinku.spring.rest.model.GenericResponse;
+import sk.leziemevpezinku.spring.rest.model.PageableResponse;
 import sk.leziemevpezinku.spring.service.EventService;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(path = "/events", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = EventController.URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Tag(name = "event")
-@RolesAllowed("ADMIN")
+//@RolesAllowed("ADMIN")
 public class EventController {
+
+    public static final String URL = "/events";
 
     private final EventService eventService;
 
     @GetMapping
-    @JsonView(Views.EventInternal.class)
-    public List<Event> getEvents() {
-        return eventService.getAll();
+    public PageableResponse<EventDTO> getAll(Pageable pageable) {
+        var page = eventService.getPage(pageable);
+        return PageableResponse.of(page);
     }
 
-    @GetMapping("/detail")
-    @JsonView(Views.EventInternal.class)
-    public List<Event> getDetailedEvents() {
-        return eventService.getAllWithCapacities();
-    }
-
-    @GetMapping("/detail/{eventId:\\d+}")
-    @JsonView(Views.EventInternal.class)
-    public Event getDetailedEvent(@PathVariable("eventId") @NotNull Long eventId) {
-        return eventService.getById(eventId);
+    @GetMapping("/id/{id:\\d+}")
+    public EventDTO getEventById(@PathVariable("id") @NotNull @Valid Long id) {
+        return eventService.getOne(id);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Event createEvent(@Valid @RequestBody Event event) {
-        throw new UnsupportedOperationException("Not READY");
-//        return eventService.createEvent(event);
+    public EventDTO createEvent(@Valid @RequestBody EventDTO event) {
+        return eventService.create(event);
     }
 
     @PutMapping(path = "/{eventId:\\d+}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Event updateEvent(@PathVariable("eventId") @NotNull Long eventId, @Valid @RequestBody Event event) {
-        throw new UnsupportedOperationException("Not READY");
-//        if (!eventId.equals(event.getId())) {
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "IDs mismatch");
-//        }
-//
-//        return eventService.updateEvent(eventId, event);
+    public EventDTO updateEvent(
+            @PathVariable("eventId") @NotNull Long eventId,
+            @Valid @RequestBody EventDTO event) {
+        return eventService.update(event);
     }
 
     @DeleteMapping(path = "/{eventId:\\d+}")
     public GenericResponse<String> deleteEvent(@PathVariable("eventId") Long eventId) {
-        throw new UnsupportedOperationException("Not READY");
-
-//        eventService.removeEvent(eventId);
-//        return new GenericResponse<>("Successfully deleted.");
+        eventService.delete(eventId);
+        return GenericResponse.of("Successfully deleted.");
     }
 }
