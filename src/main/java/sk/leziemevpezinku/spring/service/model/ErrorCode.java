@@ -30,10 +30,11 @@ public enum ErrorCode {
     MSG_ENUM_DUPLICATE(HttpStatus.CONFLICT, "Enum duplicate."),
 
     // generic
-    MSG_TYPE_MISMATCH(HttpStatus.BAD_REQUEST, "Type mismatch calling an mapping."),
-    MSG_DATA_INTEGRITY_VIOLATION(HttpStatus.BAD_REQUEST, "Data integrity violation. Foreign keys are not valid. Please check your input."),
     MSG_ACCESS_DENIED(HttpStatus.UNAUTHORIZED, "Access denied."),
+    MSG_DATA_INTEGRITY_VIOLATION(HttpStatus.BAD_REQUEST, "Data integrity violation. Foreign keys are not valid. Please check your input."),
     MSG_NOT_FOUND(HttpStatus.NOT_FOUND, "Not found."),
+    MSG_REQUEST_INVALID(HttpStatus.BAD_REQUEST, "Invalid request."),
+    MSG_TYPE_MISMATCH(HttpStatus.BAD_REQUEST, "Type mismatch calling an mapping."),
     MSG_GENERIC_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Generic server error.");
 
     private final HttpStatus status;

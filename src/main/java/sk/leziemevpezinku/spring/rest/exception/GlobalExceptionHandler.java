@@ -17,8 +17,6 @@ import sk.leziemevpezinku.spring.rest.model.GenericError;
 import sk.leziemevpezinku.spring.service.exception.CommonException;
 import sk.leziemevpezinku.spring.service.model.ErrorCode;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 @Log4j2
@@ -27,14 +25,20 @@ public class GlobalExceptionHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Map<String, String> methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException ex) {
-        Map<String, String> errors = new HashMap<>();
-        ex.getBindingResult().getAllErrors().forEach((error) -> {
-            String fieldName = ((FieldError) error).getField();
-            String errorMessage = error.getDefaultMessage();
-            errors.put(fieldName, errorMessage);
+    public GenericError methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException ex) {
+        var error = ErrorCode.MSG_REQUEST_INVALID;
+        final var builder = GenericError.builder()
+                .code(error.name())
+                .statusCode(error.getStatus().value())
+                .message(error.getMessage());
+
+        ex.getBindingResult().getAllErrors().forEach((objectError) -> {
+            String fieldName = ((FieldError) objectError).getField();
+            String errorMessage = objectError.getDefaultMessage();
+            builder.parameter(fieldName, errorMessage);
         });
-        return errors;
+
+        return builder.build();
     }
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
