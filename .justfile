@@ -10,7 +10,7 @@ FRONTEND_PROJECT_DIR := '~/projects/leziemevpezinku/horizont-web'
 
 # generate sql schema script from hibernate
 generate-model:
-    {{MAVEN}} test-compile -Pddl
+    {{MAVEN}} process-classes -Pddl
     cp ./target/generated-resources/sql/ddl/auto/postgresql.sql {{SQL_SCHEMA_DIR}}/schema.sql
     cd {{SQL_SCHEMA_DIR}} && sed -ri 's/^ {4}//g' schema.sql
     cd {{SQL_SCHEMA_DIR}} && sed -rzi 's/alter table if exists ([[:print:]]+).*\n.*add constraint ([[:alnum:]]+).*\n.*foreign key \(([[:print:]]+)\)/create index \2 on \1(\3);\n\0/gm' schema.sql
@@ -24,15 +24,15 @@ generate-openapi:
     docker compose -f {{DOCKER_OPENAPI_FILE}} down -v
 
 # runs SpringBoot app in production mode
-prod:
+run-prod:
     {{MAVEN}} spring-boot:run
 
 # runs SpringBoot app in developoment mode
-dev:
+run-dev:
     {{MAVEN}} spring-boot:run -Dspring-boot.run.profiles=dev
 
 # runs SpringBoot app in development mode with DEBUG enabled
-debug:
+run-debug:
     {{MAVEN}} spring-boot:run -Dspring-boot.run.profiles=dev -Dspring-boot.run.jvmArguments="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8000"
 
 # cleans whole project
@@ -56,21 +56,21 @@ inttest:
     {{MAVEN}} verify
 
 # starts whole spring backend stack as production configuration in local Docker
-start:
+start-prod:
     docker compose -f {{DOCKER_PROD_FILE}} up -d --build
 
 # stops whole spring backend stack
-stop:
+stop-prod:
     docker compose -f {{DOCKER_PROD_FILE}} down -v
 
 # starts LOCAL postgres in Docker
-dbstart:
+start-dev:
     docker compose -f {{DOCKER_DEV_FILE}} up -d
 
 # stops and removes LOCAL postgres in Docker
-dbstop:
+stop-dev:
     docker compose -f {{DOCKER_DEV_FILE}} down -v
 
 # connects to LOCAL postgres in Docker
-dbconnect:
+connect-dev:
     psql "postgresql://horizon_user:horizon_pass@localhost:5431/horizon"
