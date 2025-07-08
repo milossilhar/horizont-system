@@ -15,6 +15,6 @@ import static java.lang.annotation.ElementType.TYPE_USE;
 
 @Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE_USE })
 @Retention(RetentionPolicy.RUNTIME)
-@Pattern(regexp = "^[a-zA-Z/]+$")
+@Pattern(regexp = "^[a-zA-Z_/\\-]+$")
 public @interface UrlPath {
 }
