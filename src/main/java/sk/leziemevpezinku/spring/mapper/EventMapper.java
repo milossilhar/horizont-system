@@ -21,12 +21,15 @@ public interface EventMapper extends
     @Mapping(target = "registrationStarts", source = "registrationStarts")
     @Mapping(target = "registrationEnds", source = "registrationEnds")
     @Mapping(target = "placeCode", source = "placeCode")
-    @Mapping(target = "period.id", source = "periodId")
+    @Mapping(target = "periodCode", source = "periodCode")
     @Mapping(target = "conditions", source = "conditions")
     Event createEntity(EventDTO eventDTO);
 
     @Override
-    @BeanMapping(ignoreByDefault = true)
+    @BeanMapping(
+            ignoreByDefault = true,
+            nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE
+    )
     @Mapping(target = "name", source = "name")
     @Mapping(target = "details", source = "details")
     @Mapping(target = "eventType", source = "eventType")
@@ -34,7 +37,7 @@ public interface EventMapper extends
     @Mapping(target = "registrationStarts", source = "registrationStarts")
     @Mapping(target = "registrationEnds", source = "registrationEnds")
     @Mapping(target = "placeCode", source = "placeCode")
-    @Mapping(target = "period.id", source = "periodId")
+    @Mapping(target = "periodCode", source = "periodCode")
     @Mapping(target = "conditions", source = "conditions")
     void updateEntity(EventDTO eventUpdateDTO, @MappingTarget Event event);
 }

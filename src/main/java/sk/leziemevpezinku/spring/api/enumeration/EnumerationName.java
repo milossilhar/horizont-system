@@ -12,10 +12,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public enum EnumerationName {
     REG_EVENT_CONDITION_TYPE(true, true, EnumerationItemDTO.class),
-    REG_EVENT_DISCOUNT_TYPE(true, false, EnumerationItemDTO.class),
-    REG_EVENT_TYPE(true, true, EnumerationItemDTO.class),
+    REG_EVENT_DISCOUNT_TYPE(false, false, EnumerationItemDTO.class),
+    REG_EVENT_TYPE(false, true, EnumerationItemDTO.class),
+    REG_EVENT_TERM_TAG(true, true, EnumerationItemDTO.class),
     REG_PLACE(true, true, PlaceDTO.class),
-    REG_RELATION(true, true, EnumerationItemDTO.class),
+    REG_PERIOD(true, true, EnumerationItemDTO.class),
+    REG_RELATION(false, true, EnumerationItemDTO.class),
     REG_SHIRT_SIZE(true, true, EnumerationItemDTO.class);
 
     private final boolean administrated;
@@ -37,7 +39,10 @@ public enum EnumerationName {
     public interface Names {
         String REG_EVENT_CONDITION_TYPE = "REG_EVENT_CONDITION_TYPE";
         String REG_EVENT_DISCOUNT_TYPE = "REG_EVENT_DISCOUNT_TYPE";
+        String REG_EVENT_TYPE = "REG_EVENT_TYPE";
+        String REG_EVENT_TERM_TAG = "REG_EVENT_TERM_TAG";
         String REG_PLACE = "REG_PLACE";
+        String REG_PERIOD = "REG_PERIOD";
         String REG_RELATION = "REG_RELATION";
         String REG_SHIRT_SIZE = "REG_SHIRT_SIZE";
     }

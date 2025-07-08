@@ -13,7 +13,7 @@ public enum CapacityStatus {
     FREE(null);
 
     /**
-     * Upper limit on percentage of remaining capacity to be available for this status to activate.
+     * Upper limit on the percentage of remaining capacity to be available for this status to activate.
      * E.g.:
      *  20 = max. 20% is available of capacity
      */

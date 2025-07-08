@@ -11,8 +11,6 @@ create sequence seq_lesson_id start with 1 increment by 1;
 
 create sequence seq_payment_id start with 1 increment by 1;
 
-create sequence seq_period_id start with 1 increment by 1;
-
 create sequence seq_person_id start with 1 increment by 1;
 
 create sequence seq_registration_id start with 1 increment by 1;
@@ -83,7 +81,7 @@ create table reg_event (
     image_url varchar(100),
     locked timestamp(6),
     name varchar(200) not null,
-    period_id bigint,
+    period_code varchar(10),
     place_code varchar(10) not null,
     registration_ends timestamp(6) not null,
     registration_starts timestamp(6) not null,
@@ -119,6 +117,7 @@ create table reg_event_term (
     repeat_type varchar(10) not null,
     start_date date not null,
     start_time time(6) not null,
+    tags jsonb,
     event_id bigint not null,
     primary key (id)
 );
@@ -154,18 +153,6 @@ create table reg_payment (
     discount_value numeric(8,2),
     paid boolean,
     price numeric(10,2) not null,
-    primary key (id)
-);
-
-create table reg_period (
-    id bigint not null,
-    created_at timestamp(6) not null,
-    created_by varchar(50),
-    modified_at timestamp(6),
-    modified_by varchar(50),
-    end_date date,
-    name varchar(100) not null,
-    start_date date,
     primary key (id)
 );
 
@@ -253,12 +240,6 @@ alter table if exists reg_attendance_trainer
    add constraint FKruj6st46w25y23h6x0173l4jr 
    foreign key (person_id) 
    references reg_person;
-
-create index FKekjbpo9eko6r6u4mmr0qd89vb on reg_event (period_id);
-alter table if exists reg_event 
-   add constraint FKekjbpo9eko6r6u4mmr0qd89vb 
-   foreign key (period_id) 
-   references reg_period;
 
 create index FKn5r2rv274w1jmhrfopttnlmgh on reg_event_condition (event_id);
 alter table if exists reg_event_condition 

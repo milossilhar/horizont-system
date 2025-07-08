@@ -49,8 +49,9 @@ public class EventDTO {
     @EnumerationValue(enumName = EnumerationName.REG_PLACE)
     private String placeCode;
 
-    @RequiredForeignKey
-    private Long periodId;
+    @NotNull
+    @EnumerationValue(enumName = EnumerationName.REG_PERIOD)
+    private String periodCode;
 
     private List<EventConditionDTO> conditions;
 

@@ -60,14 +60,10 @@ public class Event extends UuidAuditedEntityBase {
     @Column(name = "place_code", length = 10, nullable = false)
     private String placeCode;
 
-    @EqualsAndHashCode.Exclude
-    @ManyToOne
-    @JoinColumn(name = "period_id")
-    private Period period;
-
-    @EqualsAndHashCode.Exclude
-    @Column(name = "period_id", insertable = false, updatable = false)
-    private Long periodId;
+    /** Enumerated: REG_PERIOD */
+    @ToString.Include
+    @Column(name = "period_code", length = 10)
+    private String periodCode;
 
     @Builder.Default
     @EqualsAndHashCode.Exclude

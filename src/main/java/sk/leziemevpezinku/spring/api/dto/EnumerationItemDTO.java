@@ -2,6 +2,7 @@ package sk.leziemevpezinku.spring.api.dto;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,6 +22,7 @@ import sk.leziemevpezinku.spring.api.validation.SystemName;
         property = "type",
         defaultImpl = EnumerationItemDTO.class
 )
+@JsonTypeName("item")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = PlaceDTO.class, name = "place"),
 })
@@ -30,7 +32,6 @@ public class EnumerationItemDTO {
     private Long id;
 
     @ToString.Include
-    @NotEmpty
     @SystemName
     private String code;
 
@@ -44,7 +45,6 @@ public class EnumerationItemDTO {
     @Size(max = 150)
     private String description;
 
-    @NotNull
     @PositiveOrZero
     private Integer ordering;
 
