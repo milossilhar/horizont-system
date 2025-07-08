@@ -2,6 +2,7 @@ package sk.leziemevpezinku.spring.util;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.Random;
 
 import static org.apache.commons.lang3.StringUtils.*;
 
@@ -53,5 +54,14 @@ public class StringUtils {
      */
     public static String limit(String str, int maxLength) {
         return left(str, maxLength);
+    }
+
+    public static String randomSystemName(int maxLength, boolean capitalize) {
+        int a = capitalize ? 65 : 97;
+        int z = capitalize ? 90 : 122;
+        Random random = new Random();
+        return random.ints(maxLength, a, z + 1)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
     }
 }

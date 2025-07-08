@@ -4,6 +4,7 @@ import sk.leziemevpezinku.spring.api.dto.EnumerationItemDTO;
 import sk.leziemevpezinku.spring.api.enumeration.EnumerationName;
 
 import java.util.List;
+import java.util.Map;
 
 public interface EnumerationService {
 
@@ -14,7 +15,7 @@ public interface EnumerationService {
      * @param enumerationItemDTO the data transfer object containing the details of the enumeration item to be created
      * @return the created enumeration item as an EnumerationItemDTO
      */
-    List<? extends EnumerationItemDTO> create(EnumerationName enumName, EnumerationItemDTO enumerationItemDTO);
+    EnumerationItemDTO create(EnumerationName enumName, EnumerationItemDTO enumerationItemDTO);
 
     /**
      * Updates an existing enumeration item in the specified enumeration.
@@ -26,12 +27,30 @@ public interface EnumerationService {
     List<? extends EnumerationItemDTO> update(EnumerationName enumName, EnumerationItemDTO enumerationItemDTO);
 
     /**
+     * Hides a specific enumeration item in the given enumeration by setting its hidden status to true.
+     *
+     * @param enumName the name of the enumeration containing the item to be hidden
+     * @param code the unique code identifying the specific enumeration item to hide
+     * @return a list of EnumerationItemDTO objects representing the updated items in the specified enumeration
+     */
+    List<? extends EnumerationItemDTO> hide(EnumerationName enumName, String code);
+
+    /**
      * Retrieves all enumeration items for a specified enumeration name.
      *
      * @param enumName the name of the enumeration for which to retrieve all items
      * @return a list of EnumerationItemDTO objects representing the items in the specified enumeration
      */
     List<? extends EnumerationItemDTO> getAll(EnumerationName enumName);
+
+    /**
+     * Retrieves all enumeration items for the specified list of enumeration names.
+     *
+     * @param enumNames the list of enumeration names for which to retrieve all enumeration items
+     * @return a map where each key is an enumeration name (as a string) and each value is a list of
+     *         enumeration items corresponding to that name
+     */
+    Map<String, List<? extends EnumerationItemDTO>> getAll(List<EnumerationName> enumNames);
 
     /**
      * Retrieves the name of an enumeration item associated with a specific code

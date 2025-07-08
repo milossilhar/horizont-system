@@ -49,7 +49,6 @@ public class EventDTO {
     @EnumerationValue(enumName = EnumerationName.REG_PLACE)
     private String placeCode;
 
-    @NotNull
     @EnumerationValue(enumName = EnumerationName.REG_PERIOD)
     private String periodCode;
 
