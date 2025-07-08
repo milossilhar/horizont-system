@@ -64,6 +64,12 @@ public class EventTerm extends AuditedEntityBase {
     @Column(name = "expected_trainers")
     private List<String> expectedTrainers = new ArrayList<>();
 
+    @Builder.Default
+    @EqualsAndHashCode.Exclude
+    @JdbcTypeCode(value = SqlTypes.JSON)
+    @Column(name = "tags")
+    private List<String> tags = new ArrayList<>();
+
     @Column(name = "deposit")
     private BigDecimal deposit;
 
