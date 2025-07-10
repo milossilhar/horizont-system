@@ -3,6 +3,7 @@ package sk.leziemevpezinku.spring.api.enumeration;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import sk.leziemevpezinku.spring.api.dto.EnumerationItemDTO;
+import sk.leziemevpezinku.spring.api.dto.EventConditionTypeDTO;
 import sk.leziemevpezinku.spring.api.dto.PlaceDTO;
 
 import java.util.Arrays;
@@ -11,7 +12,7 @@ import java.util.List;
 @Getter
 @RequiredArgsConstructor
 public enum EnumerationName {
-    REG_EVENT_CONDITION_TYPE(true, true, EnumerationItemDTO.class),
+    REG_EVENT_CONDITION_TYPE(true, true, EventConditionTypeDTO.class),
     REG_EVENT_DISCOUNT_TYPE(false, false, EnumerationItemDTO.class),
     REG_EVENT_TYPE(false, true, EnumerationItemDTO.class),
     REG_EVENT_TERM_TAG(true, true, EnumerationItemDTO.class),

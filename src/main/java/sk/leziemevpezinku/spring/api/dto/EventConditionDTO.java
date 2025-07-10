@@ -4,14 +4,16 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
-import sk.leziemevpezinku.spring.api.enumeration.EventConditionType;
+import sk.leziemevpezinku.spring.api.enumeration.EnumerationName;
+import sk.leziemevpezinku.spring.api.validation.EnumerationValue;
 
 @Data
 @Builder
 public class EventConditionDTO {
 
     @NotNull
-    private EventConditionType conditionType;
+    @EnumerationValue(enumName = EnumerationName.REG_EVENT_CONDITION_TYPE)
+    private String conditionTypeCode;
 
     @Size(max = 50)
     private String minValue;

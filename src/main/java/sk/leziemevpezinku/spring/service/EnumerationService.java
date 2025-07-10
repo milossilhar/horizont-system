@@ -50,7 +50,7 @@ public interface EnumerationService {
      * @return a map where each key is an enumeration name (as a string) and each value is a list of
      *         enumeration items corresponding to that name
      */
-    Map<String, List<? extends EnumerationItemDTO>> getAll(List<EnumerationName> enumNames);
+    Map<EnumerationName, List<? extends EnumerationItemDTO>> getAll(List<EnumerationName> enumNames);
 
     /**
      * Retrieves the name of an enumeration item associated with a specific code

@@ -17,7 +17,7 @@ public interface EnumerationRepository extends ListCrudRepository<EnumerationIte
      * @param enumName enum name
      * @return list of all enumerations
      */
-    List<EnumerationItem> findByEnumNameOrderByOrderingAsc(String enumName);
+    List<EnumerationItem> findByEnumNameOrderByOrderingAsc(EnumerationName enumName);
 
     /**
      * Retrieves a list of {@link EnumerationItem} objects that match the given enumeration names,
@@ -26,7 +26,7 @@ public interface EnumerationRepository extends ListCrudRepository<EnumerationIte
      * @param enumNames the list of enumeration names to search for
      * @return a list of {@link EnumerationItem} objects sorted by their `ordering` property in ascending order
      */
-    List<EnumerationItem> findByEnumNameInOrderByOrderingAsc(List<String> enumNames);
+    List<EnumerationItem> findByEnumNameInOrderByOrderingAsc(List<EnumerationName> enumNames);
 
     /**
      * Finds single enumeration item for given name and code.
@@ -34,7 +34,7 @@ public interface EnumerationRepository extends ListCrudRepository<EnumerationIte
      * @param code enum item code
      * @return single enum item or empty
      */
-    Optional<EnumerationItem> findByEnumNameAndCode(String enumName, String code);
+    Optional<EnumerationItem> findByEnumNameAndCode(EnumerationName enumName, String code);
 
     /**
      * Checks if an enumeration item exists for the given enumeration name and code.
@@ -43,7 +43,7 @@ public interface EnumerationRepository extends ListCrudRepository<EnumerationIte
      * @param code the code of the enumeration item to check for existence
      * @return true if an enumeration item with the given enumeration name and code exists, false otherwise
      */
-    boolean existsByEnumNameAndCode(String enumName, String code);
+    boolean existsByEnumNameAndCode(EnumerationName enumName, String code);
 
     /**
      * Finds the first {@link EnumerationItem} that matches the given enumeration name, applying the specified sort order.
@@ -52,5 +52,5 @@ public interface EnumerationRepository extends ListCrudRepository<EnumerationIte
      * @param sort the sorting criteria to apply
      * @return an {@link Optional} containing the first matching {@link EnumerationItem}, or an empty {@link Optional} if no match is found
      */
-    Optional<EnumerationItem> findFirstByEnumName(String enumName, Sort sort);
+    Optional<EnumerationItem> findFirstByEnumName(EnumerationName enumName, Sort sort);
 }

@@ -23,6 +23,6 @@ public class EnumerationValueValidator implements ConstraintValidator<Enumeratio
     public boolean isValid(String code, ConstraintValidatorContext context) {
         if (code == null || code.isEmpty()) return true;
 
-        return enumerationRepository.existsByEnumNameAndCode(this.enumName.name(), code);
+        return enumerationRepository.existsByEnumNameAndCode(this.enumName, code);
     }
 }

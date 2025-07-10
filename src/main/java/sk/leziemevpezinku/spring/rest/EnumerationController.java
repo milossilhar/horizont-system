@@ -29,18 +29,18 @@ public class EnumerationController {
     private final EnumerationService service;
 
     @GetMapping()
-    Map<String, EnumerationDTO> getEnumeration() {
+    Map<EnumerationName, EnumerationDTO> getEnumeration() {
         return service.getAll(List.of(EnumerationName.values()))
                 .entrySet()
                 .stream()
                 .collect(Collectors.toMap(Map.Entry::getKey, e -> EnumerationDTO.builder()
-                        .administrated(EnumerationName.valueOf(e.getKey()).isAdministrated())
+                        .administrated(e.getKey().isAdministrated())
                         .values(e.getValue())
                         .build()));
     }
 
     @GetMapping("/items/administrated")
-    Map<String, List<? extends EnumerationItemDTO>> getItemsAdministrated() {
+    Map<EnumerationName, List<? extends EnumerationItemDTO>> getItemsAdministrated() {
         return service.getAll(List.of(EnumerationName.values()));
     }
 

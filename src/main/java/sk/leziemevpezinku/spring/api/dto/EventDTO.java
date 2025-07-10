@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
+import sk.leziemevpezinku.spring.api.enumeration.EventType;
 import sk.leziemevpezinku.spring.api.validation.*;
 import sk.leziemevpezinku.spring.api.enumeration.EnumerationName;
 import sk.leziemevpezinku.spring.api.enumeration.EventStatus;
@@ -32,8 +33,7 @@ public class EventDTO {
     private String details;
 
     @NotNull
-    @EnumerationValue(enumName = EnumerationName.REG_EVENT_TYPE)
-    private String eventType;
+    private EventType eventType;
 
     @UrlPath
     @Size(min = 1, max = 100)

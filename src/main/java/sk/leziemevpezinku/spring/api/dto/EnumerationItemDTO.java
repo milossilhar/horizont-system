@@ -25,6 +25,7 @@ import sk.leziemevpezinku.spring.api.validation.SystemName;
 @JsonTypeName("item")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = PlaceDTO.class, name = "place"),
+        @JsonSubTypes.Type(value = EventConditionTypeDTO.class, name = "conditionType")
 })
 public class EnumerationItemDTO {
 
