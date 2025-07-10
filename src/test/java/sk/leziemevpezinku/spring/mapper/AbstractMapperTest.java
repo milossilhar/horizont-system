@@ -1,4 +1,4 @@
-package sk.leziemevpezinku.spring.api;
+package sk.leziemevpezinku.spring.mapper;
 
 import org.junit.jupiter.api.TestInstance;
 import org.mapstruct.factory.Mappers;

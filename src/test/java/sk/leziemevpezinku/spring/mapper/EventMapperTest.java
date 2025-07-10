@@ -1,15 +1,14 @@
-package sk.leziemevpezinku.spring.api;
+package sk.leziemevpezinku.spring.mapper;
 
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 import sk.leziemevpezinku.spring.annotation.UnitTest;
 import sk.leziemevpezinku.spring.api.dto.EventDTO;
-import sk.leziemevpezinku.spring.mapper.EventConditionMapper;
-import sk.leziemevpezinku.spring.mapper.EventMapper;
+import sk.leziemevpezinku.spring.api.enumeration.EnumerationValues;
+import sk.leziemevpezinku.spring.api.enumeration.EventType;
 import sk.leziemevpezinku.spring.model.Event;
 import sk.leziemevpezinku.spring.model.EventCondition;
 import sk.leziemevpezinku.spring.model.EventTerm;
-import sk.leziemevpezinku.spring.api.enumeration.EventConditionType;
 import sk.leziemevpezinku.spring.util.TestUtil;
 
 import java.time.LocalDate;
@@ -32,7 +31,7 @@ public class EventMapperTest extends AbstractMapperTest<EventMapper> {
                 .id(1L)
                 .conditions(
                         List.of(EventCondition.builder()
-                                .conditionType(EventConditionType.YEAR_BORN.name())
+                                .conditionTypeCode(EnumerationValues.REG_EVENT_CONDITION_TYPE.YEAR_BORN_MIN)
                                 .value("12")
                                 .build())
                 )
@@ -45,7 +44,7 @@ public class EventMapperTest extends AbstractMapperTest<EventMapper> {
                 )
                 .uuid("test-uuid")
                 .name("Test Event")
-                .eventType("SUPER_TYPE")
+                .eventType(EventType.EVENT)
                 .build();
 
         EventDTO dto = mapper.toDTO(event);

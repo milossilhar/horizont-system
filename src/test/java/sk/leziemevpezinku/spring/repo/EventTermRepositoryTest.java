@@ -4,6 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import sk.leziemevpezinku.spring.annotation.UnitTest;
+import sk.leziemevpezinku.spring.api.enumeration.EventTermRepeatType;
 import sk.leziemevpezinku.spring.model.EventTerm;
 
 import java.math.BigDecimal;
@@ -30,7 +31,9 @@ public class EventTermRepositoryTest extends AbstractRepositoryTest {
                 .event(event.orElseThrow())
                 .startDate(LocalDate.now())
                 .startTime(LocalTime.of(14, 0, 0))
+                .repeatType(EventTermRepeatType.ONCE)
                 .durationMinutes(45)
+                .capacity(10L)
                 .price(BigDecimal.valueOf(400))
                 .build();
 
@@ -48,7 +51,9 @@ public class EventTermRepositoryTest extends AbstractRepositoryTest {
                 .event(event.orElseThrow())
                 .startDate(LocalDate.now())
                 .startTime(LocalTime.of(14, 0, 0))
+                .repeatType(EventTermRepeatType.ONCE)
                 .durationMinutes(45)
+                .capacity(10L)
                 .price(BigDecimal.valueOf(400))
                 .expectedTrainers(expected)
                 .build();
