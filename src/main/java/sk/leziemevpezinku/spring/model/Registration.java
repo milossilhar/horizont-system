@@ -27,11 +27,11 @@ public class Registration extends CreatedAtEntityBase {
     @Column(name = "uuid", length = 40, nullable = false, updatable = false)
     private String uuid;
 
-    /** Enumerated: {@link RegistrationStatus} */
     @Builder.Default
     @ToString.Include
+    @Enumerated(EnumType.STRING)
     @Column(name = "status", length = 10, nullable = false)
-    private String status = RegistrationStatus.CONCEPT.name();
+    private RegistrationStatus status = RegistrationStatus.CONCEPT;
 
     @Column(name = "name", length = 50, nullable = false)
     private String parentName;

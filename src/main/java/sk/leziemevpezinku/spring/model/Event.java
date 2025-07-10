@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.Cascade;
+import sk.leziemevpezinku.spring.api.enumeration.EventType;
 import sk.leziemevpezinku.spring.model.base.UuidAuditedEntityBase;
 import sk.leziemevpezinku.spring.api.enumeration.EventStatus;
 
@@ -32,10 +33,10 @@ public class Event extends UuidAuditedEntityBase {
     @Column(name = "details", nullable = false, length = 2000)
     private String details;
 
-    /** Enumerated: REG_EVENT_TYPE */
     @ToString.Include
+    @Enumerated(EnumType.STRING)
     @Column(name = "event_type", length = 20, nullable = false)
-    private String eventType;
+    private EventType eventType;
 
     @Column(name = "image_url", length = 100)
     private String imageUrl;
@@ -52,8 +53,9 @@ public class Event extends UuidAuditedEntityBase {
 
     @Builder.Default
     @ToString.Include
+    @Enumerated(EnumType.STRING)
     @Column(name = "status", length = 10, nullable = false)
-    private String status = EventStatus.DRAFT.name();
+    private EventStatus status = EventStatus.DRAFT;
 
     /** Enumerated: REG_PLACE */
     @ToString.Include

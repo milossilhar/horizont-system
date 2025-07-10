@@ -227,8 +227,18 @@
                         <artifactId>hibernate65-ddl-maven-plugin</artifactId>
                         <version>1.0.2</version>
                         <configuration>
-                            <dialects><param>POSTGRESQL</param></dialects>
-                            <packages><param>sk.leziemevpezinku.spring.model</param></packages>
+                            <dialects>
+                                <param>POSTGRESQL</param>
+                            </dialects>
+                            <customDialects>
+                                <param>sk.leziemevpezinku.spring.util.ddl.DdlPostgreSQLDialect</param>
+                            </customDialects>
+                            <packages>
+                                <param>sk.leziemevpezinku.spring.model</param>
+                            </packages>
+                            <outputDirectory>${project.build.directory}/generated-resources/sql/ddl/auto</outputDirectory>
+                            <outputFileNamePrefix>postgresql</outputFileNamePrefix>
+                            <omitDialectFromFileName>true</omitDialectFromFileName>
                         </configuration>
                         <executions>
                             <execution>

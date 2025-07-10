@@ -28,8 +28,8 @@ public class Attendance extends AuditedEntityBase {
     @ManyToOne(fetch = FetchType.LAZY)
     private Person person;
 
-    /** Enumerated: {@link AttendanceStatus} */
     @ToString.Include
+    @Enumerated(EnumType.STRING)
     @Column(name = "status", length = 10, nullable = false)
-    private String status;
+    private AttendanceStatus status;
 }

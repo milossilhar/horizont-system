@@ -58,6 +58,7 @@ create table reg_email_logs (
 create table reg_enumeration_item (
     id bigint not null,
     code varchar(10) not null,
+    condition_option varchar(10),
     description varchar(500),
     enum_name varchar(40) not null,
     hidden boolean,
@@ -91,7 +92,7 @@ create table reg_event (
 
 create table reg_event_condition (
     event_id bigint not null,
-    condition_type varchar(20) not null,
+    condition_type_code varchar(10) not null,
     max_value varchar(50),
     min_value varchar(50),
     value varchar(50),
@@ -106,7 +107,7 @@ create table reg_event_term (
     modified_at timestamp(6),
     modified_by varchar(50),
     capacity bigint not null,
-    day_of_week varchar(10) check (day_of_week in ('MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY','SUNDAY')),
+    day_of_week varchar(10),
     deposit numeric(38,2),
     duration_minutes integer not null,
     end_date date,

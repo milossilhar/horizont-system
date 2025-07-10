@@ -3,7 +3,6 @@ package sk.leziemevpezinku.spring.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.*;
-import sk.leziemevpezinku.spring.api.enumeration.EventConditionType;
 
 @Data
 @Builder
@@ -12,10 +11,10 @@ import sk.leziemevpezinku.spring.api.enumeration.EventConditionType;
 @Embeddable
 public class EventCondition {
 
-    /** Enumerated: {@link EventConditionType} */
+    /** Enumerated: REG_EVENT_CONDITION_TYPE */
     @ToString.Include
-    @Column(name = "condition_type", length = 20, nullable = false)
-    private String conditionType;
+    @Column(name = "condition_type_code", length = 10, nullable = false)
+    private String conditionTypeCode;
 
     @ToString.Include
     @Column(name = "min_value", length = 50)

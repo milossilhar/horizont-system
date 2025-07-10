@@ -46,12 +46,12 @@ public class EventTerm extends AuditedEntityBase {
     @Column(name = "duration_minutes", nullable = false)
     private Integer durationMinutes;
 
-    /** Enumerated: {@link EventTermRepeatType} */
     @ToString.Include
+    @Enumerated(EnumType.STRING)
     @Column(name = "repeat_type", length = 10, nullable = false)
-    private String repeatType;
+    private EventTermRepeatType repeatType;
 
-    @Enumerated(value = EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     @Column(name = "day_of_week", length = 10)
     private DayOfWeek dayOfWeek;
 

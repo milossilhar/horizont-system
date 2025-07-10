@@ -18,5 +18,9 @@ INSERT INTO reg_enumeration_item (id, enum_name, code, name, ordering) VALUES (n
 INSERT INTO reg_enumeration_item (id, enum_name, code, name, ordering) VALUES (nextval('seq_enumeration_item_id'), 'REG_RELATION', 'AUN', 'Teta', 8);
 INSERT INTO reg_enumeration_item (id, enum_name, code, name, ordering) VALUES (nextval('seq_enumeration_item_id'), 'REG_RELATION', 'OTH', 'Iný Vzťah', 9);
 
-INSERT INTO reg_enumeration_item (id, enum_name, code, name, ordering) VALUES (nextval('seq_enumeration_item_id'), 'REG_EVENT_TYPE', 'EVENT', 'Udalosť', 1);
-INSERT INTO reg_enumeration_item (id, enum_name, code, name, ordering) VALUES (nextval('seq_enumeration_item_id'), 'REG_EVENT_TYPE', 'ECA', 'Krúžok', 2);
+INSERT INTO reg_enumeration_item (id, enum_name, code, name, condition_option, ordering) VALUES (nextval('seq_enumeration_item_id'), 'REG_EVENT_CONDITION_TYPE', 'YEAR_RANGE', 'Roky narodenia', 'NUM_RANGE', 1);
+INSERT INTO reg_enumeration_item (id, enum_name, code, name, condition_option, ordering) VALUES (nextval('seq_enumeration_item_id'), 'REG_EVENT_CONDITION_TYPE', 'YEAR_MIN', 'Minimálny rok narodenia', 'NUM_MIN', 2);
+INSERT INTO reg_enumeration_item (id, enum_name, code, name, condition_option, ordering) VALUES (nextval('seq_enumeration_item_id'), 'REG_EVENT_CONDITION_TYPE', 'YEAR_MAX', 'Maximálny rok narodenia', 'NUM_MAX', 3);
+INSERT INTO reg_enumeration_item (id, enum_name, code, name, condition_option, ordering) VALUES (nextval('seq_enumeration_item_id'), 'REG_EVENT_CONDITION_TYPE', 'AGE_MIN', 'Minimálny vek', 'NUM_MIN', 4);
+INSERT INTO reg_enumeration_item (id, enum_name, code, name, condition_option, ordering) VALUES (nextval('seq_enumeration_item_id'), 'REG_EVENT_CONDITION_TYPE', 'AGE_MAX', 'Maximálny vek', 'NUM_MAX', 5);
+
