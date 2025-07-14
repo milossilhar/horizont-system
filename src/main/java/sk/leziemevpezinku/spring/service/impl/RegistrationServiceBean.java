@@ -157,6 +157,13 @@ public class RegistrationServiceBean implements RegistrationService {
         return registrationRepository.findForDepositPaymentInfoEmail(Limit.of(batchSize.intValue()));
     }
 
+    @Override
+    public List<Registration> findForEventDetail(Long batchSize) {
+        if (batchSize == null) return Collections.emptyList();
+
+        return registrationRepository.findForEventDetailEmail(Limit.of(batchSize.intValue()));
+    }
+
     private Payment calculatePriceForRegistration(EventTerm eventTerm, String userEmail, Long numberOfPeople) {
         Payment payment = Payment.builder()
                 .price(eventTerm.getPrice().multiply(BigDecimal.valueOf(numberOfPeople)))

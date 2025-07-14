@@ -13,7 +13,9 @@ public enum RegistrationStatus {
     QUEUE("V poradovníku"),
 
     // registration is confirmed, either by a system automatically, when event conditions are satisfied or by admin later
-    CONFIRMED("Potvrdená");
+    CONFIRMED("Potvrdená"),
+
+    DELETED("Zrušená");
 
     private final String description;
 }

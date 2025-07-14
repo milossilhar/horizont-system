@@ -78,6 +78,10 @@ public class Registration extends UidAuditedEntityBase {
     @Column(name = "email_confirm_sent")
     private Boolean emailConfirmSent;
 
+    @JsonProperty("emailDetailSent")
+    @Column(name = "email_detail_sent")
+    private Boolean emailDetailSent;
+
     @JsonProperty("emailPaymentInfoSent")
     @Column(name = "email_payment_info_sent")
     private Boolean emailPaymentInfoSent;
@@ -85,6 +89,10 @@ public class Registration extends UidAuditedEntityBase {
     @JsonProperty("emailPaymentConfirmSent")
     @Column(name = "email_payment_confirm_sent")
     private Boolean emailPaymentConfirmSent;
+
+    @JsonProperty("emailPaymentCompleteConfirmSent")
+    @Column(name = "email_payment_complete_confirm_sent")
+    private Boolean emailPaymentCompleteConfirmSent;
 
     @JsonIgnore
     @ManyToOne

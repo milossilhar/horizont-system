@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public enum EventType {
-    EVENT(false),
-    CAMP(true),
+    EVENT(false), // random event (aj camp)
+    CAMP(true), // denny tabor
     SCHOOL_CLIMB(true),
     ECA(true);
 

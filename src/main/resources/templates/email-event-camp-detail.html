@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>#leziemevpezinku - Letný tábor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.5;
+            padding: 15px;
+            background: #f5f5f5;
+        }
+
+        .email-container {
+            max-width: 650px;
+            margin: 0 auto;
+            background: #f2f3f1;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #556052 0%, #3d453b 100%);
+            color: white;
+            padding: 25px 20px;
+            text-align: center;
+        }
+
+        .header-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .header-subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 25px 20px;
+        }
+
+        .greeting {
+            font-size: 20px;
+            color: #3d453b;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .intro-message {
+            color: #555;
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+
+        .detail-row {
+            width: 100%;
+            display: table;
+            padding: 3px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .detail-label {
+            display: table-cell;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .detail-value {
+            display: table-cell;
+            color: #3d453b;
+            text-align: right;
+        }
+
+        .payment-value {
+            display: table-cell;
+            color: #1e3a21;
+            text-align: right;
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
+        }
+
+        .section {
+            background: white;
+            border-radius: 8px;
+            padding: 18px;
+            margin-bottom: 15px;
+            border-left: 4px solid #556052;
+        }
+
+        .section-title {
+            font-size: 16px;
+            color: #3d453b;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .section-content {
+            color: #555;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .participant-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: #3d453b;
+            margin-bottom: 5px;
+        }
+
+        .important-section {
+            background: #fff3cd;
+            border: 2px solid #f39c12;
+            border-left: 4px solid #f39c12;
+        }
+
+        .important-title {
+            color: #856404;
+        }
+
+        .green-section {
+            background: #e8f5e8;
+            border-left: 4px solid #27ae60;
+        }
+
+        .green-title {
+            color: #2c5530;
+        }
+
+        .program-section {
+            background: #e6f2ff;
+            border-left: 4px solid #007bff;
+        }
+
+        .program-title {
+            color: #0056b3;
+        }
+
+        .program-item {
+            margin-bottom: 8px;
+            color: #495057;
+            font-size: 14px;
+        }
+
+        .checklist-section {
+            background: #fff;
+            border-left: 4px solid #17a2b8;
+        }
+
+        .checklist-item {
+            margin-bottom: 6px;
+            color: #495057;
+            font-size: 14px;
+        }
+
+        .qr-code {
+            display: table-cell;
+        }
+
+        .qr-code img {
+            padding: 5px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background: white;
+        }
+
+        .qr-instructions {
+            display: table-cell;
+            vertical-align: middle;
+            padding-left: 10px;
+            text-align: left;
+            color: #495057;
+        }
+
+
+        .participant-section {
+            background: #e9ebec;
+            border-left: 4px solid #1f3a3d;
+        }
+
+        .participant-title {
+            color: #1f3a3d;
+        }
+
+        .highlight {
+            background: #fdf4a6;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-weight: 600;
+        }
+
+        .link {
+            text-decoration: underline;
+            color: #3d453b;
+        }
+
+        .coordinates {
+            font-family: 'Courier New', monospace;
+            background: #f0f0f0;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .footer-text {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .contact-info {
+            color: #556052;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .contact-info:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .email-container {
+                margin: 5px;
+                border-radius: 8px;
+            }
+
+            .header, .content, .footer {
+                padding: 15px;
+            }
+
+            .section {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="email-container">
+    <div class="header">
+        <div class="header-title">{{eventName}}</div>
+        <div class="header-subtitle">#leziemevpezinku</div>
+    </div>
+
+    <div class="content">
+        <div class="greeting">
+            Ahoj, {{name}} {{surname}}!,
+        </div>
+
+        <div class="intro-message">
+            letný tábor sa nám blíži a my sa už nevieme dočkať!<br>
+            Posielame Vám pár informácií, ohľadom akcie {{eventName}} <b>aj s platobnými informáciami</b>:
+        </div>
+
+        <div class="section important-section">
+            <div class="section-title important-title">📋 Dokumenty, ktoré treba priniesť:</div>
+            <div class="section-content">
+                V deň nástupu na tábor je nutné priniesť <b>kópiu zdravotného preukazu a vypísané vyhlásenie o zdravotnej spôsobilosti dieťaťa</b>
+                (nájdete v prílohe).
+            </div>
+        </div>
+
+        <div class="section green-section">
+            <div class="section-title green-title">🌍 Príchod a odchod:</div>
+            <div class="section-content">
+                <b>Termín: {{startDate}} - {{endDate}}</b><br><br>
+                <b>Pondelok až štvrtok</b><br>
+                Príchod <b>od 7:30-8:30</b> • Odchod <b>od 15:00 do 16:00</b><br>
+                📍️ <em>Squash hala Tolstého 1/A Pezinok <a class="link" href="https://maps.app.goo.gl/6Wq4HSFrikiDvAXg9">Google Maps</a></em>
+                <br><br>
+                <b>Piatok !!!</b><br>
+                <b>Poprosíme deti priviezť do Modry na parkovisko pod medvediu skalu</b><br>
+                Príchod: <b>8:30</b> • Odchod: <b>15:00-16:00 priamo na skalách, alebo 16:00 na parkovisku</b><br>
+                📍️ <span class="coordinates">GPS: 48°22'17.7"N 17°17'56.4"E</span> <a class="link" href="https://maps.app.goo.gl/keMCxr64iXwsKnPHA">Google Maps</a><br>
+            </div>
+        </div>
+
+        <div class="section program-section">
+            <div class="section-title program-title">📅 Program:</div>
+            <div class="program-item"><b>1. Pondelok</b> - zoznamovanie, batikovanie, pohybové
+                hry, lezenie, yoga a iné...
+            </div>
+            <div class="program-item"><b>2. Utorok</b> - športové hry v parku, lezenie,
+                balančné cvičenia a iné...
+            </div>
+            <div class="program-item"><b>3. Streda</b> - plávanie, lezenie, pohybové hry,
+                maľovanie trička a iné...
+            </div>
+            <div class="program-item"><b>4. Štvrtok</b> - turistika, lezenie, cvičenie,
+                pohybové hry, športové hry v parku/kúpanie, balančné cvičenia a iné...
+            </div>
+            <div class="program-item"><b>5. Piatok (deň na skalách)</b> - skaly, hry v lese</div>
+        </div>
+
+        <div class="section checklist-section">
+            <div class="section-title">🎒 Čo si treba priniesť:</div>
+            <div class="section-content">
+                <div class="checklist-item"><b>Každý deň:</b></div>
+                <div class="checklist-item">• Športové oblečenie, pokrývka hlavy, tenisky</div>
+                <div class="checklist-item">• Fľaša na vodu</div>
+                <div class="checklist-item">• Opaľovací krém (najlepšie natriete dieťa ráno pred príchodom)</div>
+                <br>
+                <div class="checklist-item"><b>Len v stredu:</b></div>
+                <div class="checklist-item">• Plavky a uterák</div>
+                <div class="checklist-item">• Okuliare na plávanie (ak máte)</div>
+                <br>
+                <div class="checklist-item"><b>Na piatok (skaly):</b></div>
+                <div class="checklist-item">• <span class="highlight">Väčšiu fľašu s vodou a repelent</span></div>
+                <div class="checklist-item">• <span class="highlight">Cyklistickú/lezeckú prilbu (ak máte)</span></div>
+                <div class="checklist-item">• <span class="highlight">Obed (odporúčame bagetu, chlebík)</span></div>
+                <div class="checklist-item">• <em>Desiata a olovrant budú zabezpečené</em></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">🍽️ Strava + pitný režim:</div>
+            <div class="section-content">
+                Počas celého tábora majú deti zabezpečenú celodennú stravu a pitný režim <b>(okrem obedu v piatok)</b>.<br><br>
+                Počas dňa majú deti: desiatu, obed a olovrant<br>
+                <b>V piatok majú LEN desiatu a olovrant</b><br><br>
+                <b>Deťom nie je potrebné baliť jedlo počas týždňa 🙂</b>
+            </div>
+        </div>
+
+        <div class="section important-section">
+            <div class="section-title important-title">🏷️ Informácie k platbe</div>
+            <div class="section-content">
+                Evidujeme zostávajúcu platbu k akcii {{eventName}} za {{peopleLengthValue}}.<br>
+                Platbu môžete uhradiť <b>elektronicky</b> alebo <b>v hotovosti ráno v deň nástupu ({{startDate}})</b><br>
+                <br>
+                {{#hasDiscount}}
+                <b>Pre tvoju registráciu bola pridaná zľava vo výške {{discountValue}} EUR.<br>Zostávajúca suma je už ponížená o túto zľavu.</b><br>
+                <br>
+                {{/hasDiscount}}
+                Pokiaľ budete požadovať faktúru k celej sume akcie, prosím zašlite email na adresu <a class="link" href="mailto:info@leziemevpezinku.sk">info@leziemevpezinku.sk</a> s údajmi, ktoré požadujete na faktúre.
+            </div>
+        </div>
+
+        <div class="section green-section">
+            <div class="section-title green-title">
+                Platobné údaje
+            </div>
+
+            <div class="section-content">
+                <div class="detail-row">
+                    <div class="detail-label">IBAN:</div>
+                    <div class="payment-value">{{iban}}</div>
+                </div>
+
+                <div class="detail-row">
+                    <div class="detail-label">Variabilný symbol:</div>
+                    <div class="payment-value">{{variableSymbol}}</div>
+                </div>
+
+                <div class="detail-row">
+                    <div class="detail-label">Informácia pre príjemcu:</div>
+                    <div class="payment-value">{{note}}</div>
+                </div>
+
+
+                <div class="detail-row">
+                    <div class="detail-label">Zostávajúca suma:</div>
+                    <div class="payment-value">{{paymentValue}} EUR</div>
+                </div>
+            </div>
+
+        </div>
+
+        {{#hasPayBySquare}}
+        <div class="section green-section">
+            <div class="section-title green-title">Rýchla platba - PayBySquare</div>
+            <div class="section-content">
+                <div class="qr-code">
+                    <img src="{{{payBySquareURL}}}" alt="QRKód" >
+                </div>
+                <div class="qr-instructions">
+                    <strong>Jednoducho naskenujte QR kód</strong><br>
+                    pomocou mobilnej aplikácie vašej banky<br>
+                    a potvrďte platbu zálohy.
+                </div>
+            </div>
+        </div>
+        {{/hasPayBySquare}}
+
+        <!-- Participants section -->
+        <div class="section participant-section">
+            <p class="section-title participant-title">
+                Registrované deti ({{peopleLength}})
+            </p>
+            <div class="section-content">
+                Prosíme skontrolujte si údaje o dieťati a v prípade nesprávnych hodnôt nás kontaktujte, hlavne pokiaľ by sme nemali správne zaznamenané <b>alergie</b>.
+            </div>
+            <br>
+
+            <!-- Loop through registered people -->
+            {{#people}}
+            <div class="section-content">
+                <div class="participant-name">{{name}} {{surname}}</div>
+                <div class="detail-row">
+                    <div class="detail-label">Dátum narodenia:</div>
+                    <div class="detail-value">{{birthDate}}</div>
+                </div>
+
+                <div class="detail-row">
+                    <div class="detail-label">Veľkosť trička:</div>
+                    <div class="detail-value">{{shirtSize}}</div>
+                </div>
+
+                <div class="detail-row">
+                    <div class="detail-label">Zdravotné poznámky:</div>
+                    <div class="detail-value"><b>{{healthNotes}}</b></div>
+                </div>
+
+                <div class="detail-row">
+                    <div class="detail-label">Alergie na jedlo:</div>
+                    <div class="detail-value"><b>{{foodAllergyNotes}}</b></div>
+                </div>
+            </div>
+            {{/people}}
+        </div>
+
+        {{#hasKnownPeople}}
+        <!-- Known people section if any -->
+        <div class="section participant-section">
+            <p class="section-title participant-title">
+                Známe osoby na prevziatie dieťaťa
+            </p>
+
+            <!-- Loop through known people -->
+            <div class="section-content">
+                {{#knownPeople}}
+                <div class="detail-row">
+                    <div class="detail-label">{{name}} {{surname}}</div>
+                    <div class="detail-value">{{relation}}</div>
+                </div>
+                {{/knownPeople}}
+            </div>
+        </div>
+        {{/hasKnownPeople}}
+
+        <div class="section">
+            <div class="section-content">
+                <b>Ak by ste mali nejaké otázky neváhajte nás kontaktovať.</b><br>
+                <b>Už sa na Vás tešíme!</b><br>
+                S pozdravom,<br>Trénerky
+            </div>
+        </div>
+    </div>
+
+
+    <div class="footer">
+        <div class="footer-text">
+            <strong>Lenka Bacigálová</strong> - organizátor táboru
+        </div>
+        <div class="footer-text">
+            📞 <a href="tel:+421911709465" class="contact-info">0911 709 465</a><br>
+            ✉️ <a href="mailto:info@leziemevpezinku.sk" class="contact-info">info@leziemevpezinku.sk</a><br>
+            🌐 <a href="https://leziemevpezinku.sk" class="contact-info">leziemevpezinku.sk</a>
+        </div>
+        <div class="footer-text">
+            <strong>#leziemevpezinku</strong>
+        </div>
+    </div>
+</div>
+</body>
+</html>

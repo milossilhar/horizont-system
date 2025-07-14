@@ -10,6 +10,8 @@ import sk.leziemevpezinku.spring.model.EventTerm;
 import sk.leziemevpezinku.spring.model.Payment;
 import sk.leziemevpezinku.spring.model.Registration;
 import sk.leziemevpezinku.spring.model.enums.EnumerationName;
+import sk.leziemevpezinku.spring.model.enums.EnumerationValues;
+import sk.leziemevpezinku.spring.model.enums.EventType;
 import sk.leziemevpezinku.spring.model.enums.RegistrationStatus;
 import sk.leziemevpezinku.spring.mustache.*;
 import sk.leziemevpezinku.spring.service.EnumerationService;
@@ -23,6 +25,7 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.Objects;
 
 @Log4j2
 @Service
@@ -119,9 +122,9 @@ public class PrintServiceBean implements PrintService {
     }
 
     @Override
-    public String printPaymentConfirm(Registration registration) {
+    public String printPaymentConfirm(Registration registration, Boolean deposit, BigDecimal amountPaid) {
         try {
-            String paymentSubject = "záloha";
+            String paymentSubject = Boolean.TRUE.equals(deposit) ? "záloha" : "platba";
             Payment payment = registration.getPayment();
             EventTerm eventTerm = registration.getEventTerm();
 
@@ -132,9 +135,12 @@ public class PrintServiceBean implements PrintService {
                     .eventStartDate(DateUtils.format(eventTerm.getStartAt().toLocalDate()))
                     .paymentSubject(paymentSubject)
                     .paymentSubjectCaps(StringUtils.capitalizeFirst(paymentSubject))
-                    .paymentValue(NumberUtils.formatTwoDecimal(payment.getDeposit()))
+                    .paymentValue(NumberUtils.formatTwoDecimal(amountPaid))
                     .variableSymbol(payment.getVariableSymbol())
                     .remainingAmount(NumberUtils.formatTwoDecimal(payment.getRemainingValue()))
+                    .depositAmount(NumberUtils.formatTwoDecimal(eventTerm.getDeposit()))
+                    .discountAmount(NumberUtils.formatTwoDecimal(payment.getDiscountValue()))
+                    .totalAmount(NumberUtils.formatTwoDecimal(payment.getFinalPrice()))
                     .people(registration.getPeople().stream()
                             .map(person -> EmailPerson.builder()
                                     .name(person.getName())
@@ -147,7 +153,60 @@ public class PrintServiceBean implements PrintService {
                             .toList())
                     .build();
 
-            return executeTemplate(Templates.Emails.PAYMENT_CONFIRM, context);
+            return executeTemplate(Boolean.TRUE.equals(deposit) ? Templates.Emails.PAYMENT_CONFIRM : Templates.Emails.PAYMENT_COMPLETE_CONFIRM, context);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public String printEventDetail(Registration registration) {
+        try {
+            final String IBAN = "SK9111000000002947266169";
+            final String IBAN_FORMATTED = "SK91 1100 0000 0029 4726 6169";
+
+            Payment payment = registration.getPayment();
+            EventTerm eventTerm = registration.getEventTerm();
+
+            String note = StringUtils.strip(registration.getName()) + " " + StringUtils.strip(registration.getSurname());
+
+            EmailEventDetail context = EmailEventDetail.builder()
+                    .eventName(eventTerm.getEvent().getName())
+                    .name(registration.getName())
+                    .surname(registration.getSurname())
+                    .startDate(DateUtils.format(eventTerm.getStartAt().toLocalDate()))
+                    .endDate(DateUtils.format(eventTerm.getEndAt().toLocalDate()))
+                    .discountValue(NumberUtils.formatTwoDecimal(payment.getDiscountValue()))
+                    .iban(IBAN_FORMATTED)
+                    .variableSymbol(payment.getVariableSymbol())
+                    .note(note)
+                    .paymentValue(NumberUtils.formatTwoDecimal(payment.getRemainingValue()))
+                    .payBySquareURL(getPayBySquareURL(payment.getRemainingValue(), LocalDate.now(), payment.getVariableSymbol(), note, IBAN))
+                    .people(registration.getPeople().stream()
+                            .map(person -> EmailPerson.builder()
+                                    .name(person.getName())
+                                    .surname(person.getSurname())
+                                    .birthDate(DateUtils.format(person.getDateOfBirth()))
+                                    .shirtSize(person.getShirtSize())
+                                    .healthNotes(Objects.requireNonNullElse(person.getHealthNotes(), "-"))
+                                    .foodAllergyNotes(Objects.requireNonNullElse(person.getFoodAllergyNotes(), "-"))
+                                    .build())
+                            .toList())
+                    .knownPeople(registration.getKnownPeople().stream()
+                            .map(knownPerson -> EmailKnownPerson.builder()
+                                    .name(knownPerson.getName())
+                                    .surname(knownPerson.getSurname())
+                                    .relation(enumerationService.getDescription(EnumerationName.REG_E_RELATION, knownPerson.getRelation()))
+                                    .build())
+                            .toList())
+                    .build();
+
+            if (EventType.CAMP.equals(eventTerm.getEvent().getEventType())) {
+                return executeTemplate(Templates.Emails.EVENT_CAMP_DETAIL, context);
+            } else if (EventType.EVENT.equals(eventTerm.getEvent().getEventType())) {
+                return executeTemplate(Templates.Emails.EVENT_WEEK_CAMP_DETAIL, context);
+            }
+            throw new IllegalArgumentException("Unknown event type: " + eventTerm.getEvent().getEventType());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

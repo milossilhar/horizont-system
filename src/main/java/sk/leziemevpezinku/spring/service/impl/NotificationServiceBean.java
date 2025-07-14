@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import sk.leziemevpezinku.spring.model.EmailLog;
 import sk.leziemevpezinku.spring.model.Registration;
+import sk.leziemevpezinku.spring.model.enums.EventType;
 import sk.leziemevpezinku.spring.repo.EmailLogRepository;
 import sk.leziemevpezinku.spring.service.NotificationService;
 import sk.leziemevpezinku.spring.service.PrintService;
@@ -19,6 +20,7 @@ import sk.leziemevpezinku.spring.service.exception.CommonException;
 import sk.leziemevpezinku.spring.service.model.EmailType;
 import sk.leziemevpezinku.spring.service.model.ErrorCode;
 
+import java.math.BigDecimal;
 import java.util.function.BiConsumer;
 
 @Log4j2
@@ -76,18 +78,38 @@ public class NotificationServiceBean implements NotificationService {
 
     @Override
     @Transactional(propagation = Propagation.NEVER)
-    public void sendPaymentConfirmationNotification(Registration registration) {
-        if (Boolean.TRUE.equals(registration.getEmailPaymentConfirmSent())) {
-            log.info("Payment confirmation email for registration {} already sent.", registration.getUuid());
+    public void sendPaymentConfirmationNotification(Registration registration, Boolean deposit, BigDecimal amountPaid) {
+        if (Boolean.TRUE.equals(deposit) && Boolean.TRUE.equals(registration.getEmailPaymentConfirmSent())) {
+            log.info("Payment deposit confirmation email for registration {} already sent.", registration.getUuid());
+            return;
+        }
+        if (!Boolean.TRUE.equals(deposit) && Boolean.TRUE.equals(registration.getEmailPaymentCompleteConfirmSent())) {
+            log.info("Payment complete confirmation email for registration {} already sent.", registration.getUuid());
             return;
         }
 
         try {
-            String emailBody = printService.printPaymentConfirm(registration);
+            String emailBody = printService.printPaymentConfirm(registration, deposit, amountPaid);
             sendHtmlEmail(EmailType.PAYMENT_CONFIRM, emailBody, registration);
             updateRegistrationFlag(registration, Registration::setEmailPaymentConfirmSent);
         } catch (Exception ex) {
             log.error("Error sending payment confirmation notification for registration {}", registration.getUuid(), ex);
+        }
+    }
+
+    @Override
+    public void sendEventDetailNotification(Registration registration) {
+        if (Boolean.TRUE.equals(registration.getEmailDetailSent())) {
+            log.info("Event detail email for registration {} already sent.", registration.getUuid());
+            return;
+        }
+
+        try {
+            String emailBody = printService.printEventDetail(registration);
+            sendHtmlEmail(EmailType.EVENT_DETAIL, emailBody, registration);
+            updateRegistrationFlag(registration, Registration::setEmailDetailSent);
+        } catch (Exception ex) {
+            log.error("Error sending event detail notification for registration {}", registration.getUuid(), ex);
         }
     }
 

@@ -8,7 +8,8 @@ import lombok.RequiredArgsConstructor;
 public enum EmailType {
     REGISTRATION_CONFIRMATION("Potvrdenie registrácie"),
     PAYMENT_INFO("Platobné informácie"),
-    PAYMENT_CONFIRM("Potvrdenie platby");
+    PAYMENT_CONFIRM("Potvrdenie platby"),
+    EVENT_DETAIL("Informácie o akcii");
 
     private final String subject;
 }

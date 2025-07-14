@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>#leziemevpezinku - Potvrdenie o prijatí platby</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #f2f3f1;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            z-index: 1;
+            position: relative;
+        }
+
+        .header-subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+            z-index: 1;
+            position: relative;
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .greeting {
+            font-size: 24px;
+            color: #3d453b;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .message {
+            color: #555;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+
+        .confirmation-section {
+            background: #d5f4e6;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 30px 0;
+            border-left: 4px solid #27ae60;
+            text-align: center;
+        }
+
+        .confirmation-icon {
+            font-size: 48px;
+            color: #27ae60;
+            margin-bottom: 15px;
+        }
+
+        .confirmation-title {
+            font-size: 20px;
+            color: #1e7e34;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .confirmation-text {
+            color: #155724;
+            font-size: 16px;
+        }
+
+        .payment-details {
+            background: #e8f5e8;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 30px 0;
+            border-left: 4px solid #27ae60;
+        }
+
+        .details-title {
+            font-size: 18px;
+            color: #3d453b;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .detail-row {
+            width: 100%;
+            display: table;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            display: table-cell;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .detail-value {
+            display: table-cell;
+            color: #3d453b;
+            text-align: right;
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
+        }
+
+        .contact-section {
+            background: #e9ecef;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .contact-title {
+            color: #495057;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .contact-text {
+            color: #6c757d;
+            margin-bottom: 15px;
+        }
+
+        .footer {
+            background: #f8f9fa;
+            padding: 30px;
+            text-align: center;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .footer-text {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .contact-info {
+            color: #778773;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .highlight {
+            background: #ffeaa7;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 600px) {
+            .email-container {
+                margin: 10px;
+                border-radius: 8px;
+            }
+
+            .header, .content, .footer {
+                padding: 20px;
+            }
+
+            .detail-label, .detail-value {
+                display: table-row;
+                font-size: 14px;
+            }
+
+            .detail-value {
+                text-align: left;
+                margin-top: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="email-container">
+    <div class="header">
+        <div class="header-title">Prijatie platby</div>
+        <div class="header-subtitle">#leziemevpezinku</div>
+    </div>
+
+    <div class="content">
+        <div class="greeting">
+            Ahoj, {{name}} {{surname}}!
+        </div>
+
+        <div class="message">
+            Máme skvelé správy! 🎉<br>
+            Tvoja platba pre <strong>{{eventName}}</strong> bola <span class="highlight">úspešne prijatá</span>.
+        </div>
+
+        <div class="confirmation-section">
+            <div class="confirmation-icon">✅</div>
+            <div class="confirmation-title">Platba potvrdená</div>
+            <div class="confirmation-text">
+                Platba vo výške <strong>{{paymentValue}} EUR</strong> bola úspešne spracovaná
+            </div>
+        </div>
+
+        <div class="payment-details">
+            <div class="details-title">
+                Detaily akcie
+            </div>
+
+            <div class="detail-row">
+                <div class="detail-label">Variabilný symbol:</div>
+                <div class="detail-value">{{variableSymbol}}</div>
+            </div>
+
+            <div class="detail-row">
+                <div class="detail-label">Suma zálohy:</div>
+                <div class="detail-value">{{depositAmount}} EUR</div>
+            </div>
+
+            {{#hasDiscount}}
+            <div class="detail-row">
+                <div class="detail-label">Výška zľavy:</div>
+                <div class="detail-value">{{discountAmount}} EUR</div>
+            </div>
+            {{/hasDiscount}}
+
+            <div class="detail-row">
+                <div class="detail-label">Celková suma akcie:</div>
+                <div class="detail-value">{{totalAmount}} EUR</div>
+            </div>
+        </div>
+
+        <div class="contact-section">
+            <div class="contact-title">Máte otázky?</div>
+            <div class="contact-text">
+                Sme tu pre Vás! Neváhajte nás kontaktovať,<br>
+                ak potrebujete akékoľvek informácie.
+            </div>
+        </div>
+
+        <div class="message">
+            <strong>Ďakujeme za dôveru a už sa na Vás tešíme pri ďalších akciách!</strong><br>
+            S pozdravom,<br>
+            Trénerky
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="footer-text">
+            <strong>#leziemevpezinku</strong>
+        </div>
+        <div class="footer-text">
+            📞 <a href="tel:0911709465" class="contact-info">0911 709 465</a><br>
+            ✉️ <a href="mailto:info@leziemevpezinku.sk" class="contact-info">info@leziemevpezinku.sk</a><br>
+            🌐 <a href="https://leziemevpezinku.sk" class="contact-info">leziemevpezinku.sk</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

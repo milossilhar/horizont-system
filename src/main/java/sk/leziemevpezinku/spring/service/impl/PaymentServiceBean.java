@@ -10,6 +10,7 @@ import sk.leziemevpezinku.spring.service.PaymentService;
 import sk.leziemevpezinku.spring.service.exception.CommonException;
 import sk.leziemevpezinku.spring.service.model.ErrorCode;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 @Log4j2
@@ -21,15 +22,19 @@ public class PaymentServiceBean implements PaymentService {
 
     @Override
     @Transactional
-    public Payment confirmPayment(Long paymentId, Boolean deposit) {
+    public BigDecimal confirmPayment(Long paymentId, Boolean deposit) {
         Payment payment = find(paymentId);
 
+        BigDecimal beforePayment = payment.getRemainingValue();
         payment.setDepositPaid(true);
         if (!Boolean.TRUE.equals(deposit)) {
             payment.setPaid(true);
         }
+        BigDecimal afterPayment = payment.getRemainingValue();
 
-        return paymentRepository.save(payment);
+        paymentRepository.save(payment);
+
+        return beforePayment.subtract(afterPayment);
     }
 
     private Payment find(Long id) {

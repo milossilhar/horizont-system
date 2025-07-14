@@ -11,6 +11,8 @@ import sk.leziemevpezinku.spring.service.NotificationService;
 import sk.leziemevpezinku.spring.service.PaymentService;
 import sk.leziemevpezinku.spring.service.RegistrationService;
 
+import java.math.BigDecimal;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/registrations", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -26,10 +28,10 @@ public class RegistrationController {
     public Registration confirmPayment(
             @PathVariable("paymentId") @NotNull Long paymentId,
             @RequestParam("deposit") @NotNull Boolean deposit) {
-        paymentService.confirmPayment(paymentId, deposit);
+        BigDecimal paidAmount = paymentService.confirmPayment(paymentId, deposit);
 
         Registration registration = registrationService.getByPaymentId(paymentId);
-        notificationService.sendPaymentConfirmationNotification(registration);
+        notificationService.sendPaymentConfirmationNotification(registration, deposit, paidAmount);
         return registration;
     }
 }
