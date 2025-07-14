@@ -12,9 +12,8 @@ import java.util.List;
 @Getter
 @RequiredArgsConstructor
 public enum EnumerationName {
-    REG_EVENT_CONDITION_TYPE(true, true, EventConditionTypeDTO.class),
+    REG_EVENT_CONDITION_TYPE(false, true, EventConditionTypeDTO.class),
     REG_EVENT_DISCOUNT_TYPE(false, false, EnumerationItemDTO.class),
-    REG_EVENT_TYPE(false, true, EnumerationItemDTO.class),
     REG_EVENT_TERM_TAG(true, true, EnumerationItemDTO.class),
     REG_PLACE(true, true, PlaceDTO.class),
     REG_PERIOD(true, true, EnumerationItemDTO.class),
@@ -40,7 +39,6 @@ public enum EnumerationName {
     public interface Names {
         String REG_EVENT_CONDITION_TYPE = "REG_EVENT_CONDITION_TYPE";
         String REG_EVENT_DISCOUNT_TYPE = "REG_EVENT_DISCOUNT_TYPE";
-        String REG_EVENT_TYPE = "REG_EVENT_TYPE";
         String REG_EVENT_TERM_TAG = "REG_EVENT_TERM_TAG";
         String REG_PLACE = "REG_PLACE";
         String REG_PERIOD = "REG_PERIOD";

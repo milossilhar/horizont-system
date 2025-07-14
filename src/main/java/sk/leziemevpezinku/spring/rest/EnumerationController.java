@@ -12,6 +12,8 @@ import sk.leziemevpezinku.spring.api.dto.EnumerationItemDTO;
 import sk.leziemevpezinku.spring.api.enumeration.EnumerationName;
 import sk.leziemevpezinku.spring.service.EnumerationService;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -30,13 +32,18 @@ public class EnumerationController {
 
     @GetMapping()
     Map<EnumerationName, EnumerationDTO> getEnumeration() {
-        return service.getAll(List.of(EnumerationName.values()))
-                .entrySet()
-                .stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, e -> EnumerationDTO.builder()
-                        .administrated(e.getKey().isAdministrated())
-                        .values(e.getValue())
-                        .build()));
+        Map<EnumerationName, List<? extends EnumerationItemDTO>> enumerationItems = service.getAll(List.of(EnumerationName.values()));
+
+        return Arrays.stream(EnumerationName.values())
+                .collect(
+                        Collectors.toMap(
+                                e -> e,
+                                e -> EnumerationDTO.builder()
+                                        .administrated(e.isAdministrated())
+                                        .values(enumerationItems.getOrDefault(e, Collections.emptyList()))
+                                        .build()
+                        )
+                );
     }
 
     @GetMapping("/items/administrated")
