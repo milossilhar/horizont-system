@@ -9,12 +9,12 @@ INSERT INTO reg_event (id, created_at, uuid, event_type, name, details, place, r
 INSERT INTO reg_event (id, created_at, uuid, event_type, name, details, place, reg_start_at, reg_end_at, image_url, discount_type) VALUES
     (nextval('seq_event_id'), current_timestamp, '59cd6916-dfc3-42ed-87c6-09e9f8f7c0d2', 'CAMP', 'Denný Letný Tábor 2025',
     'Náš obľúbený koncept táborov je tu aj tento rok, už po tretí krát! Tento rok sme si pre decká nachystali veľa lezenia, zábavy, športových aktivít, jógy, plávania, batikovania a v neposlednom rade lezenia na skalách. Tábory prebiehajú na lezeckej stene v squash centre v Pezinku, posledný (piaty deň) lezieme na Medvedej skale pri Modre, kde treba deti doviezť na parkovisko pod skalami (v prípade nepriaznivého počasia lezieme aj v piatok na lezeckej stene v Pezinku).',
-    'Lezecká stena v Squash Centre Pezinok, posledný deň Medvedia skala pri Modre', '2025-04-26 08:00', '2025-09-06 23:59', '2025-tabor.jpg', '25TABOR');
+    'Lezecká stena v Squash Centre Pezinok, posledný deň Medvedia skala pri Modre', '2025-04-26 08:00', '2025-07-06 23:59', '2025-tabor.jpg', '25TABOR');
 
 INSERT INTO reg_event (id, created_at, uuid, event_type, name, details, place, reg_start_at, reg_end_at, image_url, discount_type) VALUES
     (nextval('seq_event_id'), current_timestamp, 'a8084393-29af-4aaa-9f75-32b93b53e5a0', 'EVENT', 'Jednodňový Letný Tábor',
     'Po prvý krát Vám predstavujeme koncept jednodenných táborov. Tento rok sa uskutočnia v dvoch termínoch na Medvedej skale pri Modre. Tábor je určený pre deti, ktoré si chcú vyskúšať lezenie na skalách, je určený pre začiatočníkov aj pre pokročilých lezcov. Tento koncept je vhodný pre deti od 6 do 16 rokov. Deti je potrebné priviezť 8:00 na parkovisko pod skalami nad Modrou a vyzdvihnúť na rovnakom parkovisku 15:30.',
-    'Medvedia skala pri Modre', '2025-04-26 08:00', '2025-09-06 23:59', '2025-daily.jpg', null);
+    'Medvedia skala pri Modre', '2025-04-26 08:00', '2025-07-06 23:59', '2025-daily.jpg', null);
 
 -- Denný Letný Tábor 2025
 INSERT INTO reg_event_term (id, start_at, end_at, capacity, deposit, price, event_id)
