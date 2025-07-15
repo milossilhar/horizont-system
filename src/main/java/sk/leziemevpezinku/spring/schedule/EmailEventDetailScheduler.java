@@ -14,7 +14,6 @@ import sk.leziemevpezinku.spring.service.AppParamService;
 import sk.leziemevpezinku.spring.service.NotificationService;
 import sk.leziemevpezinku.spring.service.RegistrationService;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
