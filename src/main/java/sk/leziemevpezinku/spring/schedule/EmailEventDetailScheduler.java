@@ -27,7 +27,7 @@ public class EmailEventDetailScheduler {
     private final NotificationService notificationService;
 
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
-    @Scheduled(fixedDelay = 30, timeUnit = TimeUnit.MINUTES)
+    @Scheduled(initialDelay = 1, fixedDelay = 30, timeUnit = TimeUnit.MINUTES)
     public void sendEmails() {
         log.info("starting scheduler");
 
