@@ -59,4 +59,11 @@ public interface RegistrationService {
      * @return list of found registrations
      */
     List<Registration> findForPaymentInfo(Long batchSize);
+
+    /**
+     * Finds all registrations where event-detail email was not sent.
+     * @param batchSize max size of the result
+     * @return list of found registrations
+     */
+    List<Registration> findForEventDetail(Long batchSize);
 }

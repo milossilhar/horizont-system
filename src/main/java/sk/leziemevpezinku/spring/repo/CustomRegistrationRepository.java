@@ -13,4 +13,12 @@ public interface CustomRegistrationRepository {
      * @return found registrations
      */
     List<Registration> findForDepositPaymentInfoEmail(Limit limit);
+
+    /**
+     * Finds registrations to send event detail emails.
+     *
+     * @param limit the restriction on the number of results to return
+     * @return a list of registrations
+     */
+    List<Registration> findForEventDetailEmail(Limit limit);
 }

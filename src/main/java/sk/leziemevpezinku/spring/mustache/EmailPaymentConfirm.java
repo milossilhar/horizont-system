@@ -18,12 +18,20 @@ public class EmailPaymentConfirm {
     private String paymentSubjectCaps;
 
     private String paymentValue;
+
     private String variableSymbol;
     private String remainingAmount;
+    private String depositAmount;
+    private String discountAmount;
+    private String totalAmount;
 
     private List<EmailPerson> people;
 
     public String getPeopleLength() {
         return String.valueOf(people.size());
+    }
+
+    public boolean getHasDiscount() {
+        return this.discountAmount != null && !this.discountAmount.isEmpty();
     }
 }

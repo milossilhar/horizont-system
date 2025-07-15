@@ -1,10 +1,7 @@
 package sk.leziemevpezinku.spring.util;
 
-import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.text.DecimalFormat;
-import java.util.Locale;
 
 import static org.apache.commons.lang3.StringUtils.*;
 
@@ -46,5 +43,17 @@ public class StringUtils {
 
     public static String capitalizeFirst(String str) {
         return capitalize(str);
+    }
+
+    public static boolean blank(String str) {
+        return isBlank(str);
+    }
+
+    public static boolean notBlank(String str) {
+        return !isBlank(str);
+    }
+
+    public static String defaultValue(String str, String defaultValue) {
+        return isBlank(str) ? defaultValue : str;
     }
 }
