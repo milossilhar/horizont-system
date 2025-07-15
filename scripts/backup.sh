@@ -34,4 +34,8 @@ docker exec -i "$CONTAINER_ID" pg_dump -U $DB_USER $DB_NAME > "$BACKUP_FILE"
 log "Copying to remote $CLOUD_BACKUP_DIR"
 rclone copy "$BACKUP_FILE" "$CLOUD_BACKUP_DIR"
 
+log "Removing old backups from $CLOUD_BACKUP_DIR, keeping 2-month daily backup"
+rclone delete $CLOUD_BACKUP_DIR --min-age 60d
+rclone delete $CLOUD_BACKUP_DIR --min-age 7d --exclude "*00000*"
+
 log "Backup complete"
