@@ -126,7 +126,7 @@ public class NotificationServiceBean implements NotificationService {
                             .emailType(EmailType.EVENT_DETAIL)
                             .subjectAddon(registration.getEventTerm().getEvent().getName())
                             .attachmentFilename("vyhlasenie.pdf")
-                            .attachmentSource("attachments/sposobilost.pdf")
+                            .attachmentSource("/attachments/sposobilost.pdf")
                             .htmlBody(emailBody)
                             .build(),
                     registration);

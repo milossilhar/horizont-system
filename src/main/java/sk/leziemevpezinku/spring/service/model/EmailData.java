@@ -1,11 +1,12 @@
 package sk.leziemevpezinku.spring.service.model;
 
 import lombok.*;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import sk.leziemevpezinku.spring.util.StringUtils;
 
-import java.io.File;
-
+@Log4j2
 @Getter
 @Setter
 @Builder
@@ -40,11 +41,12 @@ public class EmailData {
         return StringUtils.notBlank(attachmentFilename) && StringUtils.notBlank(attachmentSource);
     }
 
-    public File getAttachmentFile () {
+    public Resource getAttachmentFile () {
         try {
             if (StringUtils.blank(attachmentSource)) return null;
-            return new ClassPathResource(attachmentSource).getFile();
+            return new ClassPathResource(attachmentSource);
         } catch (Exception e) {
+            log.error("Could not load attachment file: {}", attachmentSource, e);
             return null;
         }
     }
