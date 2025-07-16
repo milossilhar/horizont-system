@@ -1,11 +1,12 @@
 package sk.leziemevpezinku.spring.service.model;
 
 import lombok.*;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import sk.leziemevpezinku.spring.util.StringUtils;
 
-import java.io.File;
-
+@Log4j2
 @Getter
 @Setter
 @Builder
@@ -40,12 +41,7 @@ public class EmailData {
         return StringUtils.notBlank(attachmentFilename) && StringUtils.notBlank(attachmentSource);
     }
 
-    public File getAttachmentFile () {
-        try {
-            if (StringUtils.blank(attachmentSource)) return null;
-            return new ClassPathResource(attachmentSource).getFile();
-        } catch (Exception e) {
-            return null;
-        }
+    public Resource getAttachmentFile () {
+        return new ClassPathResource(attachmentSource);
     }
 }
