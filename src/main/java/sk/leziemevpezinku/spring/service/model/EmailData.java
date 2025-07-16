@@ -42,12 +42,6 @@ public class EmailData {
     }
 
     public Resource getAttachmentFile () {
-        try {
-            if (StringUtils.blank(attachmentSource)) return null;
-            return new ClassPathResource(attachmentSource);
-        } catch (Exception e) {
-            log.error("Could not load attachment file: {}", attachmentSource, e);
-            return null;
-        }
+        return new ClassPathResource(attachmentSource);
     }
 }
