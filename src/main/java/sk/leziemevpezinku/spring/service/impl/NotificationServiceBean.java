@@ -106,7 +106,7 @@ public class NotificationServiceBean implements NotificationService {
                             .htmlBody(emailBody)
                             .build(),
                     registration);
-            updateRegistrationFlag(registration, Registration::setEmailPaymentConfirmSent);
+            updateRegistrationFlag(registration, Boolean.TRUE.equals(deposit) ? Registration::setEmailPaymentConfirmSent : Registration::setEmailPaymentCompleteConfirmSent);
         } catch (Exception ex) {
             log.error("Error sending payment confirmation notification for registration {}", registration.getUuid(), ex);
         }
