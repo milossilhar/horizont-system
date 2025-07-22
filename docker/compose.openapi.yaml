@@ -1,9 +1,9 @@
 # Creates test Database
-name: "horizon_openapi"
+name: "registration_openapi"
 services:
   postgres:
     image: "postgres:16-alpine"
-    container_name: "horizon_openapi_postgres"
+    container_name: "registration_openapi_postgres"
     restart: always
     ports:
       - "5433:5432"

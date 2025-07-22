@@ -1,14 +1,14 @@
 # Creates development Database
-name: "horizon_dev"
+name: "registration_dev"
 services:
   postgres:
     image: "postgres:16-alpine"
-    container_name: "horizon_dev_postgres"
+    container_name: "registration_dev_postgres"
     restart: always
     ports:
       - "5431:5432"
     networks:
-      - horizon_dev_network
+      - registration_dev_network
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
@@ -24,8 +24,8 @@ services:
       retries: 10
 volumes:
   postgres_data:
-    name: horizon_dev_data
+    name: registration_dev_data
 networks:
-  horizon_dev_network:
-    name: horizon_dev_network
+  registration_dev_network:
+    name: registration_dev_network
     driver: bridge

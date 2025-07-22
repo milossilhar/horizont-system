@@ -1,14 +1,14 @@
-# Creates HORIZON Docker STACK
-name: "horizon"
+# Creates REGISTRATION-SYSTEM Backend Docker STACK
+name: "registration"
 services:
   postgres:
     image: "postgres:16-alpine"
-    container_name: "horizon_postgres"
+    container_name: "registration_postgres"
     restart: always
     ports:
       - "5432:5432"
     networks:
-      - horizon_network
+      - registration_network
     volumes:
       - ${POSTGRES_DATA:?required}:/var/lib/postgresql/data
     environment:
@@ -26,15 +26,16 @@ services:
     build:
       context: ../
       dockerfile: ./docker/Dockerfile
-    image: "horizon/spring-backend"
-    container_name: "horizon_backend"
+    image: "registration/spring-backend"
+    container_name: "registration_backend"
     restart: unless-stopped
     ports:
       - "${PORT}:8080"
     networks:
-      - horizon_network
+      - registration_network
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     environment:
       HOR_LOCALE: "sk_SK"
       HOR_TIMEZONE: "Europe/Bratislava"
@@ -53,6 +54,6 @@ services:
       CORS_ORIGINS: ${CORS_ORIGINS:?required}
       CORS_HEADERS: ${CORS_HEADERS:?required}
 networks:
-  horizon_network:
-    name: horizon_network
+  registration_network:
+    name: registration_network
     external: true
