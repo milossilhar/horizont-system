@@ -6,7 +6,7 @@ DOCKER_PROD_FILE := './docker/compose.prod.yaml'
 DOCKER_DEV_FILE := './docker/compose.dev.yaml'
 DOCKER_OPENAPI_FILE := './docker/compose.openapi.yaml'
 
-FRONTEND_PROJECT_DIR := '~/projects/leziemevpezinku/horizont-web'
+FRONTEND_PROJECT_DIR := '~/projects/syntax-studio/registration-web'
 
 # generate sql schema script from hibernate
 generate-model:
