@@ -1,4 +1,6 @@
 
+create sequence seq_communication_id start with 1 increment by 1;
+
 create sequence seq_email_logs_id start with 1 increment by 1;
 
 create sequence seq_enumeration_item_id start with 1 increment by 1;
@@ -43,6 +45,20 @@ create table reg_attendance_trainer (
     lesson_id bigint not null,
     person_id bigint not null,
     primary key (lesson_id, person_id)
+);
+
+create table reg_communication (
+    id bigint not null,
+    created_at timestamp(6) not null,
+    channel varchar(10) not null,
+    message varchar(2000),
+    recipient_email varchar(20),
+    recipient_phone varchar(20),
+    reference varchar(20),
+    reference_id bigint,
+    status varchar(20) not null,
+    type varchar(50) not null,
+    primary key (id)
 );
 
 create table reg_email_logs (

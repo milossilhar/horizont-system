@@ -14,7 +14,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @MappedSuperclass
-public class UuidAuditedEntityBase extends AuditedEntityBase {
+public class UuidAuditedEntity extends AuditedEntity {
 
     @Column(name = "uuid", length = 40, nullable = false, unique = true, updatable = false)
     private String uuid;

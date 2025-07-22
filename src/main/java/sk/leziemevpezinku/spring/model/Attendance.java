@@ -3,7 +3,7 @@ package sk.leziemevpezinku.spring.model;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import sk.leziemevpezinku.spring.model.base.AuditedEntityBase;
+import sk.leziemevpezinku.spring.model.base.AuditedEntity;
 import sk.leziemevpezinku.spring.api.enumeration.AttendanceStatus;
 
 @Data
@@ -12,7 +12,7 @@ import sk.leziemevpezinku.spring.api.enumeration.AttendanceStatus;
 @AllArgsConstructor
 @Entity
 @Table(name = "reg_attendance")
-public class Attendance extends AuditedEntityBase {
+public class Attendance extends AuditedEntity {
 
     @ToString.Include
     @EmbeddedId

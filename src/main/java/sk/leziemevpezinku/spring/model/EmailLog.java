@@ -2,15 +2,16 @@ package sk.leziemevpezinku.spring.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import sk.leziemevpezinku.spring.model.base.CreatedAtEntityBase;
+import lombok.experimental.SuperBuilder;
+import sk.leziemevpezinku.spring.model.base.CreatedAtEntity;
 
 @Data
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "reg_email_logs")
-public class EmailLog extends CreatedAtEntityBase {
+public class EmailLog extends CreatedAtEntity {
 
     @Id
     @Column(name = "id")

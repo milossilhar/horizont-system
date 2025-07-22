@@ -2,16 +2,17 @@ package sk.leziemevpezinku.spring.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import sk.leziemevpezinku.spring.model.base.CreatedAtEntityBase;
+import lombok.experimental.SuperBuilder;
+import sk.leziemevpezinku.spring.model.base.CreatedAtEntity;
 
 import java.time.LocalDateTime;
 
 @Data
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Embeddable
-public class SubstituteLesson extends CreatedAtEntityBase {
+public class SubstituteLesson extends CreatedAtEntity {
 
     @ToString.Include
     @Column(name = "expires_at")

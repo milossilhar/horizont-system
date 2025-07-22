@@ -3,7 +3,7 @@ package sk.leziemevpezinku.spring.model;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import sk.leziemevpezinku.spring.model.base.AuditedEntityBase;
+import sk.leziemevpezinku.spring.model.base.AuditedEntity;
 
 @Data
 @SuperBuilder
@@ -11,7 +11,7 @@ import sk.leziemevpezinku.spring.model.base.AuditedEntityBase;
 @AllArgsConstructor
 @Entity
 @Table(name = "reg_attendance_trainer")
-public class AttendanceTrainer extends AuditedEntityBase {
+public class AttendanceTrainer extends AuditedEntity {
 
     @ToString.Include
     @EmbeddedId

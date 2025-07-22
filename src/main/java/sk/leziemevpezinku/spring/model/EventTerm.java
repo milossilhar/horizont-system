@@ -5,7 +5,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
-import sk.leziemevpezinku.spring.model.base.AuditedEntityBase;
+import sk.leziemevpezinku.spring.model.base.AuditedEntity;
 import sk.leziemevpezinku.spring.api.enumeration.EventTermRepeatType;
 
 import java.math.BigDecimal;
@@ -22,7 +22,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Table(name = "reg_event_term")
-public class EventTerm extends AuditedEntityBase {
+public class EventTerm extends AuditedEntity {
 
     @Id
     @ToString.Include

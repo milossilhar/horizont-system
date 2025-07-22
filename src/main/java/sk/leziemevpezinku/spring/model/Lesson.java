@@ -5,7 +5,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
-import sk.leziemevpezinku.spring.model.base.AuditedEntityBase;
+import sk.leziemevpezinku.spring.model.base.AuditedEntity;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "reg_lesson")
-public class Lesson extends AuditedEntityBase {
+public class Lesson extends AuditedEntity {
 
     @Id
     @ToString.Include

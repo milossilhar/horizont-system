@@ -2,19 +2,20 @@ package sk.leziemevpezinku.spring.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import sk.leziemevpezinku.spring.model.base.CreatedAtEntityBase;
+import lombok.experimental.SuperBuilder;
+import sk.leziemevpezinku.spring.model.base.CreatedAtEntity;
 import sk.leziemevpezinku.spring.api.enumeration.RegistrationStatus;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "reg_registration")
-public class Registration extends CreatedAtEntityBase {
+public class Registration extends CreatedAtEntity {
 
     @Id
     @ToString.Include

@@ -2,9 +2,10 @@ package sk.leziemevpezinku.spring.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
-import sk.leziemevpezinku.spring.model.base.CreatedAtEntityBase;
+import sk.leziemevpezinku.spring.model.base.CreatedAtEntity;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -12,12 +13,12 @@ import java.util.List;
 import java.util.Set;
 
 @Data
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "reg_user")
-public class User extends CreatedAtEntityBase {
+public class User extends CreatedAtEntity {
 
     @Id
     @ToString.Include

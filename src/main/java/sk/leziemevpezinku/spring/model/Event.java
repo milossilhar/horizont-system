@@ -5,7 +5,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.Cascade;
 import sk.leziemevpezinku.spring.api.enumeration.EventType;
-import sk.leziemevpezinku.spring.model.base.UuidAuditedEntityBase;
+import sk.leziemevpezinku.spring.model.base.UuidAuditedEntity;
 import sk.leziemevpezinku.spring.api.enumeration.EventStatus;
 
 import java.time.LocalDateTime;
@@ -17,7 +17,7 @@ import java.util.*;
 @AllArgsConstructor
 @Entity
 @Table(name = "reg_event")
-public class Event extends UuidAuditedEntityBase {
+public class Event extends UuidAuditedEntity {
 
     @Id
     @ToString.Include
