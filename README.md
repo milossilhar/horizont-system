@@ -1,1 +1,1 @@
-# lvp-registration-system
+# Registration System
