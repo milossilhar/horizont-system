@@ -46,6 +46,8 @@ public class EventTermDTO {
     @UniqueElements
     private List<String> expectedTrainers;
 
+    private List<String> tags;
+
     @PositiveOrZero
     private BigDecimal deposit;
 

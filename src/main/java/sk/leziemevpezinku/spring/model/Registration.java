@@ -32,7 +32,7 @@ public class Registration extends CreatedAtEntity {
     @ToString.Include
     @Enumerated(EnumType.STRING)
     @Column(name = "status", length = 10, nullable = false)
-    private RegistrationStatus status = RegistrationStatus.CONCEPT;
+    private RegistrationStatus status = RegistrationStatus.PENDING;
 
     @Column(name = "name", length = 50, nullable = false)
     private String parentName;

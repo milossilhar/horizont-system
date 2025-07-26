@@ -36,7 +36,7 @@ public class User extends CreatedAtEntity {
     @Column(name = "email", length = 100, nullable = false, unique = true)
     private String email;
 
-    @Column(name = "telPhone", length = 20, nullable = false)
+    @Column(name = "tel_phone", length = 20, nullable = false)
     private String telPhone;
 
     @ToString.Include

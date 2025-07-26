@@ -25,7 +25,7 @@ public class EventTermCapacity {
     }
 
     public Long getRegisteredCount() {
-        if (CONFIRMED.equals(status) || QUEUE.equals(status)) {
+        if (CONFIRMED.equals(status) || WAITLIST.equals(status)) {
             return registrations;
         }
         return 0L;

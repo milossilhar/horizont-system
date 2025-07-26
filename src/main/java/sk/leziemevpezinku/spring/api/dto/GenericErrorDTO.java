@@ -15,7 +15,7 @@ public class GenericErrorDTO {
     @JsonProperty("code")
     private String code;
 
-    @JsonProperty("status_code")
+    @JsonProperty("statusCode")
     private Integer statusCode;
 
     @JsonProperty("message")

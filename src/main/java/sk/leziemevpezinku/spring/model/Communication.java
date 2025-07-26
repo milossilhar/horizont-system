@@ -43,7 +43,7 @@ public class Communication extends CreatedAtEntity {
     private String recipientPhone;
 
     @ToString.Include
-    @Column(name = "recipient_email", length = 20)
+    @Column(name = "recipient_email", length = 100)
     private String recipientEmail;
 
     @Enumerated(EnumType.STRING)

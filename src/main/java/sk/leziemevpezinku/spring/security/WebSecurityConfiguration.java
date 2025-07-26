@@ -156,7 +156,7 @@ public class WebSecurityConfiguration {
                 .cors(c -> c.configurationSource(webCorsConfiguration))
                 .csrf(CsrfConfigurer::disable)
                 .authorizeHttpRequests(a -> a
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 )
                 .sessionManagement(c -> c
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)

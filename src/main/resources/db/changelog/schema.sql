@@ -52,7 +52,7 @@ create table reg_communication (
     created_at timestamp(6) not null,
     channel varchar(10) not null,
     message varchar(2000),
-    recipient_email varchar(20),
+    recipient_email varchar(100),
     recipient_phone varchar(20),
     reference varchar(20),
     reference_id bigint,
@@ -220,7 +220,7 @@ create table reg_user (
     name varchar(50) not null,
     roles jsonb,
     surname varchar(50) not null,
-    telPhone varchar(20) not null,
+    tel_phone varchar(20) not null,
     verified boolean,
     primary key (id)
 );
